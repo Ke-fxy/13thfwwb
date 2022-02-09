@@ -1,14 +1,16 @@
 package com.cfs.controller;
 
+import com.cfs.service.TestService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+
 /**
  * @Author Ke
- * @Date 2022/2/9 15:26
+ * @Date 2022/2/9 16:24
  * @Description
  * @Version 1.0
  */
@@ -16,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class TestController {
 
-    @Value("${server.port}")
-    private String port;
+    @Resource
+    TestService testService;
 
-    @GetMapping(value = "/payment/nacos/{id}")
-    public String getPayment(@PathVariable("id") Long id){
-        return "nacos registry,serverPort:" + port + "id:" + id;
+    @GetMapping(value = "/consumer/payment/get/{id}")
+    public String getPaymentById(@PathVariable("id") Long id){
+        return testService.getPayment(id);
     }
+
+
 }
