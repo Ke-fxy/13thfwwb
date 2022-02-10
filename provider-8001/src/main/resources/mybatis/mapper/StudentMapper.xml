@@ -3,6 +3,7 @@
 <mapper namespace="com.cfs.mapper.StudentMapper">
   <resultMap id="BaseResultMap" type="com.cfs.entities.Student">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sno" jdbcType="INTEGER" property="sno" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="head_img" jdbcType="VARCHAR" property="headImg" />
@@ -72,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, phone, head_img, class_name, major, grade, password, email, gender
+    id, sno, name, phone, head_img, class_name, major, grade, password, email, gender
   </sql>
   <select id="selectByExample" parameterType="com.cfs.entities.StudentExample" resultMap="BaseResultMap">
     select
@@ -105,20 +106,23 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.cfs.entities.Student">
-    insert into student (id, name, phone, 
-      head_img, class_name, major, 
-      grade, password, email, 
-      gender)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{headImg,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
-      #{grade,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{gender,jdbcType=VARCHAR})
+    insert into student (id, sno, name, 
+      phone, head_img, class_name, 
+      major, grade, password, 
+      email, gender)
+    values (#{id,jdbcType=INTEGER}, #{sno,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{headImg,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, 
+      #{major,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.cfs.entities.Student">
     insert into student
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="sno != null">
+        sno,
       </if>
       <if test="name != null">
         name,
@@ -151,6 +155,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sno != null">
+        #{sno,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -193,6 +200,9 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.sno != null">
+        sno = #{record.sno,jdbcType=INTEGER},
+      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
@@ -228,6 +238,7 @@
   <update id="updateByExample" parameterType="map">
     update student
     set id = #{record.id,jdbcType=INTEGER},
+      sno = #{record.sno,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       head_img = #{record.headImg,jdbcType=VARCHAR},
@@ -244,6 +255,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.cfs.entities.Student">
     update student
     <set>
+      <if test="sno != null">
+        sno = #{sno,jdbcType=INTEGER},
+      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -276,7 +290,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.cfs.entities.Student">
     update student
-    set name = #{name,jdbcType=VARCHAR},
+    set sno = #{sno,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       head_img = #{headImg,jdbcType=VARCHAR},
       class_name = #{className,jdbcType=VARCHAR},

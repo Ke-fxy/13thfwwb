@@ -164,6 +164,66 @@ public class StudentExample {
             return (Criteria) this;
         }
 
+        public Criteria andSnoIsNull() {
+            addCriterion("sno is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnoIsNotNull() {
+            addCriterion("sno is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnoEqualTo(Integer value) {
+            addCriterion("sno =", value, "sno");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnoNotEqualTo(Integer value) {
+            addCriterion("sno <>", value, "sno");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnoGreaterThan(Integer value) {
+            addCriterion("sno >", value, "sno");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnoGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sno >=", value, "sno");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnoLessThan(Integer value) {
+            addCriterion("sno <", value, "sno");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnoLessThanOrEqualTo(Integer value) {
+            addCriterion("sno <=", value, "sno");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnoIn(List<Integer> values) {
+            addCriterion("sno in", values, "sno");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnoNotIn(List<Integer> values) {
+            addCriterion("sno not in", values, "sno");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnoBetween(Integer value1, Integer value2) {
+            addCriterion("sno between", value1, value2, "sno");
+            return (Criteria) this;
+        }
+
+        public Criteria andSnoNotBetween(Integer value1, Integer value2) {
+            addCriterion("sno not between", value1, value2, "sno");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull() {
             addCriterion("name is null");
             return (Criteria) this;

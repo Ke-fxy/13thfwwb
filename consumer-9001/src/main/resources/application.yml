@@ -8,6 +8,8 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848 #配置nacos地址
+  main:
+    allow-bean-definition-overriding: true  #允许指向同一个实例
 
 ribbon:
   ReadTimeout: 5000 #指的是建立连接后从服务器读取到可用资源所用的时间

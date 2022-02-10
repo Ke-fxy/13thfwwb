@@ -3,8 +3,11 @@ package com.cfs.mapper;
 import com.cfs.entities.Student;
 import com.cfs.entities.StudentExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface StudentMapper {
     long countByExample(StudentExample example);
 
