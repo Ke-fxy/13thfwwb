@@ -28,9 +28,7 @@ public class StudentController {
     @PostMapping(value = "/login")
     public CommonResult<Student> login(@RequestParam("sNo") Integer sNo,
                                        @RequestParam("password") String password){
-
         Student student = studentService.login(sNo, password);
-
         return new CommonResult(100,"无消息",student);
     }
 

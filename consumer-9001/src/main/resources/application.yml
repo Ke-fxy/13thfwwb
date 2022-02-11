@@ -7,7 +7,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: localhost:8848 #配置nacos地址
+        server-addr: 8.136.214.212:8848 #配置nacos地址
   main:
     allow-bean-definition-overriding: true  #允许指向同一个实例
 
