@@ -18,6 +18,7 @@ import javax.annotation.Resource;
  * @Description
  * @Version 1.0
  */
+
 @RestController
 @Slf4j
 @RequestMapping("/student")
@@ -29,8 +30,8 @@ public class StudentController {
     @PostMapping(value="/login")
     public CommonResult<Student> login(@RequestParam("sNo") Integer sNo,
                                        @RequestParam("password") String password){
-
         CommonResult<Student> studentCommonResult = studentService.login(sNo, password);
+        System.out.println("syy");
         return studentCommonResult;
     }
 
