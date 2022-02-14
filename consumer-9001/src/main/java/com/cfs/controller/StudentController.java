@@ -32,6 +32,7 @@ public class StudentController {
                                        @RequestParam("password") String password){
         CommonResult<Student> studentCommonResult = studentService.login(sNo, password);
         System.out.println("syy");
+        System.out.println("SYY");
         return studentCommonResult;
     }
 
