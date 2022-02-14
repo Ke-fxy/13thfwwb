@@ -11,7 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @Version 1.0
  */
 @SpringBootApplication
-@EnableFeignClients
+@EnableFeignClients(basePackages = "com.cfs.service")
 public class ConsumerMain9001 {
     public static void main(String[] args) {
         SpringApplication.run(ConsumerMain9001.class,args);

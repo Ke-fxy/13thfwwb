@@ -3,12 +3,8 @@ package com.cfs.controller;
 import com.cfs.entities.CommonResult;
 import com.cfs.entities.Student;
 import com.cfs.service.StudentService;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -27,7 +23,7 @@ public class StudentController {
     @Resource
     StudentService studentService;
 
-    @PostMapping(value="/login")
+    @GetMapping(value="/login")
     public CommonResult<Student> login(@RequestParam("sNo") Integer sNo,
                                        @RequestParam("password") String password){
         CommonResult<Student> studentCommonResult = studentService.login(sNo, password);
