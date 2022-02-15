@@ -18,6 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface StudentService {
 
     @GetMapping(value = "/student/login")
-    public CommonResult<Student> login(@RequestParam("sNo") Integer sNo,
+    public CommonResult login(@RequestParam("sNo") Integer sNo,
                                        @RequestParam("password") String password);
 }

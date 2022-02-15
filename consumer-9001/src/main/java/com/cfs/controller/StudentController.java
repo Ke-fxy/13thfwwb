@@ -24,9 +24,9 @@ public class StudentController {
     StudentService studentService;
 
     @GetMapping(value="/login")
-    public CommonResult<Student> login(@RequestParam("sNo") Integer sNo,
+    public CommonResult login(@RequestParam("sNo") Integer sNo,
                                        @RequestParam("password") String password){
-        CommonResult<Student> studentCommonResult = studentService.login(sNo, password);
+        CommonResult studentCommonResult = studentService.login(sNo, password);
         System.out.println("syy");
         System.out.println("SYY");
         return studentCommonResult;
