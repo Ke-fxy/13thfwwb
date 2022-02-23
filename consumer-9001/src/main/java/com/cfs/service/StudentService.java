@@ -4,8 +4,9 @@ import com.cfs.entities.CommonResult;
 import com.cfs.entities.Student;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * @Author Ke
@@ -20,4 +21,7 @@ public interface StudentService {
     @GetMapping(value = "/student/login")
     public CommonResult login(@RequestParam("sNo") Integer sNo,
                                        @RequestParam("password") String password);
+
+    @PostMapping(value = "/student/getCode")
+    public CommonResult getCode(@RequestBody Map map);
 }

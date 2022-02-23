@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @Author Ke
@@ -30,6 +31,12 @@ public class StudentController {
         System.out.println("syy");
         System.out.println("SYY");
         return studentCommonResult;
+    }
+
+    @PostMapping(value = "/getCode")
+    public CommonResult getCode(@RequestBody Map map){
+        CommonResult commonResult = studentService.getCode(map);
+        return commonResult;
     }
 
 }

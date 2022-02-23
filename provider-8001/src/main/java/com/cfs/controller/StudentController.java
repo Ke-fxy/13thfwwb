@@ -2,7 +2,9 @@ package com.cfs.controller;
 
 import com.cfs.entities.CommonResult;
 import com.cfs.entities.Student;
+import com.cfs.service.CodeService;
 import com.cfs.service.StudentService;
+import com.cfs.util.JavaWebToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,9 +25,12 @@ public class StudentController {
     @Resource
     StudentService studentService;
 
+    @Resource
+    CodeService codeService;
+
     @GetMapping(value = "/login")
     public CommonResult login(@RequestParam("sNo") Integer sNo,
-                                       @RequestParam("password") String password) {
+                              @RequestParam("password") String password) {
 
         Map<String, Object> studentMap = studentService.login(sNo, password);
         if (studentMap == null) {
@@ -44,6 +49,33 @@ public class StudentController {
             }
         }
 
+    }
+
+
+    @PostMapping(value = "/test")
+    public String test(@RequestBody Map map){
+
+        String str = (String) map.get("str");
+
+        return str;
+
+    }
+
+    @PostMapping(value = "getCode")
+    public CommonResult<String> getCode(@RequestBody Map map){
+
+        String token = (String)map.get("token");
+        String checkResult = studentService.checkup(token);
+
+        if (checkResult==null){
+            return new CommonResult(200,"用户未登录或登录状态失效");
+        }
+
+        String phone = (String) map.get("phone");
+
+        String code = studentService.getCode(phone, checkResult);
+
+        return new CommonResult(100,"?",code);
     }
 
 }
