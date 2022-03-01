@@ -28,14 +28,18 @@ public class StudentController {
     public CommonResult login(@RequestParam("sNo") Integer sNo,
                                        @RequestParam("password") String password){
         CommonResult studentCommonResult = studentService.login(sNo, password);
-        System.out.println("syy");
-        System.out.println("SYY");
         return studentCommonResult;
     }
 
     @PostMapping(value = "/getCode")
     public CommonResult getCode(@RequestBody Map map){
         CommonResult commonResult = studentService.getCode(map);
+        return commonResult;
+    }
+
+    @PostMapping(value = "/changePwd")
+    public CommonResult changePwd(@RequestBody Map map){
+        CommonResult commonResult = studentService.changePwd(map);
         return commonResult;
     }
 

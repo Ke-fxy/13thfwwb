@@ -60,6 +60,7 @@ public class StudentService {
             Map<String, Object> map = new HashMap<>(2);
             map.put("id", student.getId());
             String token = JavaWebToken.createJavaWebToken(map);
+
             ValueOperations<String, String> forValue = stringRedisTemplate.opsForValue();
             forValue.set("userToken:" + token, String.valueOf(student.getId()));
             stringRedisTemplate.expire("userId:" + student.getId(), 7, TimeUnit.DAYS);
@@ -84,6 +85,81 @@ public class StudentService {
 
     }
 
+    public Boolean checkPwd(String token,String password) {
+
+        Map<String, Object> stringObjectMap = JavaWebToken.parserJavaWebToken(token);
+        Integer id = (Integer) stringObjectMap.get("id");
+
+        StudentExample studentExample = new StudentExample();
+        StudentExample.Criteria criteria = studentExample.createCriteria();
+        criteria.andIdEqualTo(id);
+
+        /*criteria.andPasswordEqualTo(password);*/
+        List<Student> students = studentMapper.selectByExample(studentExample);
+
+        if (students.size() == 0) {
+            return null;
+        }
+
+        Student student = students.get(0);
+        String decrypt = "";
+        try {
+            decrypt = RSAEncrypt.decrypt(student.getPassword());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (student != null && password.equals(decrypt)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void deleteToken(String token) {
+
+        stringRedisTemplate.delete("userToken:" + token);
+
+    }
+
+    public String updatePassword(String token,String password) {
+
+        Map<String, Object> stringObjectMap = JavaWebToken.parserJavaWebToken(token);
+        Integer id = (Integer) stringObjectMap.get("id");
+
+        StudentExample studentExample = new StudentExample();
+        StudentExample.Criteria criteria = studentExample.createCriteria();
+        criteria.andIdEqualTo(id);
+
+        /*criteria.andPasswordEqualTo(password);*/
+        List<Student> students = studentMapper.selectByExample(studentExample);
+
+        if (students.size() == 0) {
+            return null;
+        }
+
+        Student student = students.get(0);
+        String encrypt = "";
+        try {
+            encrypt = RSAEncrypt.encrypt(password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (student != null) {
+            System.out.println("id:"+id);
+            System.out.println("encrypt:"+encrypt);
+            if(studentMapper.updatePassword(id,encrypt)>0){
+                return "AC";
+            }
+            return "false";
+        } else {
+            return "false";
+        }
+
+    }
+
+
     public String getCode(String phone, String checkResult) {
 
         String code = CreateCode.getCode(6);
@@ -91,4 +167,5 @@ public class StudentService {
 
         return s;
     }
+
 }

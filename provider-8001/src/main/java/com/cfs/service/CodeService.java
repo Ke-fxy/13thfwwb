@@ -38,6 +38,7 @@ public class CodeService {
 
         ValueOperations<String, String> forValue = redisTemplate.opsForValue();
         forValue.set(addr + "code",code);
+        //String s = forValue.get("addr" + code);
         redisTemplate.expire(addr+"code",300*1000, TimeUnit.MILLISECONDS);
 
         return result;

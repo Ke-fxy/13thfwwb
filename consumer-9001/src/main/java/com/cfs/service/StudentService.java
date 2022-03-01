@@ -24,4 +24,7 @@ public interface StudentService {
 
     @PostMapping(value = "/student/getCode")
     public CommonResult getCode(@RequestBody Map map);
+
+    @PostMapping(value = "/student/changePwd")
+    public CommonResult changePwd(@RequestBody Map map);
 }

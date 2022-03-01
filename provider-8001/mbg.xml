@@ -12,8 +12,8 @@
         <!--配置数据库连接池-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/13thfwwb"
-                        userId="fxy"
-                        password="Ke_fxyhowdoit233">
+                        userId="root"
+                        password="123456">
         </jdbcConnection>
 
         <javaTypeResolver >

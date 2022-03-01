@@ -23,6 +23,8 @@ public interface StudentMapper {
 
     Student selectByPrimaryKey(Integer id);
 
+    int updatePassword(@Param("id") Integer id,@Param("password") String password);
+
     int updateByExampleSelective(@Param("record") Student record, @Param("example") StudentExample example);
 
     int updateByExample(@Param("record") Student record, @Param("example") StudentExample example);

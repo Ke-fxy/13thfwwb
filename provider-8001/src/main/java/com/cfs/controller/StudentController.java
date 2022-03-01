@@ -18,6 +18,7 @@ import java.util.Map;
  * @Version 1.0
  */
 @RestController
+@CrossOrigin(value = "*",maxAge = 3600)
 @Slf4j
 @RequestMapping("/student")
 public class StudentController {
@@ -28,9 +29,14 @@ public class StudentController {
     @Resource
     CodeService codeService;
 
-    @GetMapping(value = "/login")
-    public CommonResult login(@RequestParam("sNo") Integer sNo,
-                              @RequestParam("password") String password) {
+    @PostMapping(value = "/login")
+    public CommonResult login(@RequestBody Map map) {
+
+//        System.out.println("sNo:"+sNo);
+//        System.out.println("password:"+password);
+
+        Integer sNo = (Integer) map.get("sNo");
+        String password = (String) map.get("password");
 
         Map<String, Object> studentMap = studentService.login(sNo, password);
         if (studentMap == null) {
@@ -76,6 +82,44 @@ public class StudentController {
         String code = studentService.getCode(phone, checkResult);
 
         return new CommonResult(100,"?",code);
+    }
+
+    @PostMapping(value = "changePwd")
+    public CommonResult changePwd(@RequestBody Map map) {
+        String oldPassword = (String) map.get("oldPassword");
+        String token = (String) map.get("token");
+        System.out.println("oldPassword:"+oldPassword);
+        System.out.println("token:"+token);
+
+
+//        String token = (String) map.get("token");
+//        //"data": "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MX0.xxzv08P4YGKnWdyIqVCOaFFQQr7kjQKa1L3BhlrdA48"
+//        String checkResult = studentService.checkup(token);
+//
+//        if (checkResult==null){
+//            return new CommonResult(200,"用户未登录或登录状态失效");
+//        }
+//
+//        String oldPassword = (String) map.get("oldPassword");
+//        String newPassword = (String) map.get("newPassword");
+//        Boolean flag = studentService.checkPwd(token,oldPassword);
+//
+//        String result = "";
+//        if (flag){
+//
+//            studentService.deleteToken(token);
+//            result = studentService.updatePassword(token,newPassword);
+
+//        }
+//
+//
+//        if(result.equals("AC")){
+//            return new CommonResult(100,"修改成功",checkResult);
+//        }else {
+//            return new CommonResult(200,"修改失败",checkResult);
+//        }
+        return new CommonResult(200,"修改失败");
+
     }
 
 }
