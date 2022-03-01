@@ -45,7 +45,8 @@ public class CodeService {
 
     public String setCodeWithoutAddr(String code,String phone,String checkResult){
 
-        ZhenziSmsClient client = new ZhenziSmsClient("https://sms_developer.zhenzikj.com","109811","10963602-1525-455d-826a-9566537c4d40");
+        ZhenziSmsClient client = new ZhenziSmsClient("https://sms_developer.zhenzikj.com","109811",
+                "YTViMDg5MzktOGViYS00MTFjLWE3NGItNjZhYzNhYWM1NjZm");
         Map<String,Object> params = new HashMap<String, Object>();
         params.put("number",phone);
         params.put("templateId","6757");

@@ -25,10 +25,8 @@ public class StudentController {
     @Resource
     StudentService studentService;
 
-    @Resource
-    CodeService codeService;
 
-    @GetMapping(value = "/login")
+    @PostMapping(value = "/login")
     public CommonResult login(@RequestParam("sNo") Integer sNo,
                               @RequestParam("password") String password) {
 
@@ -77,5 +75,7 @@ public class StudentController {
 
         return new CommonResult(100,"?",code);
     }
+
+
 
 }
