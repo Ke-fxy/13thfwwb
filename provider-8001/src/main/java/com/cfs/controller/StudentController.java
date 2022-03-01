@@ -18,7 +18,6 @@ import java.util.Map;
  * @Version 1.0
  */
 @RestController
-@CrossOrigin(value = "*",maxAge = 3600)
 @Slf4j
 @RequestMapping("/student")
 public class StudentController {

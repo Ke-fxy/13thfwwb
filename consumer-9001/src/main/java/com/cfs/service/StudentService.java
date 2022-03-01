@@ -18,9 +18,8 @@ import java.util.Map;
 @FeignClient(name = "nacos-provider")
 public interface StudentService {
 
-    @GetMapping(value = "/student/login")
-    public CommonResult login(@RequestParam("sNo") Integer sNo,
-                                       @RequestParam("password") String password);
+    @PostMapping(value = "/student/login")
+    public CommonResult login(@RequestBody Map map);
 
     @PostMapping(value = "/student/getCode")
     public CommonResult getCode(@RequestBody Map map);
