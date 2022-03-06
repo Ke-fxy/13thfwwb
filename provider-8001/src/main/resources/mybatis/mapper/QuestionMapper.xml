@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cfs.mapper.QuestionMapper">
+
+    <resultMap id="BaseResultMap" type="com.cfs.entities.QuestionPublicSc">
+        <id column="id" property="id"></id>
+        <result column="text" property="text"></result>
+        <result column="option1" property="option1"></result>
+        <result column="option2" property="option2"></result>
+        <result column="option3" property="option3"></result>
+        <result column="option4" property="option4"></result>
+        <result column="answer" property="answer"></result>
+        <result column="creater_id" property="creater_id"></result>
+        <result column="create_time" property="create_time"></result>
+        <result column="chapter_id" property="chapter_id"></result>
+        <result column="modular_id" property="modular_id"></result>
+        <result column="diffculyt" property="diffculyt"></result>
+        <result column="examine" property="examine"></result>
+        <result column="examiner_id" property="examiner_id"></result>
+        <result column="examiner_time" property="examiner_time"></result>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.cfs.entities.QuestionPublicSc">
+        insert into question_public_sc
+        values(null,#{text},#{option1},#{option2},#{option3},#{option4},#{answer},#{creater_id},#{create_time},#{chapter_id},#{modular_id},#{diffculyt},null,null,null)
+    </insert>
+</mapper>
