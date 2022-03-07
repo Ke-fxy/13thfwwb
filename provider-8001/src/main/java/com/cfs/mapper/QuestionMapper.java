@@ -3,7 +3,9 @@ package com.cfs.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 /**
  * @Author Ke
@@ -28,14 +30,15 @@ public interface QuestionMapper {
      * @param diffculyt
      * @return
      */
-    Integer insert(@Param("text") String text,
+    Integer insert(@Param("id") Integer id,
+                   @Param("text") String text,
                    @Param("option1")String option1,
                    @Param("option2")String option2,
                    @Param("option3")String option3,
                    @Param("option4")String option4,
                    @Param("answer")String answer,
                    @Param("createrId")Integer createrId,
-                   @Param("createTime")Time createTime,
+                   @Param("createTime") Timestamp createTime,
                    @Param("chapterId")Integer chapterId,
                    @Param("modularId")Integer modularId,
                    @Param("diffculyt")Integer diffculyt);

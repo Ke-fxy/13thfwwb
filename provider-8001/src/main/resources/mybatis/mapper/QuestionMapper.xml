@@ -10,18 +10,18 @@
         <result column="option3" property="option3"></result>
         <result column="option4" property="option4"></result>
         <result column="answer" property="answer"></result>
-        <result column="creater_id" property="creater_id"></result>
-        <result column="create_time" property="create_time"></result>
-        <result column="chapter_id" property="chapter_id"></result>
-        <result column="modular_id" property="modular_id"></result>
+        <result column="creater_id" property="createrId"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="chapter_id" property="chapterId"></result>
+        <result column="modular_id" property="modularId"></result>
         <result column="diffculyt" property="diffculyt"></result>
         <result column="examine" property="examine"></result>
-        <result column="examiner_id" property="examiner_id"></result>
-        <result column="examiner_time" property="examiner_time"></result>
+        <result column="examiner_id" property="examinerId"></result>
+        <result column="examiner_time" property="examinerTime"></result>
     </resultMap>
 
-    <insert id="insert" parameterType="com.cfs.entities.QuestionPublicSc">
+    <insert id="insert">
         insert into question_public_sc
-        values(null,#{text},#{option1},#{option2},#{option3},#{option4},#{answer},#{creater_id},#{create_time},#{chapter_id},#{modular_id},#{diffculyt},null,null,null)
+        values(#{id},#{text},#{option1},#{option2},#{option3},#{option4},#{answer},#{createrId},#{createTime},#{chapterId},#{modularId},#{diffculyt},null,null,null)
     </insert>
 </mapper>

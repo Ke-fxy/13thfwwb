@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 /**
@@ -55,7 +58,8 @@ public class QuestionController {
         String option4 = map.get("option4");
         String answer = map.get("answer");
         Integer createrId = Integer.valueOf(map.get("createrId"));
-        Time createTime = Time.valueOf(map.get("createTime"));
+        Timestamp createTime = new Timestamp(System.currentTimeMillis());
+        System.out.println(createTime);
         Integer chapterId = Integer.valueOf(map.get("chapterId"));
         Integer modularId = Integer.valueOf(map.get("modularId"));
         Integer diffculyt = Integer.valueOf(map.get("diffculyt"));
@@ -64,7 +68,7 @@ public class QuestionController {
             return new CommonResult(200,"用户未登录或登录状态失效");
         }
 
-        Integer integer = questionService.addQuestion(text, option1, option2, option3, option4, answer, createrId, createTime, chapterId, modularId, diffculyt);
+        Integer integer = questionService.addQuestion(null,text, option1, option2, option3, option4, answer, createrId, createTime, chapterId, modularId, diffculyt);
 
         if (integer==0){
             return new CommonResult<String>(200,"插入失败");
