@@ -24,4 +24,18 @@
         insert into question_public_sc
         values(#{id},#{text},#{option1},#{option2},#{option3},#{option4},#{answer},#{createrId},#{createTime},#{chapterId},#{modularId},#{diffculyt},null,null,null)
     </insert>
+
+    <select id="get" resultMap="BaseResultMap">
+        select * from question_public_sc
+        where id=#{id}
+    </select>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        select * from question_public_sc
+    </select>
+
+    <select id="getUserRoleById" resultType="java.lang.Integer">
+        select role from teacher
+        where id=#{userId}
+    </select>
 </mapper>

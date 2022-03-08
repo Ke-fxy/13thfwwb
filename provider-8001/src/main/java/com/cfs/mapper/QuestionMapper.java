@@ -1,11 +1,13 @@
 package com.cfs.mapper;
 
+import com.cfs.entities.QuestionPublicSc;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @Author Ke
@@ -42,4 +44,24 @@ public interface QuestionMapper {
                    @Param("chapterId")Integer chapterId,
                    @Param("modularId")Integer modularId,
                    @Param("diffculyt")Integer diffculyt);
+
+    /**
+     * 根据题目id查询出题目
+     * @param id
+     * @return
+     */
+    QuestionPublicSc get(@Param("id") Integer id);
+
+    /**
+     * 查询所有题目
+     * @return
+     */
+    List<QuestionPublicSc> getAll();
+
+    /**
+     * 通过userId获得当前用户的权限
+     * @param userId
+     * @return
+     */
+    Integer getUserRoleById(@Param("userId") Integer userId);
 }

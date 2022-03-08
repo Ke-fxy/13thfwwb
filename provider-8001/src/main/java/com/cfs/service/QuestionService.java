@@ -1,12 +1,12 @@
 package com.cfs.service;
 
+import com.cfs.entities.QuestionPublicSc;
 import com.cfs.mapper.QuestionMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @Author Ke
@@ -36,6 +36,34 @@ public class QuestionService {
         Integer insert = questionMapper.insert(id,text, option1, option2, option3, option4, answer, createrId, createTime, chapterId, modularId, diffculyt);
 
         return insert;
+
+    }
+
+    public QuestionPublicSc getQuestionById(Integer id) {
+
+        QuestionPublicSc questionPublicSc = questionMapper.get(id);
+
+        return questionPublicSc;
+
+    }
+
+    public List<QuestionPublicSc> getAllQuestion() {
+
+        List<QuestionPublicSc> publicScs = questionMapper.getAll();
+
+        return publicScs;
+
+    }
+
+    public boolean checkUser(Integer userId) {
+
+        Integer role = questionMapper.getUserRoleById(userId);
+
+        if (role!=null&&role==1){
+            return true;
+        }else {
+            return false;
+        }
 
     }
 }
