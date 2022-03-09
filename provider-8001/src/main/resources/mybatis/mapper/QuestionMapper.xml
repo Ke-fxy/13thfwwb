@@ -38,4 +38,18 @@
         select role from teacher
         where id=#{userId}
     </select>
+
+    <select id="getQuesWithoutExamByCId" resultMap="BaseResultMap">
+        select * from question_public_sc
+        where chapter_id in(
+            select chapter_id from chapter
+            where course_id=#{courseId}
+            )
+    </select>
+
+    <update id="updateExamine">
+        update question_public_sc
+        set examine=#{result},examiner_id=#{userId},examine_time=#{examineTime}
+        where id=#{questionId}
+    </update>
 </mapper>

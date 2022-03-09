@@ -4,6 +4,7 @@ import com.cfs.entities.CommonResult;
 import com.cfs.entities.QuestionPublicSc;
 import com.cfs.service.QuestionService;
 import com.cfs.service.StudentService;
+import com.cfs.util.JavaWebToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -41,7 +42,7 @@ public class QuestionController {
 
         ValueOperations<String, String> forValue = stringRedisTemplate.opsForValue();
         String s = forValue.get("userToken:" + token);
-        if (s==null||s.length()==0){
+        if (s == null || s.length() == 0) {
             return null;
         }
         return s;
@@ -50,7 +51,7 @@ public class QuestionController {
 
 
     @PostMapping(value = "/addQuestion")
-    public CommonResult<String> addQuestion(@RequestBody HashMap<String,String> map){
+    public CommonResult<String> addQuestion(@RequestBody HashMap<String, String> map) {
 
         String token = checkup(map.get("token"));
         String text = map.get("text");
@@ -66,79 +67,148 @@ public class QuestionController {
         Integer modularId = Integer.valueOf(map.get("modularId"));
         Integer diffculyt = Integer.valueOf(map.get("diffculyt"));
 
-        if (token==null){
-            return new CommonResult(200,"用户未登录或登录状态失效");
+        if (token == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效");
         }
 
-        Integer integer = questionService.addQuestion(null,text, option1, option2, option3, option4, answer, createrId, createTime, chapterId, modularId, diffculyt);
+        Integer integer = questionService.addQuestion(null, text, option1, option2, option3, option4, answer, createrId, createTime, chapterId, modularId, diffculyt);
 
-        if (integer==0){
-            return new CommonResult(200,"插入失败");
-        }else {
-            return new CommonResult(100,"插入成功");
+        if (integer == 0) {
+            return new CommonResult<>(200, "插入失败");
+        } else {
+            return new CommonResult<>(100, "插入成功");
         }
 
 
     }
 
     @PostMapping(value = "/getQuestion")
-    public CommonResult<QuestionPublicSc> getQuestionById(@RequestBody HashMap<String,String> map){
+    public CommonResult<QuestionPublicSc> getQuestionById(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
 
-        if (checkup==null){
-            return new CommonResult(200,"用户未登录或登录状态失效",null);
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
         }
 
         Integer id = Integer.parseInt(map.get("id"));
         QuestionPublicSc questionById = questionService.getQuestionById(id);
 
-        if (questionById != null){
-            return new CommonResult(100,"查询成功",questionById);
-        }else {
-            return new CommonResult(200,"未查询到此题",null);
+        if (questionById != null) {
+            return new CommonResult<>(100, "查询成功", questionById);
+        } else {
+            return new CommonResult<>(200, "未查询到此题", null);
         }
 
     }
 
     @PostMapping(value = "/getAllQuestion")
-    public CommonResult<List<QuestionPublicSc>> getAllQuestion(@RequestBody HashMap<String,String> map){
+    public CommonResult<List<QuestionPublicSc>> getAllQuestion(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
 
-        if (checkup==null){
-            return new CommonResult(200,"用户未登录或登录状态失效",null);
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
         }
 
         List<QuestionPublicSc> allQuestion = questionService.getAllQuestion();
 
-        if (allQuestion!=null&&allQuestion.size()!=0){
-            return new CommonResult<>(100,"查询成功",allQuestion);
-        }else {
-            return new CommonResult<>(200,"查询失败");
+        if (allQuestion != null && allQuestion.size() != 0) {
+            return new CommonResult<>(100, "查询成功", allQuestion);
+        } else {
+            return new CommonResult<>(200, "查询失败");
         }
     }
 
     @PostMapping(value = "/checkUser")
-    public CommonResult<String> checkUser(@RequestBody HashMap<String,String> map){
+    public CommonResult<String> checkUser(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
 
-        if (checkup==null){
-            return new CommonResult(200,"用户未登录或登录状态失效",null);
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
         }
 
         Integer userId = Integer.parseInt(map.get("userId"));
         boolean b = questionService.checkUser(userId);
 
-        if (b){
-            return new CommonResult<>(100,"当前用户可上传题目");
-        }else {
-            return new CommonResult<>(200,"当前用户无法上传题目");
+        if (b) {
+            return new CommonResult<>(100, "当前用户可上传题目");
+        } else {
+            return new CommonResult<>(200, "当前用户无法上传题目");
         }
 
     }
+
+    @PostMapping(value = "/checkUser2")
+    public CommonResult<String> checkUser2(@RequestBody HashMap<String, String> map) {
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer userId = Integer.parseInt(map.get("userId"));
+        boolean b = questionService.checkUser2(userId);
+
+        if (b) {
+            return new CommonResult<>(100, "当前用户可审核题目");
+        } else {
+            return new CommonResult<>(200, "当前用户无法审核题目");
+        }
+
+    }
+
+    @PostMapping(value = "/getNoExamineQuestion")
+    public CommonResult<List<QuestionPublicSc>> getNoExamineQuestion(@RequestBody HashMap<String, String> map) {
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer courseId = Integer.parseInt(map.get("courseId"));
+        List<QuestionPublicSc> questionWithoutExamine = questionService.getQuestionWithoutExamine(courseId);
+
+        if (questionWithoutExamine != null && questionWithoutExamine.size() != 0) {
+            return new CommonResult<>(100, "查询成功", questionWithoutExamine);
+        } else {
+            return new CommonResult<>(200, "查询失败，当前课程没有题目可以审核");
+        }
+
+    }
+
+    @PostMapping(value = "/examineQuestion")
+    public CommonResult<String> examine(@RequestBody HashMap<String, String> map) {
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效");
+        }
+
+        Integer userId = (Integer) JavaWebToken.parserJavaWebToken(token).get("id");
+        Integer questionId = Integer.parseInt(map.get("questionId"));
+        /**
+         * 审核结果（通过1/未通过2）
+         */
+        Integer result = Integer.parseInt(map.get("result"));
+        boolean examineQuestion = questionService.examineQuestion(userId, questionId, result);
+
+        if (examineQuestion) {
+            return new CommonResult<>(100, "更新成功");
+        }
+
+        return new CommonResult<>(200, "更新失败");
+    }
+
+
 }

@@ -33,7 +33,7 @@ public class QuestionService {
                                Integer modularId,
                                Integer diffculyt) {
 
-        Integer insert = questionMapper.insert(id,text, option1, option2, option3, option4, answer, createrId, createTime, chapterId, modularId, diffculyt);
+        Integer insert = questionMapper.insert(id, text, option1, option2, option3, option4, answer, createrId, createTime, chapterId, modularId, diffculyt);
 
         return insert;
 
@@ -59,9 +59,41 @@ public class QuestionService {
 
         Integer role = questionMapper.getUserRoleById(userId);
 
-        if (role!=null&&role==1){
+        if (role != null && role == 1) {
             return true;
-        }else {
+        } else {
+            return false;
+        }
+
+    }
+
+    public boolean checkUser2(Integer userId) {
+        Integer role = questionMapper.getUserRoleById(userId);
+
+        if (role != null && role == 2) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public List<QuestionPublicSc> getQuestionWithoutExamine(Integer courseId) {
+
+        List<QuestionPublicSc> quesWithoutExamByCId = questionMapper.getQuesWithoutExamByCId(courseId);
+
+        return quesWithoutExamByCId;
+
+    }
+
+    public boolean examineQuestion(Integer userId, Integer questionId, Integer result) {
+
+        Timestamp examineTime = new Timestamp(System.currentTimeMillis());
+
+        Integer examine = questionMapper.updateExamine(userId, questionId, result, examineTime);
+
+        if (examine == 1) {
+            return true;
+        } else {
             return false;
         }
 
