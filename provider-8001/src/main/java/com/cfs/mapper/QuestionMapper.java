@@ -77,4 +77,24 @@ public interface QuestionMapper {
      * @return
      */
     Integer getUserRoleById(@Param("userId") Integer userId);
+
+    /**
+     * 根绝课程id获得所有未审核的题目
+     * @param courseId
+     * @return
+     */
+    List<QuestionPublicSc> getQuesWithoutExamByCId(Integer courseId);
+
+    /**
+     * 更新题目审核状态
+     * @param userId
+     * @param questionId
+     * @param result
+     * @param examineTime
+     * @return
+     */
+    Integer updateExamine(@Param("userId") Integer userId,
+                          @Param("questionId") Integer questionId,
+                          @Param("result") Integer result,
+                          @Param("examineTime") Timestamp examineTime);
 }

@@ -66,16 +66,16 @@ public class QuestionController {
         Integer modularId = Integer.valueOf(map.get("modularId"));
         Integer diffculyt = Integer.valueOf(map.get("diffculyt"));
 
-        if (token==null){
-            return new CommonResult(200,"用户未登录或登录状态失效");
+        if (token == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效");
         }
 
-        Integer integer = questionService.addQuestion(null,text, option1, option2, option3, option4, answer, createrId, createTime, chapterId, modularId, diffculyt);
+        Integer integer = questionService.addQuestion(null, text, option1, option2, option3, option4, answer, createrId, createTime, chapterId, modularId, diffculyt);
 
-        if (integer==0){
-            return new CommonResult(200,"插入失败");
-        }else {
-            return new CommonResult(100,"插入成功");
+        if (integer == 0) {
+            return new CommonResult<>(200, "插入失败");
+        } else {
+            return new CommonResult<>(100, "插入成功");
         }
 
 
@@ -87,17 +87,17 @@ public class QuestionController {
         String token = map.get("token");
         String checkup = checkup(token);
 
-        if (checkup==null){
-            return new CommonResult(200,"用户未登录或登录状态失效",null);
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
         }
 
         Integer id = Integer.parseInt(map.get("id"));
         QuestionPublicSc questionById = questionService.getQuestionById(id);
 
-        if (questionById != null){
-            return new CommonResult(100,"查询成功",questionById);
-        }else {
-            return new CommonResult(200,"未查询到此题",null);
+        if (questionById != null) {
+            return new CommonResult<>(100, "查询成功", questionById);
+        } else {
+            return new CommonResult<>(200, "未查询到此题", null);
         }
 
     }
@@ -204,4 +204,73 @@ public class QuestionController {
         }
 
     }
+
+    @PostMapping(value = "/checkUser2")
+    public CommonResult<String> checkUser2(@RequestBody HashMap<String, String> map) {
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer userId = Integer.parseInt(map.get("userId"));
+        boolean b = questionService.checkUser2(userId);
+
+        if (b) {
+            return new CommonResult<>(100, "当前用户可审核题目");
+        } else {
+            return new CommonResult<>(200, "当前用户无法审核题目");
+        }
+
+    }
+
+    @PostMapping(value = "/getNoExamineQuestion")
+    public CommonResult<List<QuestionPublicSc>> getNoExamineQuestion(@RequestBody HashMap<String, String> map) {
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer courseId = Integer.parseInt(map.get("courseId"));
+        List<QuestionPublicSc> questionWithoutExamine = questionService.getQuestionWithoutExamine(courseId);
+
+        if (questionWithoutExamine != null && questionWithoutExamine.size() != 0) {
+            return new CommonResult<>(100, "查询成功", questionWithoutExamine);
+        } else {
+            return new CommonResult<>(200, "查询失败，当前课程没有题目可以审核");
+        }
+
+    }
+
+    @PostMapping(value = "/examineQuestion")
+    public CommonResult<String> examine(@RequestBody HashMap<String, String> map) {
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效");
+        }
+
+        Integer userId = (Integer) JavaWebToken.parserJavaWebToken(token).get("id");
+        Integer questionId = Integer.parseInt(map.get("questionId"));
+        /**
+         * 审核结果（通过1/未通过2）
+         */
+        Integer result = Integer.parseInt(map.get("result"));
+        boolean examineQuestion = questionService.examineQuestion(userId, questionId, result);
+
+        if (examineQuestion) {
+            return new CommonResult<>(100, "更新成功");
+        }
+
+        return new CommonResult<>(200, "更新失败");
+    }
+
+
 }
