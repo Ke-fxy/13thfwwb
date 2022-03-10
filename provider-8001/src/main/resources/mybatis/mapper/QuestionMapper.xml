@@ -21,7 +21,7 @@
     </resultMap>
 
     <insert id="insert">
-        insert into question_public_sc
+        insert into question_public_sc(id, text, option1, option2, option3, option4, answer, creater_id, create_time, chapter_id, modular_id, diffculyt, examine, examiner_id, examine_time)
         values(#{id},#{text},#{option1},#{option2},#{option3},#{option4},#{answer},#{createrId},#{createTime},#{chapterId},#{modularId},#{diffculyt},null,null,null)
     </insert>
 
@@ -29,6 +29,11 @@
         select * from question_public_sc
         where id=#{id}
     </select>
+
+    <delete id="delete">
+        delete from question_public_sc
+        where id = #{id}
+    </delete>
 
     <select id="getAll" resultMap="BaseResultMap">
         select * from question_public_sc
@@ -38,4 +43,18 @@
         select role from teacher
         where id=#{userId}
     </select>
+
+    <update id="update">
+        update question_public_sc
+        set text = #{text},
+            option1 = #{option1},
+            option2 = #{option2},
+            option3 = #{option3},
+            option4 = #{option4},
+            answer = #{answer},
+            chapter_id = #{chapterId},
+            modular_id = #{modularId},
+            diffculyt = #{diffculyt}
+        where id = #{id}
+    </update>
 </mapper>

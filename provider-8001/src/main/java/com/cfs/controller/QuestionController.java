@@ -49,7 +49,7 @@ public class QuestionController {
     }
 
 
-    @PostMapping(value = "/addQuestion")
+    @PostMapping(value = "/choice/addQuestion")
     public CommonResult<String> addQuestion(@RequestBody HashMap<String,String> map){
 
         String token = checkup(map.get("token"));
@@ -81,7 +81,7 @@ public class QuestionController {
 
     }
 
-    @PostMapping(value = "/getQuestion")
+    @PostMapping(value = "/choice/getQuestion")
     public CommonResult<QuestionPublicSc> getQuestionById(@RequestBody HashMap<String,String> map){
 
         String token = map.get("token");
@@ -102,7 +102,7 @@ public class QuestionController {
 
     }
 
-    @PostMapping(value = "/getAllQuestion")
+    @PostMapping(value = "/choice/getAllQuestion")
     public CommonResult<List<QuestionPublicSc>> getAllQuestion(@RequestBody HashMap<String,String> map){
 
         String token = map.get("token");
@@ -121,7 +121,7 @@ public class QuestionController {
         }
     }
 
-    @PostMapping(value = "/checkUser")
+    @PostMapping(value = "/choice/checkUser")
     public CommonResult<String> checkUser(@RequestBody HashMap<String,String> map){
 
         String token = map.get("token");
@@ -138,6 +138,69 @@ public class QuestionController {
             return new CommonResult<>(100,"当前用户可上传题目");
         }else {
             return new CommonResult<>(200,"当前用户无法上传题目");
+        }
+    }
+
+    @PostMapping(value = "/choice/deleteQuestion")
+    public CommonResult deleteQuestion(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup==null){
+            return new CommonResult(200,"用户未登录或登录状态失效",null);
+        }
+
+        Integer choiceId = Integer.parseInt(map.get("choiceId"));
+
+        if (choiceId != null){
+            int result = questionService.deleteQuestion(choiceId);
+            if (result>0){
+                return new CommonResult(100,"删除成功");
+            }else {
+                return new CommonResult(200,"删除失败",null);
+            }
+        }else {
+            return new CommonResult(200,"未查询到此题",null);
+        }
+    }
+
+    @PostMapping(value = "/choice/updateQuestion")
+    public CommonResult<QuestionPublicSc> updateQuestion(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+        String text = map.get("text");
+        String option1 = map.get("option1");
+        String option2 = map.get("option2");
+        String option3 = map.get("option3");
+        String option4 = map.get("option4");
+        String answer = map.get("answer");
+        Integer createrId = Integer.valueOf(map.get("createrId"));
+//        Timestamp createTime = new Timestamp(System.currentTimeMillis());
+//        System.out.println(createTime);
+        Integer chapterId = Integer.valueOf(map.get("chapterId"));
+        Integer modularId = Integer.valueOf(map.get("modularId"));
+        Integer diffculyt = Integer.valueOf(map.get("diffculyt"));
+
+        if (checkup==null){
+            return new CommonResult(200,"用户未登录或登录状态失效",null);
+        }
+
+        Integer id = Integer.parseInt(map.get("id"));
+
+        QuestionPublicSc question = questionService.getQuestionById(id);
+
+        if (question != null){
+            int result = questionService.updateQuestion(id,text, option1, option2, option3, option4, answer,chapterId, modularId, diffculyt);
+            QuestionPublicSc newquestion = questionService.getQuestionById(id);
+            if (result>0){
+                return new CommonResult(100,"更新成功",newquestion);
+            }else {
+                return new CommonResult(200,"更新失败",newquestion);
+            }
+        }else {
+            return new CommonResult(200,"未查询到此题",null);
         }
 
     }
