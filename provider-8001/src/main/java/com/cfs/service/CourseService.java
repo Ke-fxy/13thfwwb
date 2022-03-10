@@ -1,6 +1,8 @@
 package com.cfs.service;
 
+import com.cfs.entities.Chapter;
 import com.cfs.entities.Course;
+import com.cfs.entities.Modular;
 import com.cfs.mapper.CourseMapper;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,19 @@ public class CourseService {
     public List<Course> getAllCourses() {
 
         List<Course> courses = courseMapper.selectAll();
+
+        try {
+            for(Course c:courses){
+                Integer courseId = c.getId();
+                List<Chapter> chapters = courseMapper.getChapters(courseId);
+                List<Modular> modulars = courseMapper.getModulars(courseId);
+                c.setChapters(chapters);
+                c.setModularise(modulars);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 
         return courses;
 

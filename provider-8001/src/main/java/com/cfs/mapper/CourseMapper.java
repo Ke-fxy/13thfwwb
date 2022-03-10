@@ -1,6 +1,8 @@
 package com.cfs.mapper;
 
+import com.cfs.entities.Chapter;
 import com.cfs.entities.Course;
+import com.cfs.entities.Modular;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -40,4 +42,18 @@ public interface CourseMapper {
      * @return
      */
     List<Course> selectAll();
+
+    /**
+     * 根据课程id获得章节
+     * @param courseId
+     * @return
+     */
+    List<Chapter> getChapters(@Param("courseId") Integer courseId);
+
+    /**
+     * 根据课程id获得模块
+     * @param courseId
+     * @return
+     */
+    List<Modular> getModulars(@Param("courseId") Integer courseId);
 }

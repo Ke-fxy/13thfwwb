@@ -17,8 +17,17 @@
         values(#{id},#{number},#{credit},#{type},#{courseName},#{mode},#{createrId})
     </insert>
 
-    <select id="selectAll" parameterType="com.cfs.entities.Course">
-        select c.*,modu.*,chap.* from course c
-                                          LEFT JOIN modular modu on c.id=modu.course_id left join chapter chap on c.id=chap.course_id
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from course
+    </select>
+
+    <select id="getChapters" resultType="com.cfs.entities.Chapter">
+        select * from chapter
+        where course_id = #{courseId}
+    </select>
+
+    <select id="getModulars" resultType="com.cfs.entities.Modular">
+        select * from modular
+        where course_id = #{courseId}
     </select>
 </mapper>
