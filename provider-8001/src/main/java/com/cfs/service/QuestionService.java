@@ -98,4 +98,29 @@ public class QuestionService {
         }
 
     }
+
+    public Integer deleteQuestion(Integer id) {
+
+        int result = questionMapper.delete(id);
+
+        return result;
+
+    }
+
+    public Integer updateQuestion(Integer id,
+                               String text,
+                               String option1,
+                               String option2,
+                               String option3,
+                               String option4,
+                               String answer,
+                               Integer chapterId,
+                               Integer modularId,
+                               Integer diffculyt) {
+
+        Integer update = questionMapper.update(id,text, option1, option2, option3, option4, answer, chapterId, modularId, diffculyt);
+
+        return update;
+
+    }
 }

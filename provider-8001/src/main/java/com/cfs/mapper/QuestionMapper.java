@@ -52,6 +52,19 @@ public interface QuestionMapper {
      */
     QuestionPublicSc get(@Param("id") Integer id);
 
+    int delete(@Param("id") Integer id);
+
+    Integer update(@Param("id") Integer id,
+                   @Param("text") String text,
+                   @Param("option1")String option1,
+                   @Param("option2")String option2,
+                   @Param("option3")String option3,
+                   @Param("option4")String option4,
+                   @Param("answer")String answer,
+                   @Param("chapterId")Integer chapterId,
+                   @Param("modularId")Integer modularId,
+                   @Param("diffculyt")Integer diffculyt);
+
     /**
      * 查询所有题目
      * @return

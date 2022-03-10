@@ -4,7 +4,6 @@ import com.cfs.entities.CommonResult;
 import com.cfs.entities.QuestionPublicSc;
 import com.cfs.service.QuestionService;
 import com.cfs.service.StudentService;
-import com.cfs.util.JavaWebToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -42,7 +41,7 @@ public class QuestionController {
 
         ValueOperations<String, String> forValue = stringRedisTemplate.opsForValue();
         String s = forValue.get("userToken:" + token);
-        if (s == null || s.length() == 0) {
+        if (s==null||s.length()==0){
             return null;
         }
         return s;
@@ -50,8 +49,8 @@ public class QuestionController {
     }
 
 
-    @PostMapping(value = "/addQuestion")
-    public CommonResult<String> addQuestion(@RequestBody HashMap<String, String> map) {
+    @PostMapping(value = "/choice/addQuestion")
+    public CommonResult<String> addQuestion(@RequestBody HashMap<String,String> map){
 
         String token = checkup(map.get("token"));
         String text = map.get("text");
@@ -82,8 +81,8 @@ public class QuestionController {
 
     }
 
-    @PostMapping(value = "/getQuestion")
-    public CommonResult<QuestionPublicSc> getQuestionById(@RequestBody HashMap<String, String> map) {
+    @PostMapping(value = "/choice/getQuestion")
+    public CommonResult<QuestionPublicSc> getQuestionById(@RequestBody HashMap<String,String> map){
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -103,42 +102,105 @@ public class QuestionController {
 
     }
 
-    @PostMapping(value = "/getAllQuestion")
-    public CommonResult<List<QuestionPublicSc>> getAllQuestion(@RequestBody HashMap<String, String> map) {
+    @PostMapping(value = "/choice/getAllQuestion")
+    public CommonResult<List<QuestionPublicSc>> getAllQuestion(@RequestBody HashMap<String,String> map){
 
         String token = map.get("token");
         String checkup = checkup(token);
 
-        if (checkup == null) {
-            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        if (checkup==null){
+            return new CommonResult(200,"用户未登录或登录状态失效",null);
         }
 
         List<QuestionPublicSc> allQuestion = questionService.getAllQuestion();
 
-        if (allQuestion != null && allQuestion.size() != 0) {
-            return new CommonResult<>(100, "查询成功", allQuestion);
-        } else {
-            return new CommonResult<>(200, "查询失败");
+        if (allQuestion!=null&&allQuestion.size()!=0){
+            return new CommonResult<>(100,"查询成功",allQuestion);
+        }else {
+            return new CommonResult<>(200,"查询失败");
         }
     }
 
-    @PostMapping(value = "/checkUser")
-    public CommonResult<String> checkUser(@RequestBody HashMap<String, String> map) {
+    @PostMapping(value = "/choice/checkUser")
+    public CommonResult<String> checkUser(@RequestBody HashMap<String,String> map){
 
         String token = map.get("token");
         String checkup = checkup(token);
 
-        if (checkup == null) {
-            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        if (checkup==null){
+            return new CommonResult(200,"用户未登录或登录状态失效",null);
         }
 
         Integer userId = Integer.parseInt(map.get("userId"));
         boolean b = questionService.checkUser(userId);
 
-        if (b) {
-            return new CommonResult<>(100, "当前用户可上传题目");
-        } else {
-            return new CommonResult<>(200, "当前用户无法上传题目");
+        if (b){
+            return new CommonResult<>(100,"当前用户可上传题目");
+        }else {
+            return new CommonResult<>(200,"当前用户无法上传题目");
+        }
+    }
+
+    @PostMapping(value = "/choice/deleteQuestion")
+    public CommonResult deleteQuestion(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup==null){
+            return new CommonResult(200,"用户未登录或登录状态失效",null);
+        }
+
+        Integer choiceId = Integer.parseInt(map.get("choiceId"));
+
+        if (choiceId != null){
+            int result = questionService.deleteQuestion(choiceId);
+            if (result>0){
+                return new CommonResult(100,"删除成功");
+            }else {
+                return new CommonResult(200,"删除失败",null);
+            }
+        }else {
+            return new CommonResult(200,"未查询到此题",null);
+        }
+    }
+
+    @PostMapping(value = "/choice/updateQuestion")
+    public CommonResult<QuestionPublicSc> updateQuestion(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+        String text = map.get("text");
+        String option1 = map.get("option1");
+        String option2 = map.get("option2");
+        String option3 = map.get("option3");
+        String option4 = map.get("option4");
+        String answer = map.get("answer");
+        Integer createrId = Integer.valueOf(map.get("createrId"));
+//        Timestamp createTime = new Timestamp(System.currentTimeMillis());
+//        System.out.println(createTime);
+        Integer chapterId = Integer.valueOf(map.get("chapterId"));
+        Integer modularId = Integer.valueOf(map.get("modularId"));
+        Integer diffculyt = Integer.valueOf(map.get("diffculyt"));
+
+        if (checkup==null){
+            return new CommonResult(200,"用户未登录或登录状态失效",null);
+        }
+
+        Integer id = Integer.parseInt(map.get("id"));
+
+        QuestionPublicSc question = questionService.getQuestionById(id);
+
+        if (question != null){
+            int result = questionService.updateQuestion(id,text, option1, option2, option3, option4, answer,chapterId, modularId, diffculyt);
+            QuestionPublicSc newquestion = questionService.getQuestionById(id);
+            if (result>0){
+                return new CommonResult(100,"更新成功",newquestion);
+            }else {
+                return new CommonResult(200,"更新失败",newquestion);
+            }
+        }else {
+            return new CommonResult(200,"未查询到此题",null);
         }
 
     }
