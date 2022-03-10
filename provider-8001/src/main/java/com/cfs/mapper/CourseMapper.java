@@ -19,6 +19,7 @@ public interface CourseMapper {
 
     /**
      * 添加课程
+     *
      * @param id
      * @param number
      * @param credit
@@ -39,12 +40,14 @@ public interface CourseMapper {
 
     /**
      * 获得全部课程信息
+     *
      * @return
      */
     List<Course> selectAll();
 
     /**
      * 根据课程id获得章节
+     *
      * @param courseId
      * @return
      */
@@ -52,8 +55,57 @@ public interface CourseMapper {
 
     /**
      * 根据课程id获得模块
+     *
      * @param courseId
      * @return
      */
     List<Modular> getModulars(@Param("courseId") Integer courseId);
+
+    /**
+     * 根据上传的id获得课程
+     *
+     * @param courseId
+     * @return
+     */
+    Course getCourseById(@Param("courseId") Integer courseId);
+
+    /**
+     * 根据courseId获得chapter
+     *
+     * @param courseId
+     * @return
+     */
+    Chapter getChapter(@Param("courseId") Integer courseId);
+
+    /**
+     * 为课程学生老师表添加记录
+     *
+     * @param courseId
+     * @param stuId
+     * @param teaId
+     * @return
+     */
+    Integer addCourseToStu(@Param("courseId") Integer courseId,
+                           @Param("studentId") Integer stuId,
+                           @Param("teacherId") Integer teaId);
+
+    /**
+     * 为课程添加模块
+     *
+     * @param courseId
+     * @param modularName
+     * @return
+     */
+    Integer addModular(@Param("courseId") Integer courseId,
+                       @Param("modularName") String modularName);
+
+    /**
+     * 为课程添加章节
+     *
+     * @param courseId
+     * @param chapName
+     * @return
+     */
+    Integer addChapter(@Param("courseId") Integer courseId,
+                       @Param("chapName") String chapName);
 }

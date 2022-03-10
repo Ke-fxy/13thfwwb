@@ -1,8 +1,11 @@
 package com.cfs.controller;
 
+import com.cfs.entities.Chapter;
 import com.cfs.entities.CommonResult;
 import com.cfs.entities.Course;
+import com.cfs.entities.Modular;
 import com.cfs.service.CourseService;
+import com.cfs.util.JavaWebToken;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -45,7 +48,7 @@ public class CourseController {
     }
 
     @PostMapping(value = "/addCourse")
-    public CommonResult<String> addCourse(@RequestBody HashMap<String,String> map){
+    public CommonResult<String> addCourse(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -59,16 +62,17 @@ public class CourseController {
         String type = map.get("type");
         String courseName = map.get("courseName");
         Integer mode = Integer.parseInt(map.get("mode"));
-        Integer createrId = Integer.parseInt(map.get("createrId"));
+
+        Integer createrId = (Integer) JavaWebToken.parserJavaWebToken(token).get("id");
 
         boolean b = courseService.addCourse(number, credit, type, courseName, mode, createrId);
 
-        return b?new CommonResult<>(100,"添加成功"):new CommonResult<>(200,"添加失败");
+        return b ? new CommonResult<>(100, "添加成功") : new CommonResult<>(200, "添加失败");
 
     }
 
     @PostMapping(value = "/getAllCourses")
-    public CommonResult<List<Course>> getAllCourses(@RequestBody HashMap<String,String> map){
+    public CommonResult<List<Course>> getAllCourses(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -79,11 +83,145 @@ public class CourseController {
 
         List<Course> allCourses = courseService.getAllCourses();
 
-        if (allCourses!=null&&allCourses.size()!=0){
-            return new CommonResult<>(100,"查询成功",allCourses);
+        if (allCourses != null && allCourses.size() != 0) {
+            return new CommonResult<>(100, "查询成功", allCourses);
         }
 
-        return new CommonResult<>(200,"查询失败");
+        return new CommonResult<>(200, "查询失败");
     }
+
+    @PostMapping(value = "/getCourse")
+    public CommonResult<Course> getCourse(@RequestBody HashMap<String, String> map) {
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer courseId = Integer.parseInt(map.get("courseId"));
+        Course course = courseService.getCourse(courseId);
+
+        if (course != null) {
+            return new CommonResult<>(100, "查询成功", course);
+        } else {
+            return new CommonResult<>(200, "没有找到该课程");
+        }
+
+    }
+
+    @PostMapping(value = "/addCourseToStu")
+    public CommonResult<String> addCourseToStu(@RequestBody HashMap<String, String> map) {
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer courseId = Integer.parseInt(map.get("courseId"));
+        Integer stuId = Integer.parseInt(map.get("stuId"));
+        Integer teaId = Integer.parseInt(map.get("teaId"));
+
+        boolean b = courseService.addCourseToStu(courseId, stuId, teaId);
+
+        if (b) {
+            return new CommonResult<>(100, "添加成功");
+        } else {
+            return new CommonResult<>(200, "添加失败");
+        }
+
+    }
+
+    @PostMapping(value = "/addModular")
+    public CommonResult<String> addModular(@RequestBody HashMap<String, String> map) {
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer courseId = Integer.parseInt(map.get("courseId"));
+        String modularName = map.get("modularName");
+        boolean b = courseService.addModular(courseId, modularName);
+
+        return b ? new CommonResult<>(100, "添加成功") : new CommonResult<>(200, "添加失败");
+
+    }
+
+    @PostMapping(value = "/addChapter")
+    public CommonResult<String> addChapter(@RequestBody HashMap<String, String> map) {
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer courseId = Integer.parseInt(map.get("courseId"));
+        String chapName = map.get("chapName");
+        boolean b = courseService.addChapter(courseId, chapName);
+
+        return b ? new CommonResult<>(100, "添加成功") : new CommonResult<>(200, "添加失败");
+
+    }
+
+    @PostMapping(value = "/getChapters")
+    public CommonResult<List<Chapter>> getChapters(@RequestBody HashMap<String, String> map) {
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer courseId = Integer.parseInt(map.get("courseId"));
+
+        List<Chapter> allChapters = courseService.getAllChapters(courseId);
+
+        if (allChapters != null) {
+            return new CommonResult<>(100, "查询成功", allChapters);
+        } else {
+            return new CommonResult<>(200, "查询失败,该课程没有章节");
+        }
+
+    }
+
+    @PostMapping(value = "/getModularise")
+    public CommonResult<List<Modular>> getModularise(@RequestBody HashMap<String, String> map) {
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer courseId = Integer.parseInt(map.get("courseId"));
+
+        List<Modular> allModularise = courseService.getAllModularise(courseId);
+
+        if (allModularise != null) {
+            return new CommonResult<>(100, "查询成功", allModularise);
+        } else {
+            return new CommonResult<>(200, "查询失败,该课程没有模块");
+        }
+
+    }
+
+
+    @PostMapping(value = "/deleteChapter")
+    public CommonResult<String> deleteChapter(@RequestBody HashMap<String,String> map){
+
+
+
+    }
+
 
 }

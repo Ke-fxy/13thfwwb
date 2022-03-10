@@ -30,4 +30,29 @@
         select * from modular
         where course_id = #{courseId}
     </select>
+
+    <select id="getCourseById" resultMap="BaseResultMap">
+        select * from course
+        where id=#{courseId}
+    </select>
+
+    <select id="getChapter" resultType="com.cfs.entities.Chapter">
+        select * from chapter
+        where course_id=#{courseId}
+    </select>
+
+    <insert id="addCourseToStu">
+        insert into course_teacher_stu
+        values(null,#{courseId},#{teacherId},#{studentId})
+    </insert>
+
+    <insert id="addModular">
+        insert into modular
+        values(null,#{courseId},#{modularName})
+    </insert>
+
+    <insert id="addChapter">
+        insert into chapter
+        values(null,#{courseId},#{chapName})
+    </insert>
 </mapper>
