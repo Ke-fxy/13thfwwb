@@ -17,10 +17,44 @@
         values(#{id},#{number},#{credit},#{type},#{courseName},#{mode},#{createrId})
     </insert>
 
-    <select id="selectAll" parameterType="com.cfs.entities.Course">
-        select c.*,modu.*,chap.* from course c
-                                          LEFT JOIN modular modu on c.id=modu.course_id left join chapter chap on c.id=chap.course_id
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from course
     </select>
+
+    <select id="getChapters" resultType="com.cfs.entities.Chapter">
+        select * from chapter
+        where course_id = #{courseId}
+    </select>
+
+    <select id="getModulars" resultType="com.cfs.entities.Modular">
+        select * from modular
+        where course_id = #{courseId}
+    </select>
+
+    <select id="getCourseById" resultMap="BaseResultMap">
+        select * from course
+        where id=#{courseId}
+    </select>
+
+    <select id="getChapter" resultType="com.cfs.entities.Chapter">
+        select * from chapter
+        where course_id=#{courseId}
+    </select>
+
+    <insert id="addCourseToStu">
+        insert into course_teacher_stu
+        values(null,#{courseId},#{teacherId},#{studentId})
+    </insert>
+
+    <insert id="addModular">
+        insert into modular
+        values(null,#{courseId},#{modularName})
+    </insert>
+
+    <insert id="addChapter">
+        insert into chapter
+        values(null,#{courseId},#{chapName})
+    </insert>
 
     <update id="update">
         update course
