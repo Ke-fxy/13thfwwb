@@ -21,4 +21,14 @@
         select c.*,modu.*,chap.* from course c
                                           LEFT JOIN modular modu on c.id=modu.course_id left join chapter chap on c.id=chap.course_id
     </select>
+
+    <update id="update">
+        update course
+        set number = #{number},
+            credit = #{credit},
+            type = #{type},
+            course_name = #{courseName},
+            mode = #{mode}
+        where id = #{id}
+    </update>
 </mapper>

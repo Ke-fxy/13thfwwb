@@ -86,4 +86,27 @@ public class CourseController {
         return new CommonResult<>(200,"查询失败");
     }
 
+    @PostMapping(value = "/updateCourse")
+    public CommonResult<String> updateCourse(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer id = Integer.parseInt(map.get("id"));
+        String number = map.get("number");
+        Integer credit = Integer.parseInt(map.get("credit"));
+        String type = map.get("type");
+        String courseName = map.get("courseName");
+        Integer mode = Integer.parseInt(map.get("mode"));
+
+        boolean b = courseService.updateCourse(id,number, credit, type, courseName, mode);
+
+        return b?new CommonResult<>(100,"修改成功"):new CommonResult<>(200,"修改失败");
+
+    }
+
 }

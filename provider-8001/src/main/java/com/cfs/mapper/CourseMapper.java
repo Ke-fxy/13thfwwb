@@ -40,4 +40,11 @@ public interface CourseMapper {
      * @return
      */
     List<Course> selectAll();
+
+    Integer update(@Param("id") Integer id,
+                @Param("number") String number,
+                @Param("credit") Integer credit,
+                @Param("type") String type,
+                @Param("courseName") String courseName,
+                @Param("mode") Integer mode);
 }

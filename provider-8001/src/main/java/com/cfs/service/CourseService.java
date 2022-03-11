@@ -39,4 +39,16 @@ public class CourseService {
         return courses;
 
     }
+
+    public boolean updateCourse(Integer id,String number, Integer credit, String type, String courseName, Integer mode) {
+
+        Integer update = courseMapper.update(id, number, credit, type, courseName, mode);
+        System.out.println("update = " + update);
+        if (update>0){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
 }
