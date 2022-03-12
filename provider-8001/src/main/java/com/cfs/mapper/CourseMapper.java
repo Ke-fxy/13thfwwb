@@ -1,6 +1,8 @@
 package com.cfs.mapper;
 
+import com.cfs.entities.Chapter;
 import com.cfs.entities.Course;
+import com.cfs.entities.Modular;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -112,4 +114,27 @@ public interface CourseMapper {
      */
     Integer addChapter(@Param("courseId") Integer courseId,
                        @Param("chapName") String chapName);
+
+    /**
+     * create by: syy
+     * description: 删除章节
+     * create time: 2022/3/11 11:35
+     *
+     * @Param: courseId
+     * @Param: chapName
+     * @return
+     */
+    Integer deleteChapter(@Param("courseId") Integer courseId,
+                       @Param("chapName") String chapName);
+
+    /**
+     * create by: syy
+     * description: 删除模块
+     * create time: 2022/3/11 14:00
+     *
+      * @Param: null
+     * @return
+     */
+    Integer deleteModular(@Param("courseId") Integer courseId,
+                          @Param("modularName") String modularName);
 }

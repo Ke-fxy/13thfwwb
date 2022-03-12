@@ -1,6 +1,8 @@
 package com.cfs.service;
 
+import com.cfs.entities.Chapter;
 import com.cfs.entities.Course;
+import com.cfs.entities.Modular;
 import com.cfs.mapper.CourseMapper;
 import org.springframework.stereotype.Service;
 
@@ -160,5 +162,13 @@ public class CourseService {
             return false;
         }
 
+    }
+
+    public Integer deleteChapter(Integer courseId,String chapName) {
+        return courseMapper.deleteChapter(courseId,chapName);
+    }
+
+    public Integer deleteModular(Integer courseId,String modularName) {
+        return courseMapper.deleteModular(courseId,modularName);
     }
 }

@@ -65,4 +65,23 @@
             mode = #{mode}
         where id = #{id}
     </update>
+
+    <delete id="deleteChapter">
+
+           delete question_public_sc,chapter from question_public_sc
+           left join chapter
+           on chapter.id = question_public_sc.chapter_id
+           where chapter.course_id = #{courseId} AND chapter.chap_name = #{chapName}
+
+    </delete>
+
+    <delete id="deleteModular">
+
+        delete question_public_sc,modular from question_public_sc
+        left join modular
+        on modular.id = question_public_sc.modular_id
+        where modular.course_id = #{courseId} AND modular.modular_name = #{modularName}
+
+    </delete>
+
 </mapper>

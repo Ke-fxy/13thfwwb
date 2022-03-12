@@ -1,8 +1,11 @@
 package com.cfs.controller;
 
+import com.cfs.entities.Chapter;
 import com.cfs.entities.CommonResult;
 import com.cfs.entities.Course;
+import com.cfs.entities.Modular;
 import com.cfs.service.CourseService;
+import com.cfs.util.JavaWebToken;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -216,7 +219,40 @@ public class CourseController {
     @PostMapping(value = "/deleteChapter")
     public CommonResult<String> deleteChapter(@RequestBody HashMap<String,String> map){
 
+        String token = map.get("token");
+        String checkup = checkup(token);
 
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer courseId = Integer.parseInt(map.get("courseId"));
+        String chapName = map.get("chapName");
+
+        Integer result = courseService.deleteChapter(courseId,chapName);
+
+
+        return  result>0 ? new CommonResult<>(100, "删除成功") : new CommonResult<>(200, "删除失败");
+
+    }
+
+    @PostMapping(value = "/deleteModular")
+    public CommonResult<String> deleteModular(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer courseId = Integer.parseInt(map.get("courseId"));
+        String modularName = map.get("modularName");
+
+        Integer result = courseService.deleteModular(courseId,modularName);
+
+
+        return  result>0 ? new CommonResult<>(100, "删除成功") : new CommonResult<>(200, "删除失败");
 
     }
 
