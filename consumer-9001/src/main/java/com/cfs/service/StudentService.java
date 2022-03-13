@@ -19,11 +19,11 @@ import java.util.Map;
 public interface StudentService {
 
     @PostMapping(value = "/student/login")
-    public CommonResult login(@RequestBody Map map);
+    public CommonResult login(@RequestBody Map<String,String> map);
 
     @PostMapping(value = "/student/getCode")
-    public CommonResult getCode(@RequestBody Map map);
+    public CommonResult getCode(@RequestBody Map<String,String> map);
 
     @PostMapping(value = "/student/changePwd")
-    public CommonResult changePwd(@RequestBody Map map);
+    public CommonResult changePwd(@RequestBody Map<String,String> map);
 }

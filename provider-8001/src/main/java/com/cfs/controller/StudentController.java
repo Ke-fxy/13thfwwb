@@ -26,17 +26,14 @@ public class StudentController {
     @Resource
     StudentService studentService;
 
-    @Resource
-    CodeService codeService;
-
     @PostMapping(value = "/login")
-    public CommonResult login(@RequestBody Map map) {
+    public CommonResult login(@RequestBody Map<String,String> map) {
 
 //        System.out.println("sNo:"+sNo);
 //        System.out.println("password:"+password);
 
-        Integer sNo = (Integer) map.get("sNo");
-        String password = (String) map.get("password");
+        Integer sNo = Integer.parseInt(map.get("sNo"));
+        String password = map.get("password");
 
         Map<String, Object> studentMap = studentService.login(sNo, password);
         if (studentMap == null) {
@@ -74,14 +71,14 @@ public class StudentController {
         String checkResult = studentService.checkup(token);
 
         if (checkResult==null){
-            return new CommonResult(200,"用户未登录或登录状态失效");
+            return new CommonResult<>(200,"用户未登录或登录状态失效");
         }
 
         String phone = (String) map.get("phone");
 
         String code = studentService.getCode(phone, checkResult);
 
-        return new CommonResult(100,"?",code);
+        return new CommonResult<>(100,"?",code);
     }
 
     @PostMapping(value = "changePwd")

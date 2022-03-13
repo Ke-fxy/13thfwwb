@@ -19,6 +19,7 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("/student")
+@CrossOrigin(value = "*",maxAge = 3600)
 public class StudentController {
 
     @Resource
@@ -35,13 +36,13 @@ public class StudentController {
     }*/
 
     @PostMapping(value="/login")
-    public CommonResult login(@RequestBody Map map){
+    public CommonResult login(@RequestBody Map<String,String> map){
         CommonResult studentCommonResult = studentService.login(map);
         return studentCommonResult;
     }
 
     @PostMapping(value = "/getCode")
-    public CommonResult getCode(@RequestBody Map map){
+    public CommonResult getCode(@RequestBody Map<String,String> map){
         CommonResult commonResult = studentService.getCode(map);
         return commonResult;
     }

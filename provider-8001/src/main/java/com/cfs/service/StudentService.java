@@ -63,7 +63,7 @@ public class StudentService {
 
             ValueOperations<String, String> forValue = stringRedisTemplate.opsForValue();
             forValue.set("userToken:" + token, String.valueOf(student.getId()));
-            stringRedisTemplate.expire("userId:" + student.getId(), 7, TimeUnit.DAYS);
+            //stringRedisTemplate.expire("userToken:" + token, 7, TimeUnit.DAYS);
             Map<String, Object> studentMap = new HashMap<>();
             studentMap.put("student", student);
             studentMap.put("token", token);
