@@ -84,4 +84,16 @@
 
     </delete>
 
+    <update id="updateModular">
+        update modular
+        set modular_name=#{modularName}
+        where id=#{modularId}
+    </update>
+
+    <update id="updateChapter">
+        update chapter
+        set chapter_name=#{chapterName}
+        where id=#{chapterId}
+    </update>
+
 </mapper>

@@ -156,6 +156,7 @@ public class CourseService {
 
         Integer update = courseMapper.update(id, number, credit, type, courseName, mode);
         System.out.println("update = " + update);
+
         if (update>0){
             return true;
         }else {
@@ -165,10 +166,38 @@ public class CourseService {
     }
 
     public Integer deleteChapter(Integer courseId,String chapName) {
+
         return courseMapper.deleteChapter(courseId,chapName);
+
     }
 
     public Integer deleteModular(Integer courseId,String modularName) {
+
         return courseMapper.deleteModular(courseId,modularName);
+
+    }
+
+    public boolean updateModular(Integer modularId, String modularName) {
+
+        Integer updateModular = courseMapper.updateModular(modularId, modularName);
+
+        if (updateModular!=0){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
+    public boolean updateChapter(Integer chapterId, String chapterName) {
+
+        Integer updateModular = courseMapper.updateChapter(chapterId, chapterName);
+
+        if (updateModular!=0){
+            return true;
+        }else {
+            return false;
+        }
+
     }
 }

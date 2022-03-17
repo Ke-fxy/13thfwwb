@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Author Ke
@@ -36,6 +37,11 @@ public class TeacherController {
 
         return teacherService.getTeacher(map);
 
+    }
+
+    @PostMapping(value = "/getTeachers")
+    public CommonResult<List<Teacher>> getTeachers(@RequestBody HashMap<String,String> map){
+        return teacherService.getTeachers(map);
     }
 
 }

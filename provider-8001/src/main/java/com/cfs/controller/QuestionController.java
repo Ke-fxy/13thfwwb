@@ -53,23 +53,27 @@ public class QuestionController {
     @PostMapping(value = "/choice/addQuestion")
     public CommonResult<String> addQuestion(@RequestBody HashMap<String,String> map){
 
-        String token = checkup(map.get("token"));
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
         String text = map.get("text");
         String option1 = map.get("option1");
         String option2 = map.get("option2");
         String option3 = map.get("option3");
         String option4 = map.get("option4");
         String answer = map.get("answer");
-        Integer createrId = Integer.valueOf(map.get("createrId"));
+        //Integer createrId = Integer.valueOf(map.get("createrId"));
         Timestamp createTime = new Timestamp(System.currentTimeMillis());
         System.out.println(createTime);
         Integer chapterId = Integer.valueOf(map.get("chapterId"));
         Integer modularId = Integer.valueOf(map.get("modularId"));
         Integer diffculyt = Integer.valueOf(map.get("diffculyt"));
 
-        if (token == null) {
-            return new CommonResult<>(200, "用户未登录或登录状态失效");
-        }
+        Integer createrId = Integer.parseInt(checkup);
 
         Integer integer = questionService.addQuestion(null, text, option1, option2, option3, option4, answer, createrId, createTime, chapterId, modularId, diffculyt);
 
@@ -132,7 +136,7 @@ public class QuestionController {
             return new CommonResult(200,"用户未登录或登录状态失效",null);
         }
 
-        Integer userId = Integer.parseInt(map.get("userId"));
+        Integer userId = Integer.parseInt(checkup);
         boolean b = questionService.checkUser(userId);
 
         if (b){
@@ -177,7 +181,7 @@ public class QuestionController {
         String option3 = map.get("option3");
         String option4 = map.get("option4");
         String answer = map.get("answer");
-        Integer createrId = Integer.valueOf(map.get("createrId"));
+        //Integer createrId = Integer.valueOf(map.get("createrId"));
 //        Timestamp createTime = new Timestamp(System.currentTimeMillis());
 //        System.out.println(createTime);
         Integer chapterId = Integer.valueOf(map.get("chapterId"));
@@ -216,7 +220,7 @@ public class QuestionController {
             return new CommonResult<>(200, "用户未登录或登录状态失效", null);
         }
 
-        Integer userId = Integer.parseInt(map.get("userId"));
+        Integer userId = Integer.parseInt(checkup);
         boolean b = questionService.checkUser2(userId);
 
         if (b) {
@@ -271,6 +275,36 @@ public class QuestionController {
         }
 
         return new CommonResult<>(200, "更新失败");
+    }
+
+    @PostMapping(value = "/completion/addQuestion")
+    public CommonResult<String> addQuestionCp(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效");
+        }
+
+        String content = map.get("content");
+        String answer1 = map.get("answer1");
+        String answer2 = map.get("answer2");
+        String answer3 = map.get("answer3");
+        Integer createrId = Integer.parseInt(checkup);
+        Timestamp createTime = new Timestamp(System.currentTimeMillis());
+        Integer chapterId = Integer.parseInt(map.get("chapterId"));
+        Integer modularId = Integer.parseInt(map.get("modularId"));
+        Integer difficulty = Integer.parseInt(map.get("difficulty"));
+
+        boolean b = questionService.addQuestionComp(null,content,answer1,answer2,answer3,createrId,createTime,chapterId,modularId,difficulty);
+
+        if (b){
+            return new CommonResult<>(100,"添加成功");
+        }else {
+            return new CommonResult<>(200,"添加失败");
+        }
+
     }
 
 

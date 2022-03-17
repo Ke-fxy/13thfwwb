@@ -36,4 +36,9 @@
     where id = #{teacherId}
   </update>
 
+  <select id="getTeachers" resultMap="BaseResultMap">
+    select *
+    from teacher
+  </select>
+
 </mapper>

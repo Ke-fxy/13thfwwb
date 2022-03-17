@@ -5,6 +5,8 @@ import com.cfs.entities.Teacher;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @Author Ke
  * @Date 2022/3/13 19:32
@@ -41,4 +43,10 @@ public interface TeacherMapper {
                           @Param("major")String major,
                           @Param("gender")String gender,
                           @Param("email")String email);
+
+    /**
+     * 获得所有老师信息
+     * @return
+     */
+    List<Teacher> getTeachers();
 }

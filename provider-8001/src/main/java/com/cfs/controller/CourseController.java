@@ -6,7 +6,6 @@ import com.cfs.entities.Course;
 import com.cfs.entities.Modular;
 import com.cfs.service.CourseService;
 import com.cfs.util.JavaWebToken;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Author Ke
@@ -48,7 +48,7 @@ public class CourseController {
     }
 
     @PostMapping(value = "/addCourse")
-    public CommonResult<String> addCourse(@RequestBody HashMap<String,String> map){
+    public CommonResult<String> addCourse(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -63,7 +63,7 @@ public class CourseController {
         String courseName = map.get("courseName");
         Integer mode = Integer.parseInt(map.get("mode"));
 
-        Integer createrId = (Integer) JavaWebToken.parserJavaWebToken(token).get("id");
+        Integer createrId = Integer.parseInt(checkup);
 
         boolean b = courseService.addCourse(number, credit, type, courseName, mode, createrId);
 
@@ -83,11 +83,11 @@ public class CourseController {
 
         List<Course> allCourses = courseService.getAllCourses();
 
-        if (allCourses!=null&&allCourses.size()!=0){
-            return new CommonResult<>(100,"查询成功",allCourses);
+        if (allCourses != null && allCourses.size() != 0) {
+            return new CommonResult<>(100, "查询成功", allCourses);
         }
 
-        return new CommonResult<>(200,"查询失败");
+        return new CommonResult<>(200, "查询失败");
     }
 
     @PostMapping(value = "/getCourse")
@@ -217,7 +217,7 @@ public class CourseController {
 
 
     @PostMapping(value = "/deleteChapter")
-    public CommonResult<String> deleteChapter(@RequestBody HashMap<String,String> map){
+    public CommonResult<String> deleteChapter(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -229,15 +229,15 @@ public class CourseController {
         Integer courseId = Integer.parseInt(map.get("courseId"));
         String chapName = map.get("chapName");
 
-        Integer result = courseService.deleteChapter(courseId,chapName);
+        Integer result = courseService.deleteChapter(courseId, chapName);
 
 
-        return  result>0 ? new CommonResult<>(100, "删除成功") : new CommonResult<>(200, "删除失败");
+        return result > 0 ? new CommonResult<>(100, "删除成功") : new CommonResult<>(200, "删除失败");
 
     }
 
     @PostMapping(value = "/deleteModular")
-    public CommonResult<String> deleteModular(@RequestBody HashMap<String,String> map){
+    public CommonResult<String> deleteModular(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -249,16 +249,16 @@ public class CourseController {
         Integer courseId = Integer.parseInt(map.get("courseId"));
         String modularName = map.get("modularName");
 
-        Integer result = courseService.deleteModular(courseId,modularName);
+        Integer result = courseService.deleteModular(courseId, modularName);
 
 
-        return  result>0 ? new CommonResult<>(100, "删除成功") : new CommonResult<>(200, "删除失败");
+        return result > 0 ? new CommonResult<>(100, "删除成功") : new CommonResult<>(200, "删除失败");
 
     }
 
 
     @PostMapping(value = "/updateCourse")
-    public CommonResult<String> updateCourse(@RequestBody HashMap<String,String> map){
+    public CommonResult<String> updateCourse(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -274,9 +274,53 @@ public class CourseController {
         String courseName = map.get("courseName");
         Integer mode = Integer.parseInt(map.get("mode"));
 
-        boolean b = courseService.updateCourse(id,number, credit, type, courseName, mode);
+        boolean b = courseService.updateCourse(id, number, credit, type, courseName, mode);
 
-        return b?new CommonResult<>(100,"修改成功"):new CommonResult<>(200,"修改失败");
+        return b ? new CommonResult<>(100, "修改成功") : new CommonResult<>(200, "修改失败");
+
+    }
+
+    @PostMapping(value = "/updateModular")
+    public CommonResult<String> updateModular(@RequestBody HashMap<String, String> map) {
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer modularId = Integer.parseInt(map.get("modularId"));
+        String modularName = map.get("modularName");
+        boolean updateModular = courseService.updateModular(modularId, modularName);
+
+        if (updateModular) {
+            return new CommonResult<>(100, "更新成功");
+        } else {
+            return new CommonResult<>(200, "更新失败");
+        }
+
+    }
+
+    @PostMapping(value = "/updateChapter")
+    public CommonResult<String> updateChapter(@RequestBody HashMap<String, String> map) {
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer chapterId = Integer.parseInt(map.get("chapterId"));
+        String chapterName = map.get("chapterName");
+        boolean updateModular = courseService.updateChapter(chapterId, chapterName);
+
+        if (updateModular) {
+            return new CommonResult<>(100, "更新成功");
+        } else {
+            return new CommonResult<>(200, "更新失败");
+        }
 
     }
 

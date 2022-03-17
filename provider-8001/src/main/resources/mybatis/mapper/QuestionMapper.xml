@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cfs.mapper.QuestionMapper">
 
-    <resultMap id="BaseResultMap" type="com.cfs.entities.QuestionPublicSc">
+    <resultMap id="choiceQuestionMap" type="com.cfs.entities.QuestionPublicSc">
         <id column="id" property="id"></id>
         <result column="text" property="text"></result>
         <result column="option1" property="option1"></result>
@@ -20,12 +20,28 @@
         <result column="examiner_time" property="examinerTime"></result>
     </resultMap>
 
+    <resultMap id="completionMap" type="com.cfs.entities.QuestionPublicComp">
+        <id column="id" property="id"></id>
+        <result column="content" property="content"></result>
+        <result column="answer1" property="answer1"></result>
+        <result column="answer2" property="answer2"></result>
+        <result column="answer3" property="answer3"></result>
+        <result column="creater_id" property="createrId"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="chapter_id" property="chapterId"></result>
+        <result column="modular_id" property="modularId"></result>
+        <result column="difficulty" property="difficulty"></result>
+        <result column="examine" property="examine"></result>
+        <result column="examiner_id" property="examinerId"></result>
+        <result column="examiner_time" property="examinerTime"></result>
+    </resultMap>
+
     <insert id="insert">
         insert into question_public_sc(id, text, option1, option2, option3, option4, answer, creater_id, create_time, chapter_id, modular_id, diffculyt, examine, examiner_id, examine_time)
         values(#{id},#{text},#{option1},#{option2},#{option3},#{option4},#{answer},#{createrId},#{createTime},#{chapterId},#{modularId},#{diffculyt},null,null,null)
     </insert>
 
-    <select id="get" resultMap="BaseResultMap">
+    <select id="get" resultMap="choiceQuestionMap">
         select * from question_public_sc
         where id=#{id}
     </select>
@@ -35,7 +51,7 @@
         where id = #{id}
     </delete>
 
-    <select id="getAll" resultMap="BaseResultMap">
+    <select id="getAll" resultMap="choiceQuestionMap">
         select * from question_public_sc
     </select>
 
@@ -58,7 +74,7 @@
         where id = #{id}
     </update>
 
-    <select id="getQuesWithoutExamByCId" resultMap="BaseResultMap">
+    <select id="getQuesWithoutExamByCId" resultMap="choiceQuestionMap">
         select * from question_public_sc
         where chapter_id in(
             select chapter_id from chapter
@@ -71,4 +87,8 @@
         set examine=#{result},examiner_id=#{userId},examine_time=#{examineTime}
         where id=#{questionId}
     </update>
+
+    <insert id="insertComp">
+
+    </insert>
 </mapper>

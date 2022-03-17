@@ -1,5 +1,6 @@
 package com.cfs.service;
 
+import com.cfs.entities.QuestionPublicComp;
 import com.cfs.entities.QuestionPublicSc;
 import com.cfs.mapper.QuestionMapper;
 import org.springframework.stereotype.Service;
@@ -121,6 +122,18 @@ public class QuestionService {
         Integer update = questionMapper.update(id,text, option1, option2, option3, option4, answer, chapterId, modularId, diffculyt);
 
         return update;
+
+    }
+
+    public boolean addQuestionComp(Integer id, String content, String answer1, String answer2, String answer3, Integer createrId, Timestamp createTime, Integer chapterId, Integer modularId, Integer difficulty) {
+
+        Integer integer = questionMapper.insertComp(id, content, answer1, answer2, answer3, createrId, createTime, chapterId, modularId, difficulty);
+
+        if (integer!=0){
+            return true;
+        }else {
+            return false;
+        }
 
     }
 }

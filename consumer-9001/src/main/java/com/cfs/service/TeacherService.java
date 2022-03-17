@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Author Ke
@@ -24,5 +25,8 @@ public interface TeacherService {
 
     @PostMapping(value = "/teacher/getTeacher")
     public CommonResult<Teacher> getTeacher(@RequestBody HashMap<String,String> map);
+
+    @PostMapping(value = "/teacher/getTeachers")
+    public CommonResult<List<Teacher>> getTeachers(@RequestBody HashMap<String,String> map);
 
 }
