@@ -9,6 +9,7 @@ import com.cfs.util.RSAEncrypt;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ import java.util.concurrent.TimeUnit;
  * @Version 1.0
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class StudentService {
 
     @Resource

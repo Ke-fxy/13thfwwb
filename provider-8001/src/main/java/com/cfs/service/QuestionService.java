@@ -4,6 +4,7 @@ import com.cfs.entities.QuestionPublicComp;
 import com.cfs.entities.QuestionPublicSc;
 import com.cfs.mapper.QuestionMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
@@ -16,6 +17,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class QuestionService {
 
     @Resource

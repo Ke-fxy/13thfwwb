@@ -59,4 +59,9 @@ public class Course {
      */
     private List<Chapter> chapters;
 
+    /**
+     * 是否启用，启用为1，未启用为0
+     */
+    private Integer status;
+
 }

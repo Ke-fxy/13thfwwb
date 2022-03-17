@@ -4,6 +4,7 @@ import com.cfs.entities.Chapter;
 import com.cfs.entities.CommonResult;
 import com.cfs.entities.Course;
 import com.cfs.entities.Modular;
+import com.github.pagehelper.PageInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,5 +61,11 @@ public interface CourseService {
 
     @PostMapping(value = "/course/updateChapter")
     public CommonResult<String> updateChapter(@RequestBody HashMap<String,String> map);
+
+    @PostMapping(value = "/course/addCourseWithCM")
+    public CommonResult<String> addCourseWithCM(@RequestBody HashMap<String, Object> map);
+
+    @PostMapping(value = "/course/getCourses")
+    public CommonResult<PageInfo> getCourses(@RequestBody HashMap<String, String> map);
 
 }
