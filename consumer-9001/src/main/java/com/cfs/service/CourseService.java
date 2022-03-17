@@ -52,4 +52,13 @@ public interface CourseService {
     @PostMapping(value = "/course/updateCourse")
     public CommonResult<String> updateCourse(@RequestBody HashMap<String,String> map);
 
+    @PostMapping(value = "/course/deleteModular")
+    public CommonResult<String> deleteModular(@RequestBody HashMap<String,String> map);
+
+    @PostMapping(value = "/course/updateModular")
+    public CommonResult<String> updateModular(@RequestBody HashMap<String,String> map);
+
+    @PostMapping(value = "/course/updateChapter")
+    public CommonResult<String> updateChapter(@RequestBody HashMap<String,String> map);
+
 }

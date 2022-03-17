@@ -26,4 +26,9 @@
     where id=#{id}
   </select>
 
+  <select id="getTeachers" resultMap="BaseResultMap">
+    select *
+    from teacher
+  </select>
+
 </mapper>

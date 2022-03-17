@@ -137,4 +137,22 @@ public interface CourseMapper {
      */
     Integer deleteModular(@Param("courseId") Integer courseId,
                           @Param("modularName") String modularName);
+
+    /**
+     * 根据id更新模块信息
+     * @param modularId
+     * @param modularName
+     * @return
+     */
+    Integer updateModular(@Param("modularId") Integer modularId,
+                          @Param("modularName") String modularName);
+
+    /**
+     * 根据id更新章节信息
+     * @param chapterId
+     * @param chapterName
+     * @return
+     */
+    Integer updateChapter(@Param("chapterId") Integer chapterId,
+                          @Param("chapterName") String chapterName);
 }

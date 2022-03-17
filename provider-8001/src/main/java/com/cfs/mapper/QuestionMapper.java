@@ -97,4 +97,20 @@ public interface QuestionMapper {
                           @Param("questionId") Integer questionId,
                           @Param("result") Integer result,
                           @Param("examineTime") Timestamp examineTime);
+
+    /**
+     * 插入填空题
+     * @param id
+     * @param content
+     * @param answer1
+     * @param answer2
+     * @param answer3
+     * @param createrId
+     * @param createTime
+     * @param chapterId
+     * @param modularId
+     * @param difficulty
+     * @return
+     */
+    Integer insertComp(Integer id, String content, String answer1, String answer2, String answer3, Integer createrId, Timestamp createTime, Integer chapterId, Integer modularId, Integer difficulty);
 }

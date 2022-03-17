@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,7 +39,7 @@ public class TeacherController {
     private String checkup(String token) {
 
         ValueOperations<String, String> forValue = stringRedisTemplate.opsForValue();
-        String s = forValue.get("teacherToken:" + token);
+        String s = forValue.get("userToken:" + token);
         if (s == null || s.length() == 0) {
             return null;
         }
@@ -63,7 +64,7 @@ public class TeacherController {
         return new CommonResult<>(200,"登录失败");
     }
 
-    @PostMapping(value = "getTeacher")
+    @PostMapping(value = "/getTeacher")
     public CommonResult<Teacher> getTeacher(@RequestBody HashMap<String,String> map){
 
         String token = map.get("token");
@@ -79,6 +80,26 @@ public class TeacherController {
         Teacher teacher = teacherService.getTeacher(id);
 
         return teacher!=null?new CommonResult<>(100,"查询成功",teacher):new CommonResult<>(200,"查询失败");
+
+    }
+
+    @PostMapping(value = "/getTeachers")
+    public CommonResult<List<Teacher>> getTeachers(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        List<Teacher> teachers = teacherService.getTeachers();
+
+        if (teachers!=null){
+            return new CommonResult<>(100,"查询成功",teachers);
+        }else {
+            return new CommonResult<>(200,"查询失败");
+        }
 
     }
 

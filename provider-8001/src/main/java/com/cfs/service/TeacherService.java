@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,7 +25,7 @@ public class TeacherService {
 
     @Resource
     TeacherMapper teacherMapper;
-    
+
     @Resource
     StringRedisTemplate stringRedisTemplate;
 
@@ -32,7 +33,7 @@ public class TeacherService {
 
         Teacher teacher = teacherMapper.login(tNo);
 
-        if (teacher!=null){
+        if (teacher != null) {
             String decrypt = "";
 
             try {
@@ -42,19 +43,19 @@ public class TeacherService {
                 return null;
             }
 
-            if (decrypt.equals(password)){
-                HashMap<String,Object> map = new HashMap<>(2);
-                map.put("id",teacher.getId());
+            if (decrypt.equals(password)) {
+                HashMap<String, Object> map = new HashMap<>(2);
+                map.put("id", teacher.getId());
                 String token = JavaWebToken.createJavaWebToken(map);
 
                 ValueOperations<String, String> forValue = stringRedisTemplate.opsForValue();
                 forValue.set("userToken:" + token, String.valueOf(teacher.getId()));
                 //stringRedisTemplate.expire("userToken:" + token, 7, TimeUnit.DAYS);
                 return token;
-            }else {
+            } else {
                 return null;
             }
-        }else {
+        } else {
             return null;
         }
 
@@ -64,9 +65,21 @@ public class TeacherService {
 
         Teacher teacher = teacherMapper.getTeacherById(id);
 
-        if (teacher!=null){
+        if (teacher != null) {
             return teacher;
-        }else {
+        } else {
+            return null;
+        }
+
+    }
+
+    public List<Teacher> getTeachers() {
+
+        List<Teacher> teachers = teacherMapper.getTeachers();
+
+        if (teachers != null && teachers.size() != 0) {
+            return teachers;
+        } else {
             return null;
         }
 

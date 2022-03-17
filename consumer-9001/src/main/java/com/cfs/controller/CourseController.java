@@ -94,7 +94,7 @@ public class CourseController {
     @PostMapping(value = "/deleteModular")
     public CommonResult<String> deleteModular(@RequestBody HashMap<String,String> map){
 
-        return courseService.deleteChapter(map);
+        return courseService.deleteModular(map);
 
     }
 
@@ -103,6 +103,20 @@ public class CourseController {
     public CommonResult<String> updateCourse(@RequestBody HashMap<String,String> map){
 
         return courseService.updateCourse(map);
+
+    }
+
+    @PostMapping(value = "/updateModular")
+    public CommonResult<String> updateModular(@RequestBody HashMap<String,String> map){
+
+        return courseService.updateModular(map);
+
+    }
+
+    @PostMapping(value = "/updateChapter")
+    public CommonResult<String> updateChapter(@RequestBody HashMap<String,String> map){
+
+        return courseService.updateChapter(map);
 
     }
 
