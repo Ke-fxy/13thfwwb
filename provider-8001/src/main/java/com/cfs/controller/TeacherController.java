@@ -38,7 +38,7 @@ public class TeacherController {
     private String checkup(String token) {
 
         ValueOperations<String, String> forValue = stringRedisTemplate.opsForValue();
-        String s = forValue.get("teacherToken:" + token);
+        String s = forValue.get("userToken:" + token);
         if (s == null || s.length() == 0) {
             return null;
         }
@@ -79,6 +79,31 @@ public class TeacherController {
         Teacher teacher = teacherService.getTeacher(id);
 
         return teacher!=null?new CommonResult<>(100,"查询成功",teacher):new CommonResult<>(200,"查询失败");
+
+    }
+
+    @PostMapping(value = "updateTeacher")
+    public CommonResult<String> updateTeacher(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Map<String, Object> webToken = JavaWebToken.parserJavaWebToken(token);
+        Integer id = (Integer) webToken.get("id");
+
+        String teacherName = map.get("name");
+        String phone = map.get("phone");
+        String major = map.get("major");
+        String email = map.get("email");
+        String gender = map.get("gender");
+
+        Integer result = teacherService.updateTeacher(id,teacherName,phone,major,gender,email);
+
+        return result>0 ? new CommonResult<>(100,"更新成功"):new CommonResult<>(200,"更新失败");
 
     }
 

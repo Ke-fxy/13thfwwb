@@ -26,4 +26,14 @@
     where id=#{id}
   </select>
 
+  <update id="updateTeacher">
+    update teacher
+    set name = #{teacherName},
+        phone = #{phone},
+        major = #{major},
+        gender = #{gender},
+        email = #{email}
+    where id = #{teacherId}
+  </update>
+
 </mapper>

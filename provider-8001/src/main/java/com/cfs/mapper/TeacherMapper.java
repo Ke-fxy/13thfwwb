@@ -26,4 +26,19 @@ public interface TeacherMapper {
      * @return
      */
     Teacher getTeacherById(@Param("id") Integer id);
+
+    /**
+     * create by: syy
+     * description: 修改教师资料
+     * create time: 2022/3/14 20:07
+     *
+      * @Param: null
+     * @return
+     */
+    Integer updateTeacher(@Param("teacherId") Integer teacherId,
+                          @Param("teacherName") String teacherName,
+                          @Param("phone")String phone,
+                          @Param("major")String major,
+                          @Param("gender")String gender,
+                          @Param("email")String email);
 }

@@ -5,6 +5,7 @@ import com.cfs.entities.Teacher;
 import com.cfs.mapper.TeacherMapper;
 import com.cfs.util.JavaWebToken;
 import com.cfs.util.RSAEncrypt;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
@@ -70,5 +71,13 @@ public class TeacherService {
             return null;
         }
 
+    }
+
+    public Integer updateTeacher(Integer teacherId, String teacherName,String phone,String major,String gender,String email){
+
+        System.out.println("teacherId = " + teacherId + ", teacherName = " + teacherName + ", phone = " + phone + ", major = " + major + ", gender = " + gender + ", email = " + email);
+
+
+        return teacherMapper.updateTeacher(teacherId, teacherName, phone, major, gender, email);
     }
 }
