@@ -1,5 +1,6 @@
 package com.cfs.mapper;
 
+import com.cfs.entities.QuestionPublicComp;
 import com.cfs.entities.QuestionPublicSc;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -99,8 +100,7 @@ public interface QuestionMapper {
                           @Param("examineTime") Timestamp examineTime);
 
     /**
-     * 插入填空题
-     * @param id
+     * 添加选择题
      * @param content
      * @param answer1
      * @param answer2
@@ -112,5 +112,51 @@ public interface QuestionMapper {
      * @param difficulty
      * @return
      */
-    Integer insertComp(Integer id, String content, String answer1, String answer2, String answer3, Integer createrId, Timestamp createTime, Integer chapterId, Integer modularId, Integer difficulty);
+    Integer insertComp(@Param("content") String content,
+                       @Param("answer1") String answer1,
+                       @Param("answer2") String answer2,
+                       @Param("answer3") String answer3,
+                       @Param("createrId") Integer createrId,
+                       @Param("createTime") Timestamp createTime,
+                       @Param("chapterId") Integer chapterId,
+                       @Param("modularId") Integer modularId,
+                       @Param("difficulty") Integer difficulty);
+
+    /**
+     * 删除选择题
+     * @param id
+     * @return
+     */
+    Integer deleteComp(@Param("id") Integer id);
+
+    /**
+     *  修改填空题
+     * @param id
+     * @param content
+     * @param answer1
+     * @param answer2
+     * @param answer3
+     * @param chapterId
+     * @param modularId
+     * @param difficulty
+     * @return
+     */
+    Integer updateComp(@Param("id") Integer id,
+                       @Param("content") String content,
+                       @Param("answer1") String answer1,
+                       @Param("answer2") String answer2,
+                       @Param("answer3") String answer3,
+                       @Param("chapterId") Integer chapterId,
+                       @Param("modularId") Integer modularId,
+                       @Param("difficulty") Integer difficulty);
+
+    /**
+     * 查询选择题
+     * @param id
+     * @return
+     */
+    QuestionPublicComp getComp(@Param("id") Integer id);
+
+    List<QuestionPublicComp> getAllComp();
+
 }

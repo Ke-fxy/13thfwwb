@@ -89,6 +89,33 @@
     </update>
 
     <insert id="insertComp">
-
+        insert into question_public_completion(content, answer1, answer2, answer3, creater_id, create_time, chapter_id, modular_id, difficulty)
+        VALUES (#{content},#{answer1},#{answer2},#{answer3},#{createrId},#{createTime},#{chapterId},#{modularId},#{difficulty})
     </insert>
+
+    <delete id="deleteComp">
+        delete from question_public_completion
+        where id = #{id}
+    </delete>
+
+    <update id="updateComp">
+        update question_public_completion
+        set content=#{content},
+            answer1=#{answer1},
+            answer2=#{answer2},
+            answer3=#{answer3},
+            chapter_id=#{chapterId},
+            modular_id=#{modularId},
+            difficulty=#{difficulty}
+        where id = #{id}
+    </update>
+
+    <select id="getComp" resultMap="completionMap">
+        select * from question_public_completion
+        where id = #{id}
+    </select>
+
+    <select id="getAllComp" resultMap="completionMap">
+        select * from question_public_completion
+    </select>
 </mapper>

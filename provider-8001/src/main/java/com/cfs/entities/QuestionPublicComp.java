@@ -19,6 +19,8 @@ public class QuestionPublicComp {
 
     private Integer id;
 
+    private String content;
+
     private String answer1;
 
     private String answer2;

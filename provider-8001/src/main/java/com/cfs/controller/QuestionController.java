@@ -1,6 +1,7 @@
 package com.cfs.controller;
 
 import com.cfs.entities.CommonResult;
+import com.cfs.entities.QuestionPublicComp;
 import com.cfs.entities.QuestionPublicSc;
 import com.cfs.service.QuestionService;
 import com.cfs.service.StudentService;
@@ -297,12 +298,105 @@ public class QuestionController {
         Integer modularId = Integer.parseInt(map.get("modularId"));
         Integer difficulty = Integer.parseInt(map.get("difficulty"));
 
-        boolean b = questionService.addQuestionComp(null,content,answer1,answer2,answer3,createrId,createTime,chapterId,modularId,difficulty);
+        boolean b = questionService.addQuestionComp(content,answer1,answer2,answer3,createrId,createTime,chapterId,modularId,difficulty);
 
         if (b){
             return new CommonResult<>(100,"添加成功");
         }else {
             return new CommonResult<>(200,"添加失败");
+        }
+
+    }
+
+    @PostMapping(value = "/completion/deleteQuestion")
+    public CommonResult<String> deleteQuestionCp(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效");
+        }
+
+        Integer id = Integer.parseInt(map.get("id"));
+        Integer result = questionService.deleteComp(id);
+
+        if (result>0){
+            return new CommonResult<>(100,"删除成功");
+        }else {
+            return new CommonResult<>(200,"删除失败");
+        }
+
+    }
+
+    @PostMapping(value = "/completion/updateQuestion")
+    public CommonResult<String> updateQuestionCp(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效");
+        }
+
+        String content = map.get("content");
+        String answer1 = map.get("answer1");
+        String answer2 = map.get("answer2");
+        String answer3 = map.get("answer3");
+        Integer id = Integer.parseInt(map.get("id"));
+        Integer chapterId = Integer.parseInt(map.get("chapterId"));
+        Integer modularId = Integer.parseInt(map.get("modularId"));
+        Integer difficulty = Integer.parseInt(map.get("difficulty"));
+
+        Integer result = questionService.updateComp(id,content,answer1,answer2,answer3,chapterId,modularId,difficulty);
+
+        if (result>0){
+            return new CommonResult<>(100,"修改成功");
+        }else {
+            return new CommonResult<>(200,"修改失败");
+        }
+
+    }
+
+
+    @PostMapping(value = "/completion/getQuestion")
+    public CommonResult<QuestionPublicComp> getQuestionCp(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效");
+        }
+
+        Integer id = Integer.parseInt(map.get("id"));
+
+        QuestionPublicComp questionPublicComp = questionService.getCompById(id);
+
+        if (questionPublicComp!=null){
+            return new CommonResult<QuestionPublicComp>(100,"获取成功",questionPublicComp);
+        }else {
+            return new CommonResult<QuestionPublicComp>(200,"获取失败",null);
+        }
+
+    }
+
+    @PostMapping(value = "/completion/getAllQuestion")
+    public CommonResult<List<QuestionPublicComp>> getAllQuestionCp(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效");
+        }
+
+        List<QuestionPublicComp> questionPublicComp = questionService.getAllComp();
+
+        if (questionPublicComp!=null){
+            return new CommonResult<List<QuestionPublicComp>>(100,"获取成功",questionPublicComp);
+        }else {
+            return new CommonResult<List<QuestionPublicComp>>(200,"获取失败",null);
         }
 
     }
