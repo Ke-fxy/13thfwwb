@@ -10,11 +10,12 @@
         <result column="course_name" property="courseName"></result>
         <result column="mode" property="mode"></result>
         <result column="creater_id" property="createrId"></result>
+        <result column="status" property="status"></result>
     </resultMap>
 
     <insert id="add">
         insert into course
-        values(#{id},#{number},#{credit},#{type},#{courseName},#{mode},#{createrId})
+        values(#{id},#{number},#{credit},#{type},#{courseName},#{mode},#{createrId},0)
     </insert>
 
     <select id="selectAll" resultMap="BaseResultMap">
@@ -95,5 +96,28 @@
         set chapter_name=#{chapterName}
         where id=#{chapterId}
     </update>
+
+    <insert id="addCourseWithCM" useGeneratedKeys="true" parameterType="com.cfs.entities.Course" keyProperty="id">
+        insert into course
+        values(null,#{number},#{credit},#{type},#{courseName},#{mode},#{createrId},#{status})
+    </insert>
+
+    <select id="getCourseByStatus" resultMap="BaseResultMap">
+        select *
+        from course
+        where status=#{status}
+    </select>
+
+    <select id="getCoursesLikeName" resultMap="BaseResultMap">
+        select *
+        from course
+        where course_name like "%"#{courseName}"%"
+    </select>
+
+    <select id="getCoursesWithStatusAndName" resultMap="BaseResultMap">
+        select *
+        from course
+        where status=#{status} and course_name like "%"#{courseName}"%"
+    </select>
 
 </mapper>

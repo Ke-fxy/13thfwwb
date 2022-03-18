@@ -155,4 +155,34 @@ public interface CourseMapper {
      */
     Integer updateChapter(@Param("chapterId") Integer chapterId,
                           @Param("chapterName") String chapterName);
+
+    /**
+     * 创建课程的另一种方式
+     * @param course
+     * @return
+     */
+    Integer addCourseWithCM(Course course);
+
+    /**
+     * 查询所有状态为status的课程
+     * @param status
+     * @return
+     */
+    List<Course> getCourseByStatus(Integer status);
+
+    /**
+     * 查询和courseName相似的课程
+     * @param courseName
+     * @return
+     */
+    List<Course> getCoursesLikeName(String courseName);
+
+    /**
+     * 查询状态为status以及名字相似的课程
+     * @param courseName
+     * @param status
+     * @return
+     */
+    List<Course> getCoursesWithStatusAndName(@Param("courseName") String courseName,
+                                             @Param("status") Integer status);
 }

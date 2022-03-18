@@ -5,6 +5,7 @@ import com.cfs.entities.Course;
 import com.cfs.entities.Modular;
 import com.cfs.mapper.CourseMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class CourseService {
 
     @Resource
@@ -26,9 +28,9 @@ public class CourseService {
         Integer id = null;
         Integer add = courseMapper.add(id, number, credit, type, courseName, mode, createrId);
 
-        if (add==1){
+        if (add == 1) {
             return true;
-        }else {
+        } else {
             return false;
         }
 
@@ -152,28 +154,28 @@ public class CourseService {
 
     }
 
-    public boolean updateCourse(Integer id,String number, Integer credit, String type, String courseName, Integer mode) {
+    public boolean updateCourse(Integer id, String number, Integer credit, String type, String courseName, Integer mode) {
 
         Integer update = courseMapper.update(id, number, credit, type, courseName, mode);
         System.out.println("update = " + update);
 
-        if (update>0){
+        if (update > 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
 
     }
 
-    public Integer deleteChapter(Integer courseId,String chapName) {
+    public Integer deleteChapter(Integer courseId, String chapName) {
 
-        return courseMapper.deleteChapter(courseId,chapName);
+        return courseMapper.deleteChapter(courseId, chapName);
 
     }
 
-    public Integer deleteModular(Integer courseId,String modularName) {
+    public Integer deleteModular(Integer courseId, String modularName) {
 
-        return courseMapper.deleteModular(courseId,modularName);
+        return courseMapper.deleteModular(courseId, modularName);
 
     }
 
@@ -181,9 +183,9 @@ public class CourseService {
 
         Integer updateModular = courseMapper.updateModular(modularId, modularName);
 
-        if (updateModular!=0){
+        if (updateModular != 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
 
@@ -193,10 +195,91 @@ public class CourseService {
 
         Integer updateModular = courseMapper.updateChapter(chapterId, chapterName);
 
-        if (updateModular!=0){
+        if (updateModular != 0) {
             return true;
-        }else {
+        } else {
             return false;
+        }
+
+    }
+
+    public boolean addCourseWithCM(Course course, List<Modular> modularList, List<Chapter> chapterList) {
+
+        Integer integer = courseMapper.addCourseWithCM(course);
+        Integer courseId = course.getId();
+
+        this.addChapters(chapterList, courseId);
+        this.addModulars(modularList, courseId);
+
+
+        if (integer != 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public void addChapters(List chapterList, Integer courseId) {
+
+        for (int i = 0; i < chapterList.size(); i++) {
+            courseMapper.addChapter(courseId, (String) chapterList.get(i));
+        }
+
+    }
+
+    public void addModulars(List modularList, Integer courseId) {
+
+        for (int i = 0; i < modularList.size(); i++) {
+            courseMapper.addModular(courseId, (String) modularList.get(i));
+        }
+
+    }
+
+    public List<Course> getCourses() {
+
+        List<Course> courses = courseMapper.selectAll();
+
+        if (courses!=null&&courses.size()!=0){
+            return courses;
+        }else {
+            return null;
+        }
+
+    }
+
+    public List<Course> getCourses(Integer status) {
+
+        List<Course> courseByStatus = courseMapper.getCourseByStatus(status);
+
+        if (courseByStatus!=null&&courseByStatus.size()!=0){
+            return courseByStatus;
+        }else {
+            return null;
+        }
+
+    }
+
+    public List<Course> getCourses(String courseName) {
+
+        List<Course> courseList = courseMapper.getCoursesLikeName(courseName);
+
+        if (courseList!=null&&courseList.size()!=0){
+            return courseList;
+        }else {
+            return null;
+        }
+
+    }
+
+    public List<Course> getCourses(String courseName, Integer status) {
+
+        List<Course> courseList = courseMapper.getCoursesWithStatusAndName(courseName,status);
+
+        if (courseList!=null&&courseList.size()!=0){
+            return courseList;
+        }else {
+            return null;
         }
 
     }
