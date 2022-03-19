@@ -15,109 +15,184 @@
 
     <insert id="add">
         insert into course
-        values(#{id},#{number},#{credit},#{type},#{courseName},#{mode},#{createrId},0)
+        values (#{id}, #{number}, #{credit}, #{type}, #{courseName}, #{mode}, #{createrId}, 0)
     </insert>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        select * from course
+        select *
+        from course
     </select>
 
     <select id="getChapters" resultType="com.cfs.entities.Chapter">
-        select * from chapter
+        select *
+        from chapter
         where course_id = #{courseId}
     </select>
 
     <select id="getModulars" resultType="com.cfs.entities.Modular">
-        select * from modular
+        select *
+        from modular
         where course_id = #{courseId}
     </select>
 
     <select id="getCourseById" resultMap="BaseResultMap">
-        select * from course
-        where id=#{courseId}
+        select *
+        from course
+        where id = #{courseId}
     </select>
 
     <select id="getChapter" resultType="com.cfs.entities.Chapter">
-        select * from chapter
-        where course_id=#{courseId}
+        select *
+        from chapter
+        where course_id = #{courseId}
     </select>
 
     <insert id="addCourseToStu">
         insert into course_teacher_stu
-        values(null,#{courseId},#{teacherId},#{studentId})
+        values (null, #{courseId}, #{teacherId}, #{studentId})
     </insert>
 
     <insert id="addModular">
         insert into modular
-        values(null,#{courseId},#{modularName})
+        values (null, #{courseId}, #{modularName})
     </insert>
 
     <insert id="addChapter">
         insert into chapter
-        values(null,#{courseId},#{chapName})
+        values (null, #{courseId}, #{chapName})
     </insert>
 
     <update id="update">
         update course
-        set number = #{number},
-            credit = #{credit},
-            type = #{type},
+        set number      = #{number},
+            credit      = #{credit},
+            type        = #{type},
             course_name = #{courseName},
-            mode = #{mode}
+            mode        = #{mode}
         where id = #{id}
     </update>
 
     <delete id="deleteChapter">
 
-           delete question_public_sc,chapter from question_public_sc
+        delete
+        question_public_sc,chapter from question_public_sc
            left join chapter
            on chapter.id = question_public_sc.chapter_id
-           where chapter.course_id = #{courseId} AND chapter.chap_name = #{chapName}
+           where chapter.course_id =
+        #{courseId}
+        AND
+        chapter
+        .
+        chap_name
+        =
+        #{chapName}
 
     </delete>
 
     <delete id="deleteModular">
 
-        delete question_public_sc,modular from question_public_sc
+        delete
+        question_public_sc,modular from question_public_sc
         left join modular
         on modular.id = question_public_sc.modular_id
-        where modular.course_id = #{courseId} AND modular.modular_name = #{modularName}
+        where modular.course_id =
+        #{courseId}
+        AND
+        modular
+        .
+        modular_name
+        =
+        #{modularName}
 
     </delete>
 
     <update id="updateModular">
         update modular
         set modular_name=#{modularName}
-        where id=#{modularId}
+        where id = #{modularId}
     </update>
 
     <update id="updateChapter">
         update chapter
         set chapter_name=#{chapterName}
-        where id=#{chapterId}
+        where id = #{chapterId}
     </update>
 
     <insert id="addCourseWithCM" useGeneratedKeys="true" parameterType="com.cfs.entities.Course" keyProperty="id">
         insert into course
-        values(null,#{number},#{credit},#{type},#{courseName},#{mode},#{createrId},#{status})
+        values (null, #{number}, #{credit}, #{type}, #{courseName}, #{mode}, #{createrId}, #{status})
     </insert>
 
     <select id="getCourseByStatus" resultMap="BaseResultMap">
         select *
         from course
-        where status=#{status}
+        <trim prefix="where" prefixOverrides="and" suffix="" suffixOverrides="and">
+            <if test="credit!=null">
+                credit = #{credit} and
+            </if>
+            <if test="type!=null">
+                type = #{type} and
+            </if>
+            status=#{status}
+        </trim>
+        order by id
+        <if test="sort==0">
+            desc
+        </if>
     </select>
 
     <select id="getCoursesLikeName" resultMap="BaseResultMap">
         select *
         from course
-        where course_name like "%"#{courseName}"%"
+        <trim prefix="where" prefixOverrides="and" suffix="" suffixOverrides="and">
+            <if test="credit!=null">
+                credit = #{credit} and
+            </if>
+            <if test="type!=null">
+                type = #{type} and
+            </if>
+            course_name like "%"#{courseName}"%"
+        </trim>
+        order by id
+        <if test="sort==0">
+            desc
+        </if>
     </select>
 
     <select id="getCoursesWithStatusAndName" resultMap="BaseResultMap">
         select *
         from course
-        where status=#{status} and course_name like "%"#{courseName}"%"
+        <trim prefix="where" prefixOverrides="and" suffix="" suffixOverrides="and">
+            <if test="credit!=null">
+                credit = #{credit} and
+            </if>
+            <if test="type!=null">
+                type = #{type} and
+            </if>
+            status = #{status}
+            and course_name like "%"#{courseName}"%"
+        </trim>
+        order by id
+        <if test="sort==0">
+            desc
+        </if>
+    </select>
+
+    <select id="selectWithCts" resultMap="BaseResultMap">
+        select *
+        from course
+        <trim prefix="where" prefixOverrides="and" suffix="" suffixOverrides="and">
+            <if test="credit!=null">
+                credit = #{credit} and
+            </if>
+            <if test="type!=null">
+                type = #{type}
+            </if>
+        </trim>
+        order by id
+        <if test="sort==0">
+            desc
+        </if>
     </select>
 
 </mapper>

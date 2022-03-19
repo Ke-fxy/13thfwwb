@@ -4,8 +4,6 @@ import com.cfs.entities.CommonResult;
 import com.cfs.entities.QuestionPublicSc;
 import com.cfs.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -25,23 +23,9 @@ import java.util.List;
 @CrossOrigin(value = "*",maxAge = 3600)
 public class QuestionController {
 
-    @Resource
-    StringRedisTemplate stringRedisTemplate;
 
     @Resource
     QuestionService questionService;
-
-    private String checkup(String token) {
-
-        ValueOperations<String, String> forValue = stringRedisTemplate.opsForValue();
-        String s = forValue.get("userToken:" + token);
-        if (s==null||s.length()==0){
-            return null;
-        }
-        return s;
-
-    }
-
 
     @PostMapping(value = "/choice/addQuestion")
     public CommonResult<String> addQuestion(@RequestBody HashMap<String,String> map){

@@ -168,14 +168,20 @@ public interface CourseMapper {
      * @param status
      * @return
      */
-    List<Course> getCourseByStatus(Integer status);
+    List<Course> getCourseByStatus(@Param("status") Integer status,
+                                   @Param("credit") Integer credit,
+                                   @Param("type") String type,
+                                   @Param("sort") Integer sort);
 
     /**
      * 查询和courseName相似的课程
      * @param courseName
      * @return
      */
-    List<Course> getCoursesLikeName(String courseName);
+    List<Course> getCoursesLikeName(@Param("courseName") String courseName,
+                                    @Param("credit") Integer credit,
+                                    @Param("type") String type,
+                                    @Param("sort") Integer sort);
 
     /**
      * 查询状态为status以及名字相似的课程
@@ -184,5 +190,19 @@ public interface CourseMapper {
      * @return
      */
     List<Course> getCoursesWithStatusAndName(@Param("courseName") String courseName,
-                                             @Param("status") Integer status);
+                                             @Param("status") Integer status,
+                                             @Param("credit") Integer credit,
+                                             @Param("type") String type,
+                                             @Param("sort") Integer sort);
+
+    /**
+     * 查询课程
+     * @param credit
+     * @param type
+     * @param sort
+     * @return
+     */
+    List<Course> selectWithCts(@Param("credit") Integer credit,
+                               @Param("type") String type,
+                               @Param("sort") Integer sort);
 }
