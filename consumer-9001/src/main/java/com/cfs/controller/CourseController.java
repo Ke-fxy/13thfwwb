@@ -5,7 +5,6 @@ import com.cfs.entities.CommonResult;
 import com.cfs.entities.Course;
 import com.cfs.entities.Modular;
 import com.cfs.service.CourseService;
-import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -129,7 +128,7 @@ public class CourseController {
     }
 
     @PostMapping(value = "/getCourses")
-    public CommonResult<PageInfo> getCourses(@RequestBody HashMap<String, String> map){
+    public CommonResult<Object> getCourses(@RequestBody HashMap<String, String> map){
 
         return courseService.getCourses(map);
 

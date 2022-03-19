@@ -7,7 +7,6 @@ import com.cfs.entities.Modular;
 import com.cfs.service.CourseService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sun.org.glassfish.external.statistics.Stats;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -365,8 +364,8 @@ public class CourseController {
 
     }
 
-    @PostMapping(value = "/getCourses")
-    public CommonResult<PageInfo> getCourses(@RequestBody HashMap<String, String> map) {
+    @PostMapping("/getCourses")
+    public CommonResult<Object> getCourses(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -375,12 +374,30 @@ public class CourseController {
             return new CommonResult<>(200, "用户未登录或登录状态失效", null);
         }
 
-        Integer pn = null;
+        Integer page = null;
+        Integer limit = Integer.parseInt(map.get("limit"));
+        Integer credit = null;
+        String type = map.get("type");
+        String sort = map.get("sort");
+
+        Integer sortResult;
+
+        if ("+id".equals(sort)){
+            sortResult = 1;
+        }else {
+            sortResult = 0;
+        }
 
         try {
-            pn = Integer.parseInt(map.get("pn"));
+            credit = Integer.parseInt(map.get("credit"));
         } catch (NumberFormatException e) {
-            pn = 1;
+            e.printStackTrace();
+        }
+
+        try {
+            page = Integer.parseInt(map.get("page"));
+        } catch (NumberFormatException e) {
+            page = 1;
             e.printStackTrace();
         }
 
@@ -398,8 +415,8 @@ public class CourseController {
         }
 
         if (courseName == null && status == null) {
-            PageHelper.startPage(pn, 10);
-            List<Course> courseList = courseService.getCourses();
+            PageHelper.startPage(page, limit);
+            List<Course> courseList = courseService.getCourses(credit,type,sortResult);
             System.out.println(1);
 
             if (courseList != null) {
@@ -410,8 +427,8 @@ public class CourseController {
                 return new CommonResult<>(200, "查询失败");
             }
         } else if (courseName == null && status != null) {
-            PageHelper.startPage(pn, 10);
-            List<Course> courseList = courseService.getCourses(status);
+            PageHelper.startPage(page, limit);
+            List<Course> courseList = courseService.getCourses(status,credit,type,sortResult);
             System.out.println(2);
 
             if (courseList != null) {
@@ -422,8 +439,8 @@ public class CourseController {
                 return new CommonResult<>(200, "查询失败");
             }
         } else if (courseName != null && status == null) {
-            PageHelper.startPage(pn, 10);
-            List<Course> courseList = courseService.getCourses(courseName);
+            PageHelper.startPage(page, limit);
+            List<Course> courseList = courseService.getCourses(courseName,credit,type,sortResult);
             System.out.println(3);
 
             if (courseList != null) {
@@ -433,9 +450,9 @@ public class CourseController {
             } else {
                 return new CommonResult<>(200, "查询失败");
             }
-        }else {
-            PageHelper.startPage(pn, 10);
-            List<Course> courseList = courseService.getCourses(courseName,status);
+        } else {
+            PageHelper.startPage(page, limit);
+            List<Course> courseList = courseService.getCourses(courseName, status,credit,type,sortResult);
             System.out.println(4);
 
             if (courseList != null) {

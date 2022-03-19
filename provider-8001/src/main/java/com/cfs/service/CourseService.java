@@ -236,9 +236,9 @@ public class CourseService {
 
     }
 
-    public List<Course> getCourses() {
+    public List<Course> getCourses(Integer credit,String type,Integer sort) {
 
-        List<Course> courses = courseMapper.selectAll();
+        List<Course> courses = courseMapper.selectWithCts(credit,type,sort);
 
         if (courses!=null&&courses.size()!=0){
             return courses;
@@ -248,9 +248,9 @@ public class CourseService {
 
     }
 
-    public List<Course> getCourses(Integer status) {
+    public List<Course> getCourses(Integer status,Integer credit,String type,Integer sort) {
 
-        List<Course> courseByStatus = courseMapper.getCourseByStatus(status);
+        List<Course> courseByStatus = courseMapper.getCourseByStatus(status,credit,type,sort);
 
         if (courseByStatus!=null&&courseByStatus.size()!=0){
             return courseByStatus;
@@ -260,9 +260,9 @@ public class CourseService {
 
     }
 
-    public List<Course> getCourses(String courseName) {
+    public List<Course> getCourses(String courseName,Integer credit,String type,Integer sort) {
 
-        List<Course> courseList = courseMapper.getCoursesLikeName(courseName);
+        List<Course> courseList = courseMapper.getCoursesLikeName(courseName,credit,type,sort);
 
         if (courseList!=null&&courseList.size()!=0){
             return courseList;
@@ -272,9 +272,9 @@ public class CourseService {
 
     }
 
-    public List<Course> getCourses(String courseName, Integer status) {
+    public List<Course> getCourses(String courseName, Integer status,Integer credit,String type,Integer sort) {
 
-        List<Course> courseList = courseMapper.getCoursesWithStatusAndName(courseName,status);
+        List<Course> courseList = courseMapper.getCoursesWithStatusAndName(courseName,status,credit,type,sort);
 
         if (courseList!=null&&courseList.size()!=0){
             return courseList;
