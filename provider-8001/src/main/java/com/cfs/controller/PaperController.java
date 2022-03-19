@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -49,6 +51,8 @@ public class PaperController {
         Timestamp createTime = new Timestamp(System.currentTimeMillis());
         Integer courseId = Integer.parseInt(map.get("courseId"));
         Integer change = Integer.parseInt(map.get("change"));
+
+//       List<Map<String,String>> questionList = map.get("questionList");
 
         Integer result = paperService.addPaper(paperName,maxMark,creatorId,courseId,createTime,change);
 
