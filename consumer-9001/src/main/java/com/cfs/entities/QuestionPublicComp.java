@@ -2,7 +2,6 @@ package com.cfs.entities;
 
 import lombok.*;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 /**

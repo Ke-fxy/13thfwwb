@@ -1,11 +1,16 @@
 package com.cfs.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.cfs.entities.CommonResult;
 import com.cfs.entities.QuestionPublicComp;
 import com.cfs.entities.QuestionPublicSc;
 import com.cfs.service.QuestionService;
 import com.cfs.service.StudentService;
 import com.cfs.util.JavaWebToken;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -19,8 +24,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author Ke
@@ -43,7 +47,7 @@ public class QuestionController {
 
         ValueOperations<String, String> forValue = stringRedisTemplate.opsForValue();
         String s = forValue.get("userToken:" + token);
-        if (s==null||s.length()==0){
+        if (s == null || s.length() == 0) {
             return null;
         }
         return s;
@@ -52,7 +56,7 @@ public class QuestionController {
 
 
     @PostMapping(value = "/choice/addQuestion")
-    public CommonResult<String> addQuestion(@RequestBody HashMap<String,String> map){
+    public CommonResult<String> addQuestion(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -88,7 +92,7 @@ public class QuestionController {
     }
 
     @PostMapping(value = "/choice/getQuestion")
-    public CommonResult<QuestionPublicSc> getQuestionById(@RequestBody HashMap<String,String> map){
+    public CommonResult<QuestionPublicSc> getQuestionById(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -109,70 +113,70 @@ public class QuestionController {
     }
 
     @PostMapping(value = "/choice/getAllQuestion")
-    public CommonResult<List<QuestionPublicSc>> getAllQuestion(@RequestBody HashMap<String,String> map){
+    public CommonResult<List<QuestionPublicSc>> getAllQuestion(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
 
-        if (checkup==null){
-            return new CommonResult(200,"用户未登录或登录状态失效",null);
+        if (checkup == null) {
+            return new CommonResult(200, "用户未登录或登录状态失效", null);
         }
 
-        List<QuestionPublicSc> allQuestion = questionService.getAllQuestion();
+        List<QuestionPublicSc> allQuestion = questionService.getAllSC();
 
-        if (allQuestion!=null&&allQuestion.size()!=0){
-            return new CommonResult<>(100,"查询成功",allQuestion);
-        }else {
-            return new CommonResult<>(200,"查询失败");
+        if (allQuestion != null && allQuestion.size() != 0) {
+            return new CommonResult<>(100, "查询成功", allQuestion);
+        } else {
+            return new CommonResult<>(200, "查询失败");
         }
     }
 
     @PostMapping(value = "/choice/checkUser")
-    public CommonResult<String> checkUser(@RequestBody HashMap<String,String> map){
+    public CommonResult<String> checkUser(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
 
-        if (checkup==null){
-            return new CommonResult(200,"用户未登录或登录状态失效",null);
+        if (checkup == null) {
+            return new CommonResult(200, "用户未登录或登录状态失效", null);
         }
 
         Integer userId = Integer.parseInt(checkup);
         boolean b = questionService.checkUser(userId);
 
-        if (b){
-            return new CommonResult<>(100,"当前用户可上传题目");
-        }else {
-            return new CommonResult<>(200,"当前用户无法上传题目");
+        if (b) {
+            return new CommonResult<>(100, "当前用户可上传题目");
+        } else {
+            return new CommonResult<>(200, "当前用户无法上传题目");
         }
     }
 
     @PostMapping(value = "/choice/deleteQuestion")
-    public CommonResult deleteQuestion(@RequestBody HashMap<String,String> map){
+    public CommonResult deleteQuestion(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
 
-        if (checkup==null){
-            return new CommonResult(200,"用户未登录或登录状态失效",null);
+        if (checkup == null) {
+            return new CommonResult(200, "用户未登录或登录状态失效", null);
         }
 
         Integer choiceId = Integer.parseInt(map.get("choiceId"));
 
-        if (choiceId != null){
+        if (choiceId != null) {
             int result = questionService.deleteQuestion(choiceId);
-            if (result>0){
-                return new CommonResult(100,"删除成功");
-            }else {
-                return new CommonResult(200,"删除失败",null);
+            if (result > 0) {
+                return new CommonResult(100, "删除成功");
+            } else {
+                return new CommonResult(200, "删除失败", null);
             }
-        }else {
-            return new CommonResult(200,"未查询到此题",null);
+        } else {
+            return new CommonResult(200, "未查询到此题", null);
         }
     }
 
     @PostMapping(value = "/choice/updateQuestion")
-    public CommonResult<QuestionPublicSc> updateQuestion(@RequestBody HashMap<String,String> map){
+    public CommonResult<QuestionPublicSc> updateQuestion(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -189,24 +193,24 @@ public class QuestionController {
         Integer modularId = Integer.valueOf(map.get("modularId"));
         Integer diffculyt = Integer.valueOf(map.get("diffculyt"));
 
-        if (checkup==null){
-            return new CommonResult(200,"用户未登录或登录状态失效",null);
+        if (checkup == null) {
+            return new CommonResult(200, "用户未登录或登录状态失效", null);
         }
 
         Integer id = Integer.parseInt(map.get("id"));
 
         QuestionPublicSc question = questionService.getQuestionById(id);
 
-        if (question != null){
-            int result = questionService.updateQuestion(id,text, option1, option2, option3, option4, answer,chapterId, modularId, diffculyt);
+        if (question != null) {
+            int result = questionService.updateQuestion(id, text, option1, option2, option3, option4, answer, chapterId, modularId, diffculyt);
             QuestionPublicSc newquestion = questionService.getQuestionById(id);
-            if (result>0){
-                return new CommonResult(100,"更新成功",newquestion);
-            }else {
-                return new CommonResult(200,"更新失败",newquestion);
+            if (result > 0) {
+                return new CommonResult(100, "更新成功", newquestion);
+            } else {
+                return new CommonResult(200, "更新失败", newquestion);
             }
-        }else {
-            return new CommonResult(200,"未查询到此题",null);
+        } else {
+            return new CommonResult(200, "未查询到此题", null);
         }
 
     }
@@ -279,7 +283,7 @@ public class QuestionController {
     }
 
     @PostMapping(value = "/completion/addQuestion")
-    public CommonResult<String> addQuestionCp(@RequestBody HashMap<String,String> map){
+    public CommonResult<String> addQuestionCp(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -298,18 +302,18 @@ public class QuestionController {
         Integer modularId = Integer.parseInt(map.get("modularId"));
         Integer difficulty = Integer.parseInt(map.get("difficulty"));
 
-        boolean b = questionService.addQuestionComp(content,answer1,answer2,answer3,createrId,createTime,chapterId,modularId,difficulty);
+        boolean b = questionService.addQuestionComp(content, answer1, answer2, answer3, createrId, createTime, chapterId, modularId, difficulty);
 
-        if (b){
-            return new CommonResult<>(100,"添加成功");
-        }else {
-            return new CommonResult<>(200,"添加失败");
+        if (b) {
+            return new CommonResult<>(100, "添加成功");
+        } else {
+            return new CommonResult<>(200, "添加失败");
         }
 
     }
 
     @PostMapping(value = "/completion/deleteQuestion")
-    public CommonResult<String> deleteQuestionCp(@RequestBody HashMap<String,String> map){
+    public CommonResult<String> deleteQuestionCp(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -321,16 +325,16 @@ public class QuestionController {
         Integer id = Integer.parseInt(map.get("id"));
         Integer result = questionService.deleteComp(id);
 
-        if (result>0){
-            return new CommonResult<>(100,"删除成功");
-        }else {
-            return new CommonResult<>(200,"删除失败");
+        if (result > 0) {
+            return new CommonResult<>(100, "删除成功");
+        } else {
+            return new CommonResult<>(200, "删除失败");
         }
 
     }
 
     @PostMapping(value = "/completion/updateQuestion")
-    public CommonResult<String> updateQuestionCp(@RequestBody HashMap<String,String> map){
+    public CommonResult<String> updateQuestionCp(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -348,19 +352,19 @@ public class QuestionController {
         Integer modularId = Integer.parseInt(map.get("modularId"));
         Integer difficulty = Integer.parseInt(map.get("difficulty"));
 
-        Integer result = questionService.updateComp(id,content,answer1,answer2,answer3,chapterId,modularId,difficulty);
+        Integer result = questionService.updateComp(id, content, answer1, answer2, answer3, chapterId, modularId, difficulty);
 
-        if (result>0){
-            return new CommonResult<>(100,"修改成功");
-        }else {
-            return new CommonResult<>(200,"修改失败");
+        if (result > 0) {
+            return new CommonResult<>(100, "修改成功");
+        } else {
+            return new CommonResult<>(200, "修改失败");
         }
 
     }
 
 
     @PostMapping(value = "/completion/getQuestion")
-    public CommonResult<QuestionPublicComp> getQuestionCp(@RequestBody HashMap<String,String> map){
+    public CommonResult<QuestionPublicComp> getQuestionCp(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -373,16 +377,16 @@ public class QuestionController {
 
         QuestionPublicComp questionPublicComp = questionService.getCompById(id);
 
-        if (questionPublicComp!=null){
-            return new CommonResult<QuestionPublicComp>(100,"获取成功",questionPublicComp);
-        }else {
-            return new CommonResult<QuestionPublicComp>(200,"获取失败",null);
+        if (questionPublicComp != null) {
+            return new CommonResult<QuestionPublicComp>(100, "获取成功", questionPublicComp);
+        } else {
+            return new CommonResult<QuestionPublicComp>(200, "获取失败", null);
         }
 
     }
 
     @PostMapping(value = "/completion/getAllQuestion")
-    public CommonResult<List<QuestionPublicComp>> getAllQuestionCp(@RequestBody HashMap<String,String> map){
+    public CommonResult<List<QuestionPublicComp>> getAllQuestionCp(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -391,13 +395,86 @@ public class QuestionController {
             return new CommonResult<>(200, "用户未登录或登录状态失效");
         }
 
+        map.get("map");
+
         List<QuestionPublicComp> questionPublicComp = questionService.getAllComp();
 
-        if (questionPublicComp!=null){
-            return new CommonResult<List<QuestionPublicComp>>(100,"获取成功",questionPublicComp);
-        }else {
-            return new CommonResult<List<QuestionPublicComp>>(200,"获取失败",null);
+        if (questionPublicComp != null) {
+            return new CommonResult<List<QuestionPublicComp>>(100, "获取成功", questionPublicComp);
+        } else {
+            return new CommonResult<List<QuestionPublicComp>>(200, "获取失败", null);
         }
+
+    }
+
+    /*@PostMapping(value = "/getQue")
+    public CommonResult<String> getQue(@RequestBody HashMap<String,Object> map){
+
+        List<Map> list = (List<Map>) map.get("list");
+
+        Iterator<Map> iterator = list.iterator();
+
+        while (iterator.hasNext()){
+            System.out.println(iterator.next().get("a"));
+        }
+
+        return null;
+    }*/
+
+    @PostMapping(value = "/getQuestion")
+    public CommonResult<Object> getQuestion(@RequestBody HashMap<String, Object> map) {
+
+        String token = (String) map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效");
+        }
+
+        Integer courseId = Integer.parseInt((String) map.get("courseId"));
+
+        if (courseId == null) {
+            return new CommonResult<>(200, "courseId呢");
+        }
+
+        String type = null;
+        Integer chapterId = null;
+        Integer modularId = null;
+        String content = null;
+        try {
+
+            chapterId = Integer.parseInt((String) map.get("chapterId"));
+            modularId = Integer.parseInt((String) map.get("modularId"));
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        type = (String) map.get("type");
+        content = (String) map.get("content");
+
+        Integer page = null;
+        try {
+            page = (Integer)map.get("page");
+        } catch (Exception e) {
+            page=1;
+            e.printStackTrace();
+        }
+
+        Integer limit = (Integer)map.get("limit");
+
+
+        PageHelper.startPage(page,limit);
+        List<Object> list = questionService.getAllQuestionInCondition(type, courseId, chapterId, modularId, content);
+
+        PageInfo pageInfo = new PageInfo(list);
+        if (list != null&&list.size()!=0) {
+            return new CommonResult<>(100, "查询成功", pageInfo);
+        } else {
+            return new CommonResult<>(200, "查询失败");
+        }
+
+
+        //questionService.getQuestionInCondition(courseId,type,chapterId,modularId,content);
 
     }
 

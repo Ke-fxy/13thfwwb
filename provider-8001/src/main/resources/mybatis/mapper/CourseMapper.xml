@@ -183,4 +183,10 @@
         </if>
     </select>
 
+    <update id="updateStatus">
+        update course
+        set status=#{status}
+        where courseId=#{courseId}
+    </update>
+
 </mapper>

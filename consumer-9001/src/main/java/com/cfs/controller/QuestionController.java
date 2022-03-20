@@ -1,13 +1,13 @@
 package com.cfs.controller;
 
 import com.cfs.entities.CommonResult;
+import com.cfs.entities.QuestionPublicComp;
 import com.cfs.entities.QuestionPublicSc;
 import com.cfs.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
@@ -87,6 +87,48 @@ public class QuestionController {
     public CommonResult<String> examine(@RequestBody HashMap<String, String> map) {
 
         return questionService.examine(map);
+
+    }
+
+    @PostMapping(value = "/completion/addQuestion")
+    public CommonResult<String> addQuestionCp(@RequestBody HashMap<String, String> map){
+
+        return questionService.addQuestionCp(map);
+
+    }
+
+    @PostMapping(value = "/completion/deleteQuestion")
+    public CommonResult<String> deleteQuestionCp(@RequestBody HashMap<String, String> map){
+
+        return questionService.deleteQuestionCp(map);
+
+    }
+
+    @PostMapping(value = "/completion/updateQuestion")
+    public CommonResult<String> updateQuestionCp(@RequestBody HashMap<String, String> map){
+
+        return questionService.updateQuestionCp(map);
+
+    }
+
+    @PostMapping(value = "/completion/getQuestion")
+    public CommonResult<QuestionPublicComp> getQuestionCp(@RequestBody HashMap<String, String> map){
+
+        return questionService.getQuestionCp(map);
+
+    }
+
+    @PostMapping(value = "/completion/getAllQuestion")
+    public CommonResult<List<QuestionPublicComp>> getAllQuestionCp(@RequestBody HashMap<String, String> map){
+
+        return questionService.getAllQuestionCp(map);
+
+    }
+
+    @PostMapping(value = "/getQuestion")
+    public CommonResult<Object> getQuestion(@RequestBody HashMap<String, Object> map){
+
+        return questionService.getQuestion(map);
 
     }
 

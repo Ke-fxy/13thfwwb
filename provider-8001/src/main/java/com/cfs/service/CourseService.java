@@ -292,4 +292,16 @@ public class CourseService {
         }
 
     }
+
+    public boolean updateStatus(Integer courseId, Integer status) {
+
+        Integer integer = courseMapper.updateStatus(courseId, status);
+
+        if (integer==1){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
 }

@@ -159,4 +159,29 @@ public interface QuestionMapper {
 
     List<QuestionPublicComp> getAllComp();
 
+    /**
+     *  根据条件获得所有选择题
+     * @param courseId
+     * @param chapterId
+     * @param modularId
+     * @param content
+     * @return
+     */
+    List<QuestionPublicSc> getQuestionScInCondition(@Param("courseId") Integer courseId,
+                                                    @Param("chapterId") Integer chapterId,
+                                                    @Param("modularId") Integer modularId,
+                                                    @Param("content") String content);
+
+    /**
+     * 根据条件获得所有填空题
+     * @param courseId
+     * @param chapterId
+     * @param modularId
+     * @param content
+     * @return
+     */
+    List<QuestionPublicComp> getQuestionCompInCondition(@Param("courseId") Integer courseId,
+                                                        @Param("chapterId") Integer chapterId,
+                                                        @Param("modularId") Integer modularId,
+                                                        @Param("content") String content);
 }

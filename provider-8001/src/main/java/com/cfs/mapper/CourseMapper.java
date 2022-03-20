@@ -204,7 +204,7 @@ public interface CourseMapper {
                                              @Param("sort") Integer sort);
 
     /**
-     * 查询课程
+     * 报错
      * @param credit
      * @param type
      * @param sort
@@ -213,4 +213,12 @@ public interface CourseMapper {
     List<Course> selectWithCts(@Param("credit") Integer credit,
                                @Param("type") String type,
                                @Param("sort") Integer sort);
+
+    /**
+     * 好噶哈哈
+     * @param courseId
+     * @return
+     */
+    Integer updateStatus(@Param("courseId") Integer courseId,
+                         @Param("status") Integer status);
 }

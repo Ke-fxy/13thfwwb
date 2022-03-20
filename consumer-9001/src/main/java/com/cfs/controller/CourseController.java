@@ -134,4 +134,11 @@ public class CourseController {
 
     }
 
+    @PostMapping(value = "/updateStatus")
+    public CommonResult<String> updateStatus(@RequestBody HashMap<String,String> map){
+
+        return courseService.updateStatus(map);
+
+    }
+
 }
