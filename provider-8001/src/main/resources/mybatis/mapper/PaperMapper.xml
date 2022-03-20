@@ -12,8 +12,18 @@
         <result column="change" property="change"></result>
     </resultMap>
 
-    <insert id="addPaper">
+    <insert id="addPaper" useGeneratedKeys="true" parameterType="com.cfs.entities.Paper" keyProperty="id">
         insert into paper(paper_name, max_mark, creater_id, course_id, create_time, `change`)
         VALUES (#{paperName},#{maxMark},#{creatorId},#{courseId},#{createTime},#{change})
+    </insert>
+
+    <insert id="addPaperPublicSc">
+        insert into paper_quesion(paper_id, quesion_type, private, quesion_id, mark, quesion_index)
+        VALUES (#{id},0,1,#{questionId},#{mark},#{index})
+    </insert>
+
+    <insert id="addPaperPublicComp">
+        insert into paper_quesion(paper_id, quesion_type, private, quesion_id, mark, quesion_index)
+        VALUES (#{id},1,1,#{questionId},#{mark},#{index})
     </insert>
 </mapper>

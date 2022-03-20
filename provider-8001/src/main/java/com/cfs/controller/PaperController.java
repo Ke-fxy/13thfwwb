@@ -1,6 +1,7 @@
 package com.cfs.controller;
 
 import com.cfs.entities.CommonResult;
+import com.cfs.entities.Paper;
 import com.cfs.entities.PaperQuestion;
 import com.cfs.service.PaperService;
 import lombok.extern.slf4j.Slf4j;
@@ -35,20 +36,6 @@ public class PaperController {
         return s;
     }
 
-//    @RequestMapping("/addPaper")
-//    public CommonResult<String> addPaper(@RequestBody HashMap<String, Object> map){
-//
-//
-//        List<Map> questionList = (List<Map>) map.get("questionList");
-//
-////        List questionList = Collections.singletonList(map.get("questionList"));
-//
-//        System.out.println(questionList);
-//        Integer result = 1;
-//
-//        return result > 0 ? new CommonResult<>(100, "添加成功") : new CommonResult<>(200, "添加失败");
-//    }
-
     @RequestMapping("/addPaper")
     public CommonResult<String> addPaper(@RequestBody HashMap<String, Object> map){
         String token = (String)map.get("token");
@@ -67,23 +54,10 @@ public class PaperController {
 
         List<Map> questionList = (List<Map>) map.get("questionList");
 
-
-        Integer result2 = paperService.addPaperQuestion(questionList);
-
-
-//        while (iterator.hasNext()){
-//            System.out.println(iterator.next());
-//            if (iterator.next().get("questionType").equals("choice")&&iterator.next().get("private").equals("0")){
-//
-//            }
-//        }
-
-        Integer result = paperService.addPaper(paperName,maxMark,creatorId,courseId,createTime,change);
+        Paper paper = new Paper(null,paperName,maxMark,creatorId,courseId,createTime,change);
+        Integer result = paperService.addPaper(paper,questionList);
 
         return result > 0 ? new CommonResult<>(100, "添加成功") : new CommonResult<>(200, "添加失败");
-
-//        return new CommonResult<>(100, "添加成功");
-
     }
 
 

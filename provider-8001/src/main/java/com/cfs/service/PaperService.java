@@ -1,5 +1,6 @@
 package com.cfs.service;
 
+import com.cfs.entities.Paper;
 import com.cfs.mapper.PaperMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
@@ -20,36 +21,31 @@ public class PaperService {
     @Resource
     PaperMapper paperMapper;
 
-    public Integer addPaper(String paperName, Integer maxMark, Integer creatorId, Integer courseId, Timestamp createTime, Integer change){
-        return paperMapper.addPaper(paperName, maxMark, creatorId, courseId,createTime, change);
-    }
+    public Integer addPaper(Paper paper, List<Map> questionList) {
 
-    public Integer addPaperQuestion(List<Map> questionList){
+        Integer result = paperMapper.addPaper(paper);
 
+        Integer paperId = paper.getId();
 
-        ArrayList<Map> publicScList = new ArrayList<>();
-        ArrayList<Map> publicCompList = new ArrayList<>();
-        Iterator<Map> iterator = questionList.iterator();
+        for (int i = 0; i <questionList.size() ; i++) {
+            String questionType = questionList.get(i).get("questionType").toString();
+            String privateType = questionList.get(i).get("private").toString();
 
-        while (iterator.hasNext()){
-            String questionType = iterator.next().get("questionType").toString();
-            String privateType = iterator.next().get("private").toString();
-//            System.out.println(iterator.next());
-            if (questionType.equals("choice")&&privateType.equals("0")){
-                publicScList.add(iterator.next());
+            if (questionType.equals("0") && privateType.equals("0")) {
                 paperMapper.addPaperPublicSc(
-                        Integer.parseInt(iterator.next().get("questionId").toString()),
-                        Integer.parseInt(iterator.next().get("mark").toString()),
-                        Integer.parseInt(iterator.next().get("index").toString()));
-            }else if(questionType.equals("completion")&&privateType.equals("0")){
-                publicCompList.add(iterator.next());
+                        paperId,
+                        Integer.parseInt(questionList.get(i).get("questionId").toString()),
+                        Integer.parseInt(questionList.get(i).get("mark").toString()),
+                        Integer.parseInt(questionList.get(i).get("index").toString()));
+            } else if (questionType.equals("1") && privateType.equals("0")) {
                 paperMapper.addPaperPublicComp(
-                        Integer.parseInt(iterator.next().get("questionId").toString()),
-                        Integer.parseInt(iterator.next().get("mark").toString()),
-                        Integer.parseInt(iterator.next().get("index").toString()));
+                        paperId,
+                        Integer.parseInt(questionList.get(i).get("questionId").toString()),
+                        Integer.parseInt(questionList.get(i).get("mark").toString()),
+                        Integer.parseInt(questionList.get(i).get("index").toString()));
             }
         }
-
-        return 1;
+        return result;
     }
+
 }

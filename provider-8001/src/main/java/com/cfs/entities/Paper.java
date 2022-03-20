@@ -3,6 +3,7 @@ package com.cfs.entities;
 import lombok.*;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 
 /**
  * create by: syy
@@ -27,7 +28,7 @@ public class Paper {
 
     private Integer courseId;
 
-    private Time createTime;
+    private Timestamp createTime;
 
     private Integer change;
 

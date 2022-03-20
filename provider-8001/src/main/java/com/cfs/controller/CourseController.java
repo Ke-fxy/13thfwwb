@@ -358,10 +358,6 @@ public class CourseController {
 
         Integer createrId = Integer.parseInt(checkup);
 
-        /*Integer courseId = Integer.parseInt(map.get("courseId"));*//*
-         *//*String modularName = map.get("modularName");*//*
-
-         *//*String chapName = map.get("chapName");*/
         Course course = new Course(null, number, credit, type, courseName, mode, createrId, null, null, 0);
 
         List modularList = new ArrayList<>();
