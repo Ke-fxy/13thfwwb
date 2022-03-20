@@ -2,7 +2,7 @@ package com.cfs.entities;
 
 import lombok.*;
 
-import java.sql.Time;
+import java.sql.Timestamp;
 
 /**
  * @Author Ke
@@ -33,7 +33,9 @@ public class QuestionPublicSc {
 
     private Integer createrId;
 
-    private Time createTime;
+    private Timestamp createTime;
+
+    private Integer courseId;
 
     private Integer chapterId;
 
@@ -45,6 +47,6 @@ public class QuestionPublicSc {
 
     private Integer examinerId;
 
-    private Time examinerTime;
+    private Timestamp examinerTime;
 
 }

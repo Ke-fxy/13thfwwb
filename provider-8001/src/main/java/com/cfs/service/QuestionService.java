@@ -8,7 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author Ke
@@ -50,7 +53,7 @@ public class QuestionService {
 
     }
 
-    public List<QuestionPublicSc> getAllQuestion() {
+    public List<QuestionPublicSc> getAllSC() {
 
         List<QuestionPublicSc> publicScs = questionMapper.getAll();
 
@@ -155,6 +158,33 @@ public class QuestionService {
 
     public List<QuestionPublicComp> getAllComp(){
         return questionMapper.getAllComp();
+
+    }
+
+    public List<QuestionPublicSc> getQuestionScInCondition(Integer courseId, String type, Integer chapterId, Integer modularId, String content) {
+
+        questionMapper.getQuestionScInCondition(courseId,chapterId,modularId,content);
+        return null;
+    }
+
+    public List getAllQuestionInCondition(String type, Integer courseId, Integer chapterId, Integer modularId, String content) {
+
+        List<QuestionPublicSc> questionScInCondition = null;
+        List<QuestionPublicComp> questionCompInCondition = null;
+
+        if ("选择题".equals(type)){
+            questionScInCondition = questionMapper.getQuestionScInCondition(courseId, chapterId, modularId, content);
+            return questionScInCondition;
+        }else {
+            questionCompInCondition = questionMapper.getQuestionCompInCondition(courseId, chapterId, modularId, content);
+            return questionCompInCondition;
+        }
+
+        /*if (map.size()!=0){
+            return map;
+        }else {
+            return null;
+        }*/
 
     }
 }

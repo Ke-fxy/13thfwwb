@@ -67,4 +67,7 @@ public interface CourseService {
     @PostMapping(value = "/course/getCourses")
     public CommonResult<Object> getCourses(@RequestBody HashMap<String, String> map);
 
+    @PostMapping(value = "/course/updateStatus")
+    public CommonResult<String> updateStatus(@RequestBody HashMap<String,String> map);
+
 }

@@ -466,4 +466,35 @@ public class CourseController {
 
     }
 
+    @PostMapping(value = "/updateStatus")
+    public CommonResult<String> updateStatus(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer courseId = null;
+
+        try {
+            courseId = Integer.parseInt(map.get("courseId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return new CommonResult<>(200,"传的courseId是啥");
+        }
+
+        Integer status = Integer.parseInt(map.get("status"));
+
+        boolean b = courseService.updateStatus(courseId, status);
+
+        if (b){
+            return new CommonResult<>(100,"修改成功");
+        }else {
+            return new CommonResult<>(200,"修改失败");
+        }
+
+    }
+
 }
