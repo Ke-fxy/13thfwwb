@@ -69,6 +69,23 @@ public class CourseController {
         return b ? new CommonResult<>(100, "添加成功") : new CommonResult<>(200, "添加失败");
 
     }
+    @PostMapping(value = "/deleteCourse")
+    public CommonResult<String> deleteCourse(@RequestBody HashMap<String, String> map) {
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer courseId = Integer.parseInt(map.get("courseId"));
+
+        Integer result = courseService.deleteCourse(courseId);
+
+        return result > 0 ? new CommonResult<>(100, "删除成功") : new CommonResult<>(200, "删除失败");
+
+    }
 
     @PostMapping(value = "/getAllCourses")
     public CommonResult<List<Course>> getAllCourses(@RequestBody HashMap<String, String> map) {

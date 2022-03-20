@@ -18,9 +18,13 @@ public interface PaperMapper {
                      @Param("createTime") Timestamp createTime,
                      @Param("change") Integer change);
 
-    Integer addPaperPublicSc(@Param("id") Integer id,List<QuestionPublicSc> publicScList);
+    Integer addPaperPublicSc(@Param("questionId") Integer questionId,
+                             @Param("mark") Integer mark,
+                             @Param("index") Integer index);
 
-    Integer addPaperPublicComp(@Param("id") Integer id,List<QuestionPublicComp> publicCompList);
+    Integer addPaperPublicComp(@Param("questionId") Integer questionId,
+                               @Param("mark") Integer mark,
+                               @Param("index") Integer index);
 
 
 }

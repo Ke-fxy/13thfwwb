@@ -52,6 +52,13 @@ public interface CourseMapper {
                 @Param("mode") Integer mode);
 
     /**
+     * create by: syy
+     * description: TODO
+     * create time: 2022/3/19 22:43
+     */
+    Integer delete(@Param("id") Integer id);
+
+    /**
      * 根据课程id获得章节
      *
      * @param courseId
@@ -104,6 +111,7 @@ public interface CourseMapper {
      */
     Integer addModular(@Param("courseId") Integer courseId,
                        @Param("modularName") String modularName);
+
 
     /**
      * 为课程添加章节

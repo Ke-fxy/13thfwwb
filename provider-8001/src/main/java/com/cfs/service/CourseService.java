@@ -4,10 +4,13 @@ import com.cfs.entities.Chapter;
 import com.cfs.entities.Course;
 import com.cfs.entities.Modular;
 import com.cfs.mapper.CourseMapper;
+import org.apache.commons.dbutils.QueryRunner;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -72,6 +75,12 @@ public class CourseService {
         }
 
         return course;
+    }
+
+    public Integer deleteCourse(Integer courseId){
+        Integer i = courseMapper.delete(courseId);
+        return i;
+
     }
 
     public boolean addCourseToStu(Integer courseId, Integer stuId, Integer teaId) {

@@ -14,9 +14,17 @@
     </resultMap>
 
     <insert id="add">
-        insert into course
-        values (#{id}, #{number}, #{credit}, #{type}, #{courseName}, #{mode}, #{createrId}, 0)
+        insert into course(id, number, credit, type, course_name, mode, creater_id)
+        values (#{id}, #{number}, #{credit}, #{type}, #{courseName}, #{mode}, #{createrId})
     </insert>
+
+
+    <delete id="delete">
+
+        delete from course
+        where course.id = #{id}
+
+    </delete>
 
     <select id="selectAll" resultMap="BaseResultMap">
         select *
@@ -74,36 +82,16 @@
 
     <delete id="deleteChapter">
 
-        delete
-        question_public_sc,chapter from question_public_sc
-           left join chapter
-           on chapter.id = question_public_sc.chapter_id
-           where chapter.course_id =
-        #{courseId}
-        AND
-        chapter
-        .
-        chap_name
-        =
-        #{chapName}
-
+        delete from  chapter
+        where chapter.course_id = #{courseId}
+          AND chapter . chapter_name=#{chapName}
     </delete>
 
     <delete id="deleteModular">
 
-        delete
-        question_public_sc,modular from question_public_sc
-        left join modular
-        on modular.id = question_public_sc.modular_id
-        where modular.course_id =
-        #{courseId}
-        AND
-        modular
-        .
-        modular_name
-        =
-        #{modularName}
-
+        delete from modular
+        where modular.course_id =#{courseId}
+        AND modular.modular_name =  #{modularName}
     </delete>
 
     <update id="updateModular">
