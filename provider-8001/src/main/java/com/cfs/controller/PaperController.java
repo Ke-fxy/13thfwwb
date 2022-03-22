@@ -53,10 +53,25 @@ public class PaperController {
         Integer courseId = Integer.parseInt(map.get("courseId").toString());
         Integer change = Integer.parseInt(map.get("change").toString());
 
+        Paper paper = new Paper(null,paperName,maxMark,creatorId,courseId,createTime,change);
+        Integer result = paperService.addPaper(paper);
+
+        return result > 0 ? new CommonResult<>(100, "添加成功") : new CommonResult<>(200, "添加失败");
+    }
+
+    @RequestMapping("/addPaperQuestion")
+    public CommonResult<String> addPaperQuestion(@RequestBody HashMap<String, Object> map){
+        String token = (String)map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+        Integer paperId = Integer.parseInt(map.get("paperId").toString());
+
         List<Map> questionList = (List<Map>) map.get("questionList");
 
-        Paper paper = new Paper(null,paperName,maxMark,creatorId,courseId,createTime,change);
-        Integer result = paperService.addPaper(paper,questionList);
+        Integer result = paperService.addPaperQuestion(paperId,questionList);
 
         return result > 0 ? new CommonResult<>(100, "添加成功") : new CommonResult<>(200, "添加失败");
     }

@@ -1,5 +1,6 @@
 package com.cfs.service;
 
+import com.cfs.entities.CommonResult;
 import com.cfs.entities.Paper;
 import com.cfs.mapper.PaperMapper;
 import org.apache.ibatis.annotations.Param;
@@ -21,31 +22,37 @@ public class PaperService {
     @Resource
     PaperMapper paperMapper;
 
-    public Integer addPaper(Paper paper, List<Map> questionList) {
+    public Integer addPaper(Paper paper) {
 
         Integer result = paperMapper.addPaper(paper);
 
-        Integer paperId = paper.getId();
+        return result;
+    }
+
+    public Integer addPaperQuestion(Integer paperId, List<Map> questionList) {
+
+        Integer result1 = 0;
+        Integer result2 = 0;
 
         for (int i = 0; i <questionList.size() ; i++) {
             String questionType = questionList.get(i).get("questionType").toString();
             String privateType = questionList.get(i).get("private").toString();
 
             if (questionType.equals("0") && privateType.equals("0")) {
-                paperMapper.addPaperPublicSc(
+                result1 = paperMapper.addPaperPublicSc(
                         paperId,
                         Integer.parseInt(questionList.get(i).get("questionId").toString()),
                         Integer.parseInt(questionList.get(i).get("mark").toString()),
                         Integer.parseInt(questionList.get(i).get("index").toString()));
             } else if (questionType.equals("1") && privateType.equals("0")) {
-                paperMapper.addPaperPublicComp(
+                result2 = paperMapper.addPaperPublicComp(
                         paperId,
                         Integer.parseInt(questionList.get(i).get("questionId").toString()),
                         Integer.parseInt(questionList.get(i).get("mark").toString()),
                         Integer.parseInt(questionList.get(i).get("index").toString()));
             }
         }
-        return result;
+        return result1*result2;
     }
 
 }
