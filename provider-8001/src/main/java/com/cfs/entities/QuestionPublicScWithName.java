@@ -10,12 +10,12 @@ import java.sql.Timestamp;
  * @Description
  * @Version 1.0
  */
-@Setter
 @Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-public class QuestionPublicSc {
+public class QuestionPublicScWithName {
 
     private Integer id;
 
@@ -50,5 +50,9 @@ public class QuestionPublicSc {
     private Timestamp examinerTime;
 
     private Integer type;
+
+    private String modularName;
+
+    private String chapterName;
 
 }

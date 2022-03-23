@@ -26,4 +26,9 @@
         insert into paper_quesion(paper_id, quesion_type, private, quesion_id, mark, quesion_index)
         VALUES (#{id},1,1,#{questionId},#{mark},#{index})
     </insert>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        select *
+        from paper
+    </select>
 </mapper>

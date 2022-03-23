@@ -1,17 +1,17 @@
 package com.cfs.service;
 
 import com.cfs.entities.QuestionPublicComp;
+import com.cfs.entities.QuestionPublicCompWithName;
 import com.cfs.entities.QuestionPublicSc;
+import com.cfs.entities.QuestionPublicScWithName;
 import com.cfs.mapper.QuestionMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author Ke
@@ -169,11 +169,36 @@ public class QuestionService {
 
     public List getAllQuestionInCondition(String type, Integer courseId, Integer chapterId, Integer modularId, String content) {
 
-        List<QuestionPublicSc> questionScInCondition = null;
-        List<QuestionPublicComp> questionCompInCondition = null;
+        List<QuestionPublicScWithName> questionScInCondition = null;
+        List<QuestionPublicCompWithName> questionCompInCondition = null;
 
         if ("选择题".equals(type)){
             questionScInCondition = questionMapper.getQuestionScInCondition(courseId, chapterId, modularId, content);
+            return questionScInCondition;
+        }else {
+            questionCompInCondition = questionMapper.getQuestionCompInCondition(courseId, chapterId, modularId, content);
+            return questionCompInCondition;
+        }
+
+        /*if (map.size()!=0){
+            return map;
+        }else {
+            return null;
+        }*/
+
+    }
+    public List getAllQuestionInConditionWithName(String type, Integer courseId, Integer chapterId, Integer modularId, String content) {
+
+        List<QuestionPublicScWithName> questionScInCondition = null;
+        List<QuestionPublicCompWithName> questionCompInCondition = null;
+
+        if ("选择题".equals(type)){
+            questionScInCondition = questionMapper.getQuestionScInCondition(courseId, chapterId, modularId, content);
+            /*SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            for (QuestionPublicScWithName questionPublicScWithName:questionScInCondition){
+                Timestamp createTime = questionPublicScWithName.getCreateTime();
+
+            }*/
             return questionScInCondition;
         }else {
             questionCompInCondition = questionMapper.getQuestionCompInCondition(courseId, chapterId, modularId, content);

@@ -55,4 +55,15 @@ public class PaperService {
         return result1*result2;
     }
 
+    public List<Paper> getAllPaper() {
+
+        List<Paper> papers = paperMapper.getAll();
+
+        if (papers!=null&&papers.size()!=0){
+            return papers;
+        }else {
+            return null;
+        }
+
+    }
 }

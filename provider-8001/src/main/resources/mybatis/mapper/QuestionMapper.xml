@@ -19,6 +19,29 @@
         <result column="examine" property="examine"></result>
         <result column="examiner_id" property="examinerId"></result>
         <result column="examiner_time" property="examinerTime"></result>
+        <result column="type" property="type"></result>
+    </resultMap>
+
+    <resultMap id="choiceMapWithName" type="com.cfs.entities.QuestionPublicScWithName">
+        <id column="id" property="id"></id>
+        <result column="text" property="text"></result>
+        <result column="option1" property="option1"></result>
+        <result column="option2" property="option2"></result>
+        <result column="option3" property="option3"></result>
+        <result column="option4" property="option4"></result>
+        <result column="answer" property="answer"></result>
+        <result column="creater_id" property="createrId"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="course_id" property="courseId"></result>
+        <result column="chapter_id" property="chapterId"></result>
+        <result column="modular_id" property="modularId"></result>
+        <result column="diffculyt" property="diffculyt"></result>
+        <result column="examine" property="examine"></result>
+        <result column="examiner_id" property="examinerId"></result>
+        <result column="examiner_time" property="examinerTime"></result>
+        <result column="type" property="type"></result>
+        <result column="course_name" property="courseName"></result>
+        <result column="modular_name" property="modularName"></result>
     </resultMap>
 
     <resultMap id="completionMap" type="com.cfs.entities.QuestionPublicComp">
@@ -36,13 +59,34 @@
         <result column="examine" property="examine"></result>
         <result column="examiner_id" property="examinerId"></result>
         <result column="examiner_time" property="examinerTime"></result>
+        <result column="type" property="type"></result>
+    </resultMap>
+
+    <resultMap id="completionWithNameMap" type="com.cfs.entities.QuestionPublicCompWithName">
+        <id column="id" property="id"></id>
+        <result column="content" property="content"></result>
+        <result column="answer1" property="answer1"></result>
+        <result column="answer2" property="answer2"></result>
+        <result column="answer3" property="answer3"></result>
+        <result column="creater_id" property="createrId"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="course_id" property="courseId"></result>
+        <result column="chapter_id" property="chapterId"></result>
+        <result column="modular_id" property="modularId"></result>
+        <result column="difficulty" property="difficulty"></result>
+        <result column="examine" property="examine"></result>
+        <result column="examiner_id" property="examinerId"></result>
+        <result column="examiner_time" property="examinerTime"></result>
+        <result column="type" property="type"></result>
+        <result column="course_name" property="courseName"></result>
+        <result column="modular_name" property="modularName"></result>
     </resultMap>
 
     <insert id="insert">
         insert into question_public_sc(id, text, option1, option2, option3, option4, answer, creater_id, create_time,
-                                       chapter_id, modular_id, diffculyt, examine, examiner_id, examine_time)
+                                       chapter_id, modular_id, diffculyt, examine, examiner_id, examine_time, type)
         values (#{id}, #{text}, #{option1}, #{option2}, #{option3}, #{option4}, #{answer}, #{createrId}, #{createTime},
-                #{chapterId}, #{modularId}, #{diffculyt}, null, null, null)
+                #{chapterId}, #{modularId}, #{diffculyt}, null, null, null, 0)
     </insert>
 
     <select id="get" resultMap="choiceQuestionMap">
@@ -102,9 +146,9 @@
 
     <insert id="insertComp">
         insert into question_public_completion(content, answer1, answer2, answer3, creater_id, create_time, chapter_id,
-                                               modular_id, difficulty)
+                                               modular_id, difficulty, type)
         VALUES (#{content}, #{answer1}, #{answer2}, #{answer3}, #{createrId}, #{createTime}, #{chapterId}, #{modularId},
-                #{difficulty})
+                #{difficulty}, 1)
     </insert>
 
     <delete id="deleteComp">
@@ -136,41 +180,43 @@
         from question_public_completion
     </select>
 
-    <select id="getQuestionScInCondition" resultMap="choiceQuestionMap">
-        select *
-        from question_public_sc
+    <select id="getQuestionScInCondition" resultMap="choiceMapWithName">
+        select q.*,m.modular_name,c.chapter_name
+        from question_public_sc q,modular m,chapter c
         <trim prefix="where" prefixOverrides="and" suffix="" suffixOverrides="and">
-            course_id=#{courseId} and
+            q.course_id=#{courseId} and
             <if test="chapterId!=null">
 
-                chapter_id=#{chapterId} and
+                q.chapter_id=#{chapterId} and
             </if>
             <if test="modularId!=null">
 
-                modualr_id=#{modularId} and
+                q.modualr_id=#{modularId} and
             </if>
             <if test="content!=null">
-                text like "%"#{content}"%"
+                q.text like "%"#{content}"%"
             </if>
         </trim>
+        and q.chapter_id=c.id and q.modular_id=m.id
     </select>
 
     <select id="getQuestionCompInCondition" resultMap="completionMap">
-        select *
-        from question_public_completion
+        select q.*,m.modular_name,c.chapter_name
+        from question_public_completion q,modular m,chapter c
         <trim prefix="where" prefixOverrides="and" suffix="" suffixOverrides="and">
-            course_id =#{courseId} and
+            q.course_id =#{courseId} and
             <if test="chapterId!=null">
 
-                chapter_id=#{chapterId} and
+                q.chapter_id=#{chapterId} and
             </if>
             <if test="modularId!=null">
 
-                modualr_id=#{modularId} and
+                q.modualr_id=#{modularId} and
             </if>
             <if test="content!=null">
-                content like "%"#{content}"%"
+                q.content like "%"#{content}"%"
             </if>
         </trim>
+        and q.chapter_id=c.id and q.modular_id=m.id
     </select>
 </mapper>
