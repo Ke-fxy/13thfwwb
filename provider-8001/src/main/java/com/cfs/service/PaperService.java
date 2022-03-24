@@ -55,6 +55,17 @@ public class PaperService {
         return result1*result2;
     }
 
+    public List<Paper> getAllPaper() {
+
+        List<Paper> papers = paperMapper.getAll();
+
+        if (papers!=null&&papers.size()!=0){
+            return papers;
+        }else {
+            return null;
+        }
+
+    }
     public Integer deletePaper(Integer paperId) {
 
         Integer result = paperMapper.deletePaper(paperId);

@@ -1,7 +1,9 @@
 package com.cfs.mapper;
 
 import com.cfs.entities.QuestionPublicComp;
+import com.cfs.entities.QuestionPublicCompWithName;
 import com.cfs.entities.QuestionPublicSc;
+import com.cfs.entities.QuestionPublicScWithName;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -167,10 +169,10 @@ public interface QuestionMapper {
      * @param content
      * @return
      */
-    List<QuestionPublicSc> getQuestionScInCondition(@Param("courseId") Integer courseId,
-                                                    @Param("chapterId") Integer chapterId,
-                                                    @Param("modularId") Integer modularId,
-                                                    @Param("content") String content);
+    List<QuestionPublicScWithName> getQuestionScInCondition(@Param("courseId") Integer courseId,
+                                                            @Param("chapterId") Integer chapterId,
+                                                            @Param("modularId") Integer modularId,
+                                                            @Param("content") String content);
 
     /**
      * 根据条件获得所有填空题
@@ -180,8 +182,8 @@ public interface QuestionMapper {
      * @param content
      * @return
      */
-    List<QuestionPublicComp> getQuestionCompInCondition(@Param("courseId") Integer courseId,
-                                                        @Param("chapterId") Integer chapterId,
-                                                        @Param("modularId") Integer modularId,
-                                                        @Param("content") String content);
+    List<QuestionPublicCompWithName> getQuestionCompInCondition(@Param("courseId") Integer courseId,
+                                                                @Param("chapterId") Integer chapterId,
+                                                                @Param("modularId") Integer modularId,
+                                                                @Param("content") String content);
 }

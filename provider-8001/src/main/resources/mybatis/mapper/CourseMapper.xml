@@ -186,7 +186,7 @@
     <update id="updateStatus">
         update course
         set status=#{status}
-        where courseId=#{courseId}
+        where id=#{courseId}
     </update>
 
 </mapper>

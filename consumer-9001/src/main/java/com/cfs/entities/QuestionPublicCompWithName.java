@@ -2,7 +2,6 @@ package com.cfs.entities;
 
 import lombok.*;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 /**
@@ -13,10 +12,10 @@ import java.sql.Timestamp;
  */
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuestionPublicComp {
+@ToString
+public class QuestionPublicCompWithName {
 
     private Integer id;
 
@@ -47,5 +46,9 @@ public class QuestionPublicComp {
     private Integer difficulty;
 
     private Integer type;
+
+    private String modularName;
+
+    private String chapterName;
 
 }

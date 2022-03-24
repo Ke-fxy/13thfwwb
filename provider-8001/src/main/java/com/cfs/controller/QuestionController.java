@@ -300,7 +300,14 @@ public class QuestionController {
         Timestamp createTime = new Timestamp(System.currentTimeMillis());
         Integer chapterId = Integer.parseInt(map.get("chapterId"));
         Integer modularId = Integer.parseInt(map.get("modularId"));
-        Integer difficulty = Integer.parseInt(map.get("difficulty"));
+
+        Integer difficulty = null;
+        try {
+            difficulty = Integer.parseInt(map.get("difficulty"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            difficulty = 1;
+        }
 
         boolean b = questionService.addQuestionComp(content, answer1, answer2, answer3, createrId, createTime, chapterId, modularId, difficulty);
 
@@ -442,29 +449,32 @@ public class QuestionController {
         Integer modularId = null;
         String content = null;
         try {
-
             chapterId = Integer.parseInt((String) map.get("chapterId"));
-            modularId = Integer.parseInt((String) map.get("modularId"));
-
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
+
+        try {
+            modularId = Integer.parseInt((String) map.get("modularId"));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
         type = (String) map.get("type");
         content = (String) map.get("content");
 
         Integer page = null;
         try {
-            page = (Integer)map.get("page");
+            page = (Integer) map.get("page");
         } catch (Exception e) {
             page=1;
             e.printStackTrace();
         }
 
-        Integer limit = (Integer)map.get("limit");
-
+        Integer limit = (Integer) map.get("limit");
 
         PageHelper.startPage(page,limit);
-        List<Object> list = questionService.getAllQuestionInCondition(type, courseId, chapterId, modularId, content);
+        List<Object> list = questionService.getAllQuestionInConditionWithName(type, courseId, chapterId, modularId, content);
 
         PageInfo pageInfo = new PageInfo(list);
         if (list != null&&list.size()!=0) {
