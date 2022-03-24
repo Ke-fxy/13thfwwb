@@ -55,7 +55,7 @@ public class PaperService {
         return result1*result2;
     }
 
-    public List<Paper> getAllPaper() {
+    /*public List<Paper> getAllPaper() {
 
         List<Paper> papers = paperMapper.getAll();
 
@@ -65,5 +65,5 @@ public class PaperService {
             return null;
         }
 
-    }
+    }*/
 }
