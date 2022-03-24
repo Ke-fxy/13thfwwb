@@ -3,8 +3,6 @@ package com.cfs.service;
 import com.cfs.entities.CommonResult;
 import com.cfs.entities.Paper;
 import com.cfs.mapper.PaperMapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
