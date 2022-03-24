@@ -4,6 +4,7 @@ import com.cfs.entities.CommonResult;
 import com.cfs.entities.Paper;
 import com.cfs.entities.PaperQuestion;
 import com.cfs.service.PaperService;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -136,7 +137,7 @@ public class PaperController {
     }
 
     @RequestMapping("/getAllPaper")
-    public CommonResult<List<Paper>> getAllPaper(@RequestBody HashMap<String, Object> map){
+    public CommonResult<PageInfo<Paper>> getAllPaper(@RequestBody HashMap<String, Object> map){
         String token = (String)map.get("token");
         String checkup = checkup(token);
 
@@ -144,11 +145,14 @@ public class PaperController {
             return new CommonResult<>(200, "用户未登录或登录状态失效", null);
         }
 
+        Integer pageNum = Integer.parseInt(map.get("pageNum").toString());
+        Integer pageSize = Integer.parseInt(map.get("pageSize").toString());
 
-        List<Paper> paperList = paperService.getAllPaper();
 
-        if (paperList!=null){
-            return new CommonResult<>(100, "查找成功",paperList);
+        PageInfo<Paper> pageInfo = paperService.getAllPaper(pageNum, pageSize);
+
+        if (pageInfo!=null){
+            return new CommonResult<>(100, "查找成功",pageInfo);
         }else {
             return new CommonResult<>(200, "失败成功",null);
         }

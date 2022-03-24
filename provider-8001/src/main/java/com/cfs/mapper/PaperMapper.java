@@ -29,7 +29,7 @@ public interface PaperMapper {
 
     Paper getPaper(@Param("id") Integer id);
 
-    List<Paper> getAllPaper();
+    List<Paper> getAll();
 
 
 }

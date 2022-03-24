@@ -47,11 +47,6 @@
         where id = #{id}
     </select>
 
-    <select id="getAllPaper" resultMap="PaperMap">
-        select *
-        from paper
-    </select>
-
     <select id="getAll" resultMap="BaseResultMap">
         select *
         from paper

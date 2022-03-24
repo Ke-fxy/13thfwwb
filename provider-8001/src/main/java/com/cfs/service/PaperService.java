@@ -3,6 +3,8 @@ package com.cfs.service;
 import com.cfs.entities.CommonResult;
 import com.cfs.entities.Paper;
 import com.cfs.mapper.PaperMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,12 +57,15 @@ public class PaperService {
         return result1*result2;
     }
 
-    public List<Paper> getAllPaper() {
+    public PageInfo getAllPaper(int pageNum, int pageSize) {
+
+        PageHelper.startPage(pageNum, pageSize);
 
         List<Paper> papers = paperMapper.getAll();
 
         if (papers!=null&&papers.size()!=0){
-            return papers;
+            PageInfo pageInfo=new PageInfo(papers);
+            return pageInfo;
         }else {
             return null;
         }
@@ -85,9 +90,9 @@ public class PaperService {
         return paper;
     }
 
-    public List<Paper> getAllPaper() {
-        List<Paper> paperList = paperMapper.getAllPaper();
-        return paperList;
-    }
+//    public List<Paper> getAllPaper() {
+//        List<Paper> paperList = paperMapper.getAllPaper();
+//        return paperList;
+//    }
 
 }
