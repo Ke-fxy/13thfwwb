@@ -4,6 +4,8 @@ import com.cfs.entities.Paper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface PaperMapper {
 
@@ -20,6 +22,14 @@ public interface PaperMapper {
             @Param("questionId") Integer questionId,
             @Param("mark") Integer mark,
             @Param("index") Integer index);
+
+    Integer deletePaper(@Param("id") Integer id);
+
+    Integer updatePaper(Paper paper);
+
+    Paper getPaper(@Param("id") Integer id);
+
+    List<Paper> getAllPaper();
 
 
 }

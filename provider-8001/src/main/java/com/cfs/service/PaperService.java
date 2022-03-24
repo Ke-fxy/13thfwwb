@@ -55,4 +55,28 @@ public class PaperService {
         return result1*result2;
     }
 
+    public Integer deletePaper(Integer paperId) {
+
+        Integer result = paperMapper.deletePaper(paperId);
+
+        return result;
+    }
+
+    public Integer updatePaper(Paper paper) {
+
+        Integer result = paperMapper.updatePaper(paper);
+
+        return result;
+    }
+
+    public Paper getPaper(Integer paperId) {
+        Paper paper = paperMapper.getPaper(paperId);
+        return paper;
+    }
+
+    public List<Paper> getAllPaper() {
+        List<Paper> paperList = paperMapper.getAllPaper();
+        return paperList;
+    }
+
 }

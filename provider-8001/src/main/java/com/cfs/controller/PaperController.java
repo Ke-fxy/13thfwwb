@@ -76,6 +76,82 @@ public class PaperController {
         return result > 0 ? new CommonResult<>(100, "添加成功") : new CommonResult<>(200, "添加失败");
     }
 
+    @RequestMapping("/deletePaper")
+    public CommonResult<String> deletePaper(@RequestBody HashMap<String, Object> map){
+        String token = (String)map.get("token");
+        String checkup = checkup(token);
 
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+        Integer paperId = Integer.parseInt(map.get("paperId").toString());
+
+
+        Integer result = paperService.deletePaper(paperId);
+
+        return result > 0 ? new CommonResult<>(100, "删除成功") : new CommonResult<>(200, "删除失败");
+    }
+
+    @RequestMapping("/updatePaper")
+    public CommonResult<String> updatePaper(@RequestBody HashMap<String, Object> map){
+        String token = (String)map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer paperId = Integer.parseInt(map.get("paperId").toString());
+        String paperName = (String)map.get("paperName");
+        Integer maxMark = Integer.parseInt(map.get("maxMark").toString());
+        Integer creatorId = Integer.parseInt(checkup);
+        Timestamp createTime = new Timestamp(System.currentTimeMillis());
+        Integer courseId = Integer.parseInt(map.get("courseId").toString());
+        Integer change = Integer.parseInt(map.get("change").toString());
+
+        Paper paper = new Paper(paperId,paperName,maxMark,creatorId,courseId,createTime,change);
+        Integer result = paperService.updatePaper(paper);
+
+        return result > 0 ? new CommonResult<>(100, "修改成功") : new CommonResult<>(200, "修改失败");
+    }
+
+    @RequestMapping("/getPaper")
+    public CommonResult<Paper> getPaper(@RequestBody HashMap<String, Object> map){
+        String token = (String)map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer paperId = Integer.parseInt(map.get("paperId").toString());
+
+        Paper paper = paperService.getPaper(paperId);
+
+        if (paper!=null){
+            return new CommonResult<>(100, "查找成功",paper);
+        }else {
+            return new CommonResult<>(200, "失败成功",null);
+        }
+    }
+
+    @RequestMapping("/getAllPaper")
+    public CommonResult<List<Paper>> getAllPaper(@RequestBody HashMap<String, Object> map){
+        String token = (String)map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+
+        List<Paper> paperList = paperService.getAllPaper();
+
+        if (paperList!=null){
+            return new CommonResult<>(100, "查找成功",paperList);
+        }else {
+            return new CommonResult<>(200, "失败成功",null);
+        }
+    }
 
 }
