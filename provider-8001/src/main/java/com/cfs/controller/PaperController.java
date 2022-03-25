@@ -158,4 +158,26 @@ public class PaperController {
         }
     }
 
+    @RequestMapping("/updatePaperQuestion")
+    public CommonResult<String> updatePaperQuestion(@RequestBody HashMap<String, Object> map){
+        String token = (String)map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer paperId = Integer.parseInt(map.get("paperId").toString());
+
+
+
+        List<Map> questionList = (List<Map>) map.get("questionList");
+
+        Integer result1 = paperService.deletePaperQuestion(paperId);
+
+        Integer result2 = paperService.addPaperQuestion(paperId,questionList);
+
+        return result1 * result2 > 0 ? new CommonResult<>(100, "修改成功") : new CommonResult<>(200, "修改失败");
+    }
+
 }

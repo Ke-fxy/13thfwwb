@@ -17,6 +17,11 @@
         VALUES (#{paperName},#{maxMark},#{creatorId},#{courseId},#{createTime},#{change})
     </insert>
 
+    <insert id="addPaperQuestion">
+        insert into paper_quesion(paper_id, quesion_type, private, quesion_id, mark, quesion_index)
+        VALUES (#{id},#{questionType},#{privateType},#{questionId},#{mark},#{index})
+    </insert>
+
     <insert id="addPaperPublicSc">
         insert into paper_quesion(paper_id, quesion_type, private, quesion_id, mark, quesion_index)
         VALUES (#{id},0,1,#{questionId},#{mark},#{index})
@@ -32,6 +37,11 @@
         where id= #{id}
     </delete>
 
+    <delete id="deletePaperQuestion">
+        delete from paper_quesion
+        where paper_id = #{paperId}
+    </delete>
+
     <update id="updatePaper">
         update paper
         set paper_name = #{paperName},
@@ -40,6 +50,8 @@
             `change` = #{change}
         where id = #{id}
     </update>
+
+
 
     <select id="getPaper" resultType="com.cfs.entities.Paper">
         select *

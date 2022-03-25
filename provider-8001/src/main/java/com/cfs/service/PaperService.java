@@ -3,6 +3,8 @@ package com.cfs.service;
 import com.cfs.entities.CommonResult;
 import com.cfs.entities.Paper;
 import com.cfs.mapper.PaperMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,14 +41,27 @@ public class PaperService {
             String privateType = questionList.get(i).get("private").toString();
 
             if (questionType.equals("0") && privateType.equals("0")) {
-                result1 = paperMapper.addPaperPublicSc(
-                        paperId,
+//                result1 = paperMapper.addPaperPublicSc(
+//                        paperId,
+//                        Integer.parseInt(questionList.get(i).get("questionId").toString()),
+//                        Integer.parseInt(questionList.get(i).get("mark").toString()),
+//                        Integer.parseInt(questionList.get(i).get("index").toString()));
+
+                result1 = paperMapper.addPaperQuestion(paperId,
+                        0,
+                        0,
                         Integer.parseInt(questionList.get(i).get("questionId").toString()),
                         Integer.parseInt(questionList.get(i).get("mark").toString()),
                         Integer.parseInt(questionList.get(i).get("index").toString()));
             } else if (questionType.equals("1") && privateType.equals("0")) {
-                result2 = paperMapper.addPaperPublicComp(
-                        paperId,
+//                result2 = paperMapper.addPaperPublicComp(
+//                        paperId,
+//                        Integer.parseInt(questionList.get(i).get("questionId").toString()),
+//                        Integer.parseInt(questionList.get(i).get("mark").toString()),
+//                        Integer.parseInt(questionList.get(i).get("index").toString()));
+                result2 = paperMapper.addPaperQuestion(paperId,
+                        1,
+                        0,
                         Integer.parseInt(questionList.get(i).get("questionId").toString()),
                         Integer.parseInt(questionList.get(i).get("mark").toString()),
                         Integer.parseInt(questionList.get(i).get("index").toString()));
@@ -81,6 +96,10 @@ public class PaperService {
         Integer result = paperMapper.updatePaper(paper);
 
         return result;
+    }
+
+    public Integer deletePaperQuestion(Integer paperId){
+        return paperMapper.deletePaperQuestion(paperId);
     }
 
     public Paper getPaper(Integer paperId) {

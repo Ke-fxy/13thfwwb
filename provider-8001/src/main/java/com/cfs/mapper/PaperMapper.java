@@ -23,9 +23,24 @@ public interface PaperMapper {
             @Param("mark") Integer mark,
             @Param("index") Integer index);
 
+//    Integer addPaper(
+//            @Param("id") Integer id,
+//            @Param("questionId") Integer questionId,
+//            @Param("mark") Integer mark,
+//            @Param("index") Integer index);
+
     Integer deletePaper(@Param("id") Integer id);
 
     Integer updatePaper(Paper paper);
+
+    Integer deletePaperQuestion(Integer paperId);
+
+    Integer addPaperQuestion(@Param("id") Integer id,
+                             @Param("questionType") Integer questionType,
+                             @Param("privateType") Integer privateType,
+                             @Param("questionId") Integer questionId,
+                             @Param("mark") Integer mark,
+                             @Param("index") Integer index);
 
     Paper getPaper(@Param("id") Integer id);
 
