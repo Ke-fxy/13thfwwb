@@ -1,4 +1,4 @@
-package com.cfs.entities;
+package com.cfs.util;
 
 import org.json.JSONObject;
 

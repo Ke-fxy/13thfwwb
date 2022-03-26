@@ -137,7 +137,7 @@ public class PaperController {
     }
 
     @RequestMapping("/getAllPaper")
-    public CommonResult<PageInfo<Paper>> getAllPaper(@RequestBody HashMap<String, Object> map){
+    public CommonResult<Object> getAllPaper(@RequestBody HashMap<String, Object> map){
         String token = (String)map.get("token");
         String checkup = checkup(token);
 
