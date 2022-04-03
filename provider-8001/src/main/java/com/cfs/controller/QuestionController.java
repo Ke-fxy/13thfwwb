@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cfs.entities.CommonResult;
+import com.cfs.entities.QuestionEntity;
 import com.cfs.entities.QuestionPublicComp;
 import com.cfs.entities.QuestionPublicSc;
 import com.cfs.service.QuestionService;
@@ -467,17 +468,17 @@ public class QuestionController {
         try {
             page = (Integer) map.get("page");
         } catch (Exception e) {
-            page=1;
+            page = 1;
             e.printStackTrace();
         }
 
         Integer limit = (Integer) map.get("limit");
 
-        PageHelper.startPage(page,limit);
+        PageHelper.startPage(page, limit);
         List<Object> list = questionService.getAllQuestionInConditionWithName(type, courseId, chapterId, modularId, content);
 
         PageInfo pageInfo = new PageInfo(list);
-        if (list != null&&list.size()!=0) {
+        if (list != null && list.size() != 0) {
             return new CommonResult<>(100, "查询成功", pageInfo);
         } else {
             return new CommonResult<>(200, "查询失败");
@@ -485,6 +486,36 @@ public class QuestionController {
 
 
         //questionService.getQuestionInCondition(courseId,type,chapterId,modularId,content);
+
+    }
+
+    @PostMapping(value = "/getQuestionEntity")
+    public CommonResult<List<QuestionEntity>> getQuestionEntity(@RequestBody HashMap<String, Object> map) {
+
+        String token = (String) map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效");
+        }
+        Integer type = null;
+        List<Integer> questionIdList = null;
+
+        try {
+            type = (Integer) map.get("type");
+            questionIdList = (List<Integer>) map.get("questionIdList");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new CommonResult<>(200, "数据传输错误");
+        }
+
+        List<QuestionEntity> questions =  questionService.getQuestionEntity(type,questionIdList);
+
+        if (questions!=null){
+            return new CommonResult<>(100,"查询成功",questions);
+        }else {
+            return new CommonResult<>(200,"查询失败");
+        }
 
     }
 

@@ -46,5 +46,6 @@ public interface PaperMapper {
 
     List<Paper> getAll();
 
-
+    Integer getSum(@Param("courseId") Integer courseId,
+                   @Param("type") int type);
 }

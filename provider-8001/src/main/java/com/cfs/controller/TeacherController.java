@@ -5,7 +5,6 @@ import com.cfs.entities.Teacher;
 import com.cfs.service.TeacherService;
 import com.cfs.util.JavaWebToken;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,7 +47,7 @@ public class TeacherController {
     }
 
     @PostMapping(value = "/login")
-    public CommonResult<String> login(@RequestBody HashMap<String,String> map){
+    public CommonResult<String> login(@RequestBody HashMap<String, String> map) {
 
         @NotNull
         Integer tNo = Integer.parseInt(map.get("tNo"));
@@ -57,15 +56,15 @@ public class TeacherController {
 
         String token = teacherService.login(tNo, password);
 
-        if (token!=null){
-            return new CommonResult<>(100,"登录成功",token);
+        if (token != null) {
+            return new CommonResult<>(100, "登录成功", token);
         }
 
-        return new CommonResult<>(200,"登录失败");
+        return new CommonResult<>(200, "登录失败");
     }
 
     @PostMapping(value = "/getTeacher")
-    public CommonResult<Teacher> getTeacher(@RequestBody HashMap<String,String> map){
+    public CommonResult<Teacher> getTeacher(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -79,12 +78,12 @@ public class TeacherController {
 
         Teacher teacher = teacherService.getTeacher(id);
 
-        return teacher!=null?new CommonResult<>(100,"查询成功",teacher):new CommonResult<>(200,"查询失败");
+        return teacher != null ? new CommonResult<>(100, "查询成功", teacher) : new CommonResult<>(200, "查询失败");
 
     }
 
     @PostMapping(value = "/getTeachers")
-    public CommonResult<List<Teacher>> getTeachers(@RequestBody HashMap<String,String> map){
+    public CommonResult<List<Teacher>> getTeachers(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -95,16 +94,16 @@ public class TeacherController {
 
         List<Teacher> teachers = teacherService.getTeachers();
 
-        if (teachers!=null){
-            return new CommonResult<>(100,"查询成功",teachers);
-        }else {
-            return new CommonResult<>(200,"查询失败");
+        if (teachers != null) {
+            return new CommonResult<>(100, "查询成功", teachers);
+        } else {
+            return new CommonResult<>(200, "查询失败");
         }
 
     }
 
-    @PostMapping(value = "updateTeacher")
-    public CommonResult<String> updateTeacher(@RequestBody HashMap<String,String> map){
+    @PostMapping(value = "/updateTeacher")
+    public CommonResult<String> updateTeacher(@RequestBody HashMap<String, String> map) {
 
         String token = map.get("token");
         String checkup = checkup(token);
@@ -122,10 +121,12 @@ public class TeacherController {
         String email = map.get("email");
         String gender = map.get("gender");
 
-        Integer result = teacherService.updateTeacher(id,teacherName,phone,major,gender,email);
+        Integer result = teacherService.updateTeacher(id, teacherName, phone, major, gender, email);
 
-        return result>0 ? new CommonResult<>(100,"更新成功"):new CommonResult<>(200,"更新失败");
+        return result > 0 ? new CommonResult<>(100, "更新成功") : new CommonResult<>(200, "更新失败");
 
     }
+
+
 
 }

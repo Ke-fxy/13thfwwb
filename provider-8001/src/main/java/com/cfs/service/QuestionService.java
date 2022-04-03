@@ -1,9 +1,6 @@
 package com.cfs.service;
 
-import com.cfs.entities.QuestionPublicComp;
-import com.cfs.entities.QuestionPublicCompWithName;
-import com.cfs.entities.QuestionPublicSc;
-import com.cfs.entities.QuestionPublicScWithName;
+import com.cfs.entities.*;
 import com.cfs.mapper.QuestionMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -211,5 +209,39 @@ public class QuestionService {
             return null;
         }*/
 
+    }
+
+    public List<QuestionEntity> getQuestionEntity(Integer type, List<Integer> answerIdList) {
+
+        List<QuestionEntity> questionEntities = new ArrayList<>();
+
+        //选择题
+        if(type==1){
+            for (int i = 0; i < answerIdList.size(); i++) {
+                QuestionPublicSc questionPublicSc = questionMapper.get(answerIdList.get(i));
+                ArrayList<Answer> answers = new ArrayList<>();
+                answers.add(new Answer("A",questionPublicSc.getOption1()));
+                answers.add(new Answer("B",questionPublicSc.getOption2()));
+                answers.add(new Answer("C",questionPublicSc.getOption3()));
+                answers.add(new Answer("D",questionPublicSc.getOption4()));
+                ArrayList<String> correct = new ArrayList<>();
+                correct.add(questionPublicSc.getAnswer());
+                QuestionEntity questionEntity = new QuestionEntity(1,questionPublicSc.getText(),answers,correct,1);
+                questionEntities.add(questionEntity);
+            }
+        }else if (type==4){
+            for (int i = 0; i < answerIdList.size(); i++) {
+                QuestionPublicComp questionPublicComp = questionMapper.getComp(answerIdList.get(i));
+                ArrayList<Answer> answers = new ArrayList<>();
+                ArrayList<String> correct = new ArrayList<>();
+                correct.add(questionPublicComp.getAnswer1());
+                correct.add(questionPublicComp.getAnswer2());
+                correct.add(questionPublicComp.getAnswer3());
+                QuestionEntity questionEntity = new QuestionEntity(4,questionPublicComp.getContent(),answers,correct,4);
+                questionEntities.add(questionEntity);
+            }
+        }
+
+        return questionEntities;
     }
 }

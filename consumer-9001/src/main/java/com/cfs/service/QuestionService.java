@@ -1,6 +1,7 @@
 package com.cfs.service;
 
 import com.cfs.entities.CommonResult;
+import com.cfs.entities.QuestionEntity;
 import com.cfs.entities.QuestionPublicComp;
 import com.cfs.entities.QuestionPublicSc;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -65,5 +66,8 @@ public interface QuestionService {
 
     @PostMapping(value = "/question/getQuestion")
     public CommonResult<Object> getQuestion(@RequestBody HashMap<String, Object> map);
+
+    @PostMapping(value = "/question/getQuestionEntity")
+    public CommonResult<List<QuestionEntity>> getQuestionEntity(@RequestBody HashMap<String, Object> map);
 
 }
