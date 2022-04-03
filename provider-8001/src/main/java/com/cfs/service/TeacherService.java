@@ -90,9 +90,10 @@ public class TeacherService {
 
     public Integer updateTeacher(Integer teacherId, String teacherName,String phone,String major,String gender,String email){
 
-        System.out.println("teacherId = " + teacherId + ", teacherName = " + teacherName + ", phone = " + phone + ", major = " + major + ", gender = " + gender + ", email = " + email);
-
-
         return teacherMapper.updateTeacher(teacherId, teacherName, phone, major, gender, email);
+    }
+
+    public Integer updateRole(Integer teacherId,Integer role){
+        return teacherMapper.updateRole(teacherId,role);
     }
 }

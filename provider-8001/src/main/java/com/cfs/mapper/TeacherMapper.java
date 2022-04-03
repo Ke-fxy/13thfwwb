@@ -49,4 +49,7 @@ public interface TeacherMapper {
      * @return
      */
     List<Teacher> getTeachers();
+
+
+    Integer updateRole(Integer teacherId,Integer role);
 }

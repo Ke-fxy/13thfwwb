@@ -128,4 +128,23 @@ public class TeacherController {
 
     }
 
+    @PostMapping(value = "updateTeacherRole")
+    public CommonResult<String> updateTeacherRole(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer teacherId = Integer.parseInt(map.get("teacherId"));
+        Integer role = Integer.parseInt(map.get("role"));
+
+        Integer result = teacherService.updateRole(teacherId,role);
+
+        return result>0 ? new CommonResult<>(100,"更新成功"):new CommonResult<>(200,"更新失败");
+
+    }
+
 }

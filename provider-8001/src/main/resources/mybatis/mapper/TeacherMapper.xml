@@ -41,4 +41,10 @@
     from teacher
   </select>
 
+  <update id="updateRose">
+    update teacher
+    set role = #{role}
+    where id = #{teacherId}
+  </update>
+
 </mapper>
