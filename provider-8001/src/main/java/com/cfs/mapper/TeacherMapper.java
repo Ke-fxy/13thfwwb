@@ -51,5 +51,6 @@ public interface TeacherMapper {
     List<Teacher> getTeachers();
 
 
-    Integer updateRole(Integer teacherId,Integer role);
+    Integer updateRole(@Param("teacherId") Integer teacherId,
+                       @Param("role") Integer role);
 }

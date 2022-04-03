@@ -32,4 +32,7 @@ public interface StudentMapper {
     int updateByPrimaryKeySelective(Student record);
 
     int updateByPrimaryKey(Student record);
+
+    Integer updateRole(@Param("studentId") Integer teacherId,
+                       @Param("role") Integer role);
 }

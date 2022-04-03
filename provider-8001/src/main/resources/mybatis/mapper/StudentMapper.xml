@@ -307,4 +307,10 @@
     set password = #{password}
     where id = #{id}
   </update>
+
+  <update id="updateRole">
+    update student
+    set role = #{role}
+    where id = #{studentId}
+  </update>
 </mapper>

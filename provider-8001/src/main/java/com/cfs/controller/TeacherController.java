@@ -140,7 +140,12 @@ public class TeacherController {
         Integer teacherId = Integer.parseInt(map.get("teacherId"));
         Integer role = Integer.parseInt(map.get("role"));
 
-        Integer result = teacherService.updateRole(teacherId,role);
+        Integer result=0;
+        if(role>-1&&role<=2){
+            result = teacherService.updateRole(teacherId,role);
+        } else {
+            return new CommonResult<>(200,"role的取值应为0,1,2");
+        }
 
         return result>0 ? new CommonResult<>(100,"更新成功"):new CommonResult<>(200,"更新失败");
 

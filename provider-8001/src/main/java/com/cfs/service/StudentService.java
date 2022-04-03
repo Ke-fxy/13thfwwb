@@ -170,4 +170,8 @@ public class StudentService {
         return s;
     }
 
+    public Integer updateRole(Integer studentId,Integer role){
+        return studentMapper.updateRole(studentId,role);
+    }
+
 }

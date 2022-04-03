@@ -119,5 +119,29 @@ public class StudentController {
 
     }
 
+    @PostMapping(value = "updateStudentRole")
+    public CommonResult<String> updateStudentRole(@RequestBody HashMap<String,String> map){
+
+        String token = map.get("token");
+        String checkup = studentService.checkup(token);
+
+        if (checkup == null) {
+            return new CommonResult<>(200, "用户未登录或登录状态失效", null);
+        }
+
+        Integer studentId = Integer.parseInt(map.get("studentId"));
+        Integer role = Integer.parseInt(map.get("role"));
+
+        Integer result=0;
+        if(role>-1&&role<=1){
+            result = studentService.updateRole(studentId,role);
+        } else {
+            return new CommonResult<>(200,"role的取值应为0,1");
+        }
+
+        return result>0 ? new CommonResult<>(100,"更新成功"):new CommonResult<>(200,"更新失败");
+
+    }
+
 
 }

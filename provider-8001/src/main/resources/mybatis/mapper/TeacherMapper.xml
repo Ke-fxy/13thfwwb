@@ -41,7 +41,7 @@
     from teacher
   </select>
 
-  <update id="updateRose">
+  <update id="updateRole">
     update teacher
     set role = #{role}
     where id = #{teacherId}
