@@ -64,9 +64,10 @@ public class FaceController {
         }
 
         JSONObject faceDetection = FaceDetection.Facedetection(AiFaceObject.getClient(), imageBase64, "BASE64");
+        System.out.println(faceDetection);
 
         if ("SUCCESS".equals(faceDetection.get("error_msg"))){
-            JSONObject faceregistrtion = FaceRegistration.Faceregistrtion(AiFaceObject.getClient(), "student", checkup, imageBase64, "BASE64");
+            JSONObject faceregistrtion = FaceRegistration.Faceregistrtion(AiFaceObject.getClient(), "student", "3", imageBase64, "BASE64");
 
             if ("SUCCESS".equals(faceregistrtion.get("error_msg"))){
                 return new CommonResult<>(100,"添加成功");
