@@ -169,8 +169,6 @@ public class PaperController {
 
         Integer paperId = Integer.parseInt(map.get("paperId").toString());
 
-
-
         List<Map> questionList = (List<Map>) map.get("questionList");
 
         Integer result1 = paperService.deletePaperQuestion(paperId);
