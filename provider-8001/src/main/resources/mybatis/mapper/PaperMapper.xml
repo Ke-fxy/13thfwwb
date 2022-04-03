@@ -63,4 +63,10 @@
         select *
         from paper
     </select>
+
+    <select id="getSum" resultType="java.lang.Integer">
+        select count(*)
+        from <if test="type==1">question_public_sc</if> <if test="type==4">question_type_completion</if>
+        where course_id=#{courseId}
+    </select>
 </mapper>

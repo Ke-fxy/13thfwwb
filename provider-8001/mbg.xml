@@ -12,8 +12,8 @@
         <!--配置数据库连接池-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/13thfwwb"
-                        userId="root"
-                        password="123456">
+                        userId="fxy"
+                        password="Ke_fxyhowdoit233">
         </jdbcConnection>
 
         <javaTypeResolver >
@@ -37,7 +37,7 @@
         </javaClientGenerator>
 
         <!--每个表的生成策略-->
-        <table tableName="student" domainObjectName="Student"></table>
+        <table tableName="test" domainObjectName="Test"></table>
 
     </context>
 </generatorConfiguration>

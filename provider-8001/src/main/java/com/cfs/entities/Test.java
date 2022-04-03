@@ -1,26 +1,19 @@
 package com.cfs.entities;
 
 import lombok.*;
-import org.bouncycastle.util.Times;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
-/**
- * @Author Ke
- * @Date 2022/3/24 20:14
- * @Description
- * @Version 1.0
- */
-@Getter
-@Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Test {
-
     private Integer id;
 
-    private String testName;
+    private String textName;
 
     private Integer createrId;
 

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @Description
  * @Version 1.0
  */
-@RestController
-@Slf4j
+//@RestController
+//@Slf4j
 public class TestController {
 
     @Value("${server.port}")

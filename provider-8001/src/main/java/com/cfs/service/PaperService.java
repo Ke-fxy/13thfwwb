@@ -107,6 +107,13 @@ public class PaperService {
         return paper;
     }
 
+    public boolean addPaperQuestionAuto(Integer choiceNum, Integer choiceScore, Integer comNum, Integer comScore,Integer courseId) {
+
+        Integer choiceSum = paperMapper.getSum(courseId, 1);
+
+        return false;
+    }
+
 //    public List<Paper> getAllPaper() {
 //        List<Paper> paperList = paperMapper.getAllPaper();
 //        return paperList;
