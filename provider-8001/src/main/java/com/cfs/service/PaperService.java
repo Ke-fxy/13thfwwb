@@ -40,27 +40,17 @@ public class PaperService {
             String questionType = questionList.get(i).get("questionType").toString();
             String privateType = questionList.get(i).get("private").toString();
 
-            if (questionType.equals("0") && privateType.equals("0")) {
-//                result1 = paperMapper.addPaperPublicSc(
-//                        paperId,
-//                        Integer.parseInt(questionList.get(i).get("questionId").toString()),
-//                        Integer.parseInt(questionList.get(i).get("mark").toString()),
-//                        Integer.parseInt(questionList.get(i).get("index").toString()));
+            if (questionType.equals("1") && privateType.equals("0")) {
 
                 result1 = paperMapper.addPaperQuestion(paperId,
-                        0,
+                        1,
                         0,
                         Integer.parseInt(questionList.get(i).get("questionId").toString()),
                         Integer.parseInt(questionList.get(i).get("mark").toString()),
                         Integer.parseInt(questionList.get(i).get("index").toString()));
-            } else if (questionType.equals("1") && privateType.equals("0")) {
-//                result2 = paperMapper.addPaperPublicComp(
-//                        paperId,
-//                        Integer.parseInt(questionList.get(i).get("questionId").toString()),
-//                        Integer.parseInt(questionList.get(i).get("mark").toString()),
-//                        Integer.parseInt(questionList.get(i).get("index").toString()));
+            } else if (questionType.equals("4") && privateType.equals("0")) {
                 result2 = paperMapper.addPaperQuestion(paperId,
-                        1,
+                        4,
                         0,
                         Integer.parseInt(questionList.get(i).get("questionId").toString()),
                         Integer.parseInt(questionList.get(i).get("mark").toString()),
