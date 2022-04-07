@@ -3,6 +3,7 @@ package com.cfs.mapper;
 import com.cfs.entities.Paper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -48,4 +49,13 @@ public interface PaperMapper {
 
     Integer getSum(@Param("courseId") Integer courseId,
                    @Param("type") int type);
+
+    List<Integer> getIdList(@Param("type") int type,
+                            @Param("courseId") Integer courseId);
+
+    @Select("select name from teacher where id=#{id}")
+    String getCreaterName(@Param("id") Integer creatorId);
+
+    @Select("select course_name from course where id=#{id}")
+    String getCourseName(@Param("id") Integer courseId);
 }

@@ -35,7 +35,7 @@ public class PaperController {
         return s;
     }
 
-    @RequestMapping("/addPaper")
+    @PostMapping("/addPaper")
     public CommonResult<String> addPaper(@RequestBody HashMap<String, Object> map) {
         String token = (String) map.get("token");
         String checkup = checkup(token);
@@ -57,7 +57,7 @@ public class PaperController {
         return result > 0 ? new CommonResult<>(100, "添加成功") : new CommonResult<>(200, "添加失败");
     }
 
-    @RequestMapping("/addPaperQuestion")
+    @PostMapping("/addPaperQuestion")
     public CommonResult<String> addPaperQuestion(@RequestBody HashMap<String, Object> map) {
         String token = (String) map.get("token");
         String checkup = checkup(token);
@@ -65,6 +65,7 @@ public class PaperController {
         if (checkup == null) {
             return new CommonResult<>(200, "用户未登录或登录状态失效", null);
         }
+
         Integer paperId = Integer.parseInt(map.get("paperId").toString());
 
         List<Map> questionList = (List<Map>) map.get("questionList");
@@ -74,7 +75,7 @@ public class PaperController {
         return result > 0 ? new CommonResult<>(100, "添加成功") : new CommonResult<>(200, "添加失败");
     }
 
-    @RequestMapping("/deletePaper")
+    @PostMapping("/deletePaper")
     public CommonResult<String> deletePaper(@RequestBody HashMap<String, Object> map) {
         String token = (String) map.get("token");
         String checkup = checkup(token);
@@ -90,7 +91,7 @@ public class PaperController {
         return result > 0 ? new CommonResult<>(100, "删除成功") : new CommonResult<>(200, "删除失败");
     }
 
-    @RequestMapping("/updatePaper")
+    @PostMapping("/updatePaper")
     public CommonResult<String> updatePaper(@RequestBody HashMap<String, Object> map) {
         String token = (String) map.get("token");
         String checkup = checkup(token);
@@ -113,7 +114,7 @@ public class PaperController {
         return result > 0 ? new CommonResult<>(100, "修改成功") : new CommonResult<>(200, "修改失败");
     }
 
-    @RequestMapping("/getPaper")
+    @PostMapping("/getPaper")
     public CommonResult<Paper> getPaper(@RequestBody HashMap<String, Object> map) {
         String token = (String) map.get("token");
         String checkup = checkup(token);
@@ -133,7 +134,7 @@ public class PaperController {
         }
     }
 
-    @RequestMapping("/getAllPaper")
+    @PostMapping ("/getAllPaper")
     public CommonResult<Object> getAllPaper(@RequestBody HashMap<String, Object> map) {
         String token = (String) map.get("token");
         String checkup = checkup(token);
@@ -155,7 +156,7 @@ public class PaperController {
         }
     }
 
-    @RequestMapping("/updatePaperQuestion")
+    @PostMapping("/updatePaperQuestion")
     public CommonResult<String> updatePaperQuestion(@RequestBody HashMap<String, Object> map) {
         String token = (String) map.get("token");
         String checkup = checkup(token);
@@ -189,20 +190,22 @@ public class PaperController {
         Integer choiceScore = null;
         Integer comNum = null;
         Integer comScore = null;
-        Integer courseId=null;
+        Integer courseId = null;
+        Integer paperId = null;
         try {
             choiceNum = (Integer) map.get("choiceNum");
             choiceScore = (Integer) map.get("choiceScore");
             comNum = (Integer) map.get("comNum");
             comScore = (Integer) map.get("comScore");
-            courseId = (Integer)map.get("courseId");
+            courseId = (Integer) map.get("courseId");
+            paperId = (Integer) map.get("paperId");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        paperService.addPaperQuestionAuto(choiceNum,choiceScore,comNum,comScore,courseId);
-        return null;
+        paperService.addPaperQuestionAuto(choiceNum, choiceScore, comNum, comScore, courseId,paperId);
 
+        return new CommonResult<>(100,"添加成功");
 
     }
 

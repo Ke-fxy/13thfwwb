@@ -19,14 +19,14 @@ spring:
   cloud:
     nacos:
       discovery:
-        #server-addr: 8.136.214.212:8848  #配置nacos地址
-        server-addr: localhost:8848  #配置nacos地址
+        server-addr: 8.136.214.212:8848  #配置nacos地址
+        #server-addr: localhost:8848  #配置nacos地址
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: org.gjt.mm.mysql.Driver
     url: jdbc:mysql://localhost:3306/13thfwwb?useUnicode=true&characterEncoding=utf-8&useSSL=false
-    username: root
-    password: 123456
+    username: fxy
+    password: Ke_fxyhowdoit233
 
 
 #eureka:
